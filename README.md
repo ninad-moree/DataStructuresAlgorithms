@@ -1,6 +1,7 @@
 # DSA
 
-Various DSA problems solved from leetcode and other coding sites.
+This repository contains solutions to various Data Structures and Algorithms problems sourced from platforms 
+like LeetCode and other coding sites. 
 
 ## Data Structures:
 - Arrays
@@ -8,3 +9,5 @@ Various DSA problems solved from leetcode and other coding sites.
 - Linked List
 - Trees
 - Graphs
+- Heap
+- Matrix (2d-Arrays)
