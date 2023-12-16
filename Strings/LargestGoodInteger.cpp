@@ -3,6 +3,10 @@
         It is a substring of num with length 3.
         It consists of only one unique digit.
     Return the maximum good integer as a string or an empty string "" if no such integer exists.
+
+    Input: num = "6777133339"
+    Output: "777"
+    Explanation: There are two distinct good integers: "777" and "333". "777" is the largest, so we return "777".
 */
 
 #include<bits/stdc++.h>

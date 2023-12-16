@@ -7,6 +7,9 @@
         Let the number of zeros in the jth column be zerosColj.
         diff[i][j] = onesRowi + onesColj - zerosRowi - zerosColj
     Return the difference matrix diff.
+
+    Input: grid = [[0,1,1],[1,0,1],[0,0,1]]
+    Output: [[0,0,4],[0,0,4],[-2,-2,2]]
 */
 
 #include<bits/stdc++.h>

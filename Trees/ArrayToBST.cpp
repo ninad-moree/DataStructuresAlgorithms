@@ -16,9 +16,6 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), height(1), left(left), right(right) {}
 };
 
-// for sorted array , the root of the tree will always be the middle element of the array.
-// so we apply binary search and calculate thr root.
-// now the root->left will lie in the left prt of the array and root->right in the right part.
 class Solution {
     public:
     TreeNode* solve(vector<int>& arr, int start, int end) {
