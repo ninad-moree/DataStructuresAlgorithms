@@ -4,18 +4,12 @@
     Note: The extra space is only for the array to be returned. Try and perform all operations within the provided array. 
 
     Example 1:
-    Input:
-    N = 4
-    a[] = {0,3,1,2}
-    Output: 
-    -1
+    Input: N = 4 a[] = {0,3,1,2}
+    Output: -1
 
     Example 2:
-    Input:
-    N = 5
-    a[] = {2,3,1,2,3}
-    Output: 
-    2 3 
+    Input: N = 5 a[] = {2,3,1,2,3}
+    Output: 2 3 
 */
 
 #include<bits/stdc++.h>
