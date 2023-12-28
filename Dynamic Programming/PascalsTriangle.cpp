@@ -13,9 +13,8 @@ public:
     vector<vector<int>> generate(int numRows) {
         vector<vector<int>> ans;
 
-        if (numRows == 0) {
+        if (numRows == 0) 
             return ans;
-        }
 
         ans.push_back({1});
 
