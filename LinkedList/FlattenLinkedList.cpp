@@ -1,64 +1,53 @@
 /*
-    You are given a linked list containing 'n' 'head' nodes, where every node in the linked list contains two pointers:
-    (1) ‘next’ which points to the next node in the list
+    You are given a doubly linked list, which contains nodes that have a next pointer, a previous pointer, and an additional 
+    child pointer. This child pointer may or may not point to a separate doubly linked list, also containing these special nodes. 
+    These child lists may have one or more children of their own, and so on, to produce a multilevel data structure as shown in 
+    the example below.
+    Given the head of the first level of the list, flatten the list so that all the nodes appear in a single-level, doubly linked 
+    list. Let curr be a node with a child list. The nodes in the child list should appear after curr and before curr.next in the flattened list.
+    Return the head of the flattened list. The nodes in the list must have all of their child pointers set to null.
 
-    (2) ‘child’ pointer to a linked list where the current node is the head.
-
-    Each of these child linked lists is in sorted order and connected by 'child' pointer.
-    Your task is to flatten this linked such that all nodes appear in a single layer or level in a 'sorted order'.
+    Example 1:
+    Input: head = [1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]
+    Output: [1,2,3,7,8,11,12,9,10,4,5,6]
+    Explanation: The multilevel linked list in the input is shown.
+    After flattening the multilevel linked list it becomes:
 */
 #include<bits/stdc++.h>
 using namespace std;
 
 class Node {
-    public:
-	int data;
-	Node *next;
- 	Node *child;
-	Node() : data(0), next(nullptr), child(nullptr){};
-	Node(int x) : data(x), next(nullptr), child(nullptr) {}
-	Node(int x, Node *next, Node *child) : data(x), next(next), child(child) {}
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
 };
 
-Node* mergeLists(Node* a, Node* b) {
-    if (!a) 
-        return b;
-    if (!b) 
-        return a;
+class Solution {
+public:
+    Node* flatten(Node* head) {
+        if (!head) return nullptr;
 
-    Node* result;
+        Node* current = head;
+        while (current) {
+            if (current->child) {
+                Node* nextNode = current->next;
+                Node* child = flatten(current->child);
+                current->next = child;
+                child->prev = current;
+                current->child = nullptr;
 
-    if (a->data < b->data) {
-        result = a;
-        result->next = mergeLists(a->next, b);
-    } else {
-        result = b;
-        result->next = mergeLists(a, b->next);
-    }
+                while (child->next)
+                    child = child->next;
 
-    return result;
-}
-
-Node* flattenLinkedList(Node* head) {
-    if (!head) return nullptr;
-
-    Node* current = head;
-
-    while (current) {
-        if (current->child) {
-            Node* nextNode = current->next;
-            current->next = flattenLinkedList(current->child);
-            current->child = nullptr;
-
-            Node* temp = current->next;
-            while (temp && temp->next)
-                temp = temp->next;
-
-            temp->next = nextNode;
-            
+                child->next = nextNode;
+                if (nextNode) 
+                    nextNode->prev = child;
+            }
+            current = current->next;
         }
-        current = current->next;
-    }
 
-    return head;
-}
+        return head;
+    }
+};
