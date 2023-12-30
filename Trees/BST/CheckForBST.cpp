@@ -14,8 +14,7 @@
     1     3
     Output: 1 
     Explanation: The left subtree of root node contains node with key lesser than the root nodes key and  the right subtree of 
-    root node contains node with key greater than the root nodes key.
-    Hence, the tree is a BST.
+    root node contains node with key greater than the root nodes key. Hence, the tree is a BST.
 */
 
 #include<bits/stdc++.h>
