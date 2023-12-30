@@ -37,15 +37,13 @@ class Solution
     public:
     //Function to check whether a Binary Tree is BST or not.
     bool isBSTUtil(Node* root, int minValue, int maxValue) {
-        // Base case: If the node is NULL, it's a valid BST.
         if (root == NULL)
             return true;
 
         if (root->data < minValue || root->data > maxValue) 
             return false;
 
-        return isBSTUtil(root->left, minValue, root->data - 1) &&  
-               isBSTUtil(root->right, root->data + 1, maxValue);  
+        return isBSTUtil(root->left, minValue, root->data - 1) &&  isBSTUtil(root->right, root->data + 1, maxValue);  
     }
 
     bool isBST(Node* root) {
