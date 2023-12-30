@@ -32,7 +32,6 @@ class Solution
                     return false;
                 else if(c == '}' && s.top() != '{') 
                     return false;
-                }
                 s.pop();
             }
         }
