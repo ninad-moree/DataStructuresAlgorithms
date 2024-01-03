@@ -26,13 +26,16 @@ public:
     bool sumNodes (TreeNode *root, int targetSum, int sum) {
         if(root == NULL) 
             return false;
+
         if(root->left == NULL && root->right == NULL) {
             sum = sum + root->val;
             if(sum==targetSum) 
                 return true;
         }
+
         return sumNodes(root->left, targetSum, sum + root->val) || sumNodes(root->right, targetSum, sum + root->val);
     }
+    
     bool hasPathSum(TreeNode* root, int targetSum) {
         int sum = 0;
         return sumNodes(root,targetSum,sum);
