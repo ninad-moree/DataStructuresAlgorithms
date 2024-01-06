@@ -17,8 +17,10 @@ public:
     int search(vector<int>& nums, int target) {
         int low = 0;
         int high = nums.size()-1;
+
         if(target == nums[low]) 
             return low;
+
         if(target == nums[high]) 
             return high;
 
@@ -27,6 +29,7 @@ public:
 
             if(nums[mid] == target) 
                 return mid;
+
             if(nums[low] <= nums[mid]) {
                 if(target >= nums[low] && target<nums[mid]) 
                     high = mid-1;
@@ -40,6 +43,7 @@ public:
                     high = mid-1;
             }
         }
+        
         if(nums[low]==target) 
             return low;
         else 
