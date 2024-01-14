@@ -20,6 +20,15 @@ struct TreeNode {
 
 class Solution{
     public:
+    void inorder(TreeNode* root, vector<int>& arr) {
+        if(!root)
+            return;
+        
+        inorder(root->left, arr);
+        arr.push_back(root->val);
+        inorder(root->right, arr);
+    }
+
     int solve(TreeNode* root, int k, int& i) {
         if(root == NULL)
             return -1;
@@ -38,5 +47,10 @@ class Solution{
     int kThSmallest(TreeNode* root, int k) {
         int i= 0;
         return solve(root, k, i);
+
+        // vector<int> ino;
+        // inorder(root, ino);
+
+        // return ino[k-1];
     }
 };
