@@ -17,7 +17,8 @@ public:
 	// Function to find maximum product subarray
 	long long maxProduct(vector<int> arr, int n) {
 	    // code here
-	    if (n == 0) return 0;
+	    if (n == 0) 
+            return 0;
 
         long long max_product = arr[0];
         long long min_product = arr[0];

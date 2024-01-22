@@ -20,10 +20,9 @@ public:
         int ans = 0;
         int sum = 0; 
 
-        for (int l = i; l <= j; l++) {
+        for (int l = i; l <= j; l++) 
             sum += arr[l];
-        }
-
+        
         while (j < arr.size()) {
             double avg = static_cast<double>(sum) / k; 
 
@@ -33,9 +32,9 @@ public:
             sum -= arr[i];
             i++;
             j++;
-            if (j < arr.size()) {
+
+            if (j < arr.size()) 
                 sum += arr[j];
-            }
         }
         return ans;
     }
