@@ -38,7 +38,8 @@ public:
     
     bool wordPattern(string pattern, string s) {
         vector<string> temp = split(s);
-        if(pattern.size() != temp.size()) return false;
+        if(pattern.size() != temp.size()) 
+            return false;
 
         unordered_map<char, string> ansMap;
         unordered_set<string> words;
