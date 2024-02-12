@@ -1,18 +1,11 @@
 /*
-    Given an array A of N elements. Find the majority element in the array. A majority element in an array A of 
-    size N is an element that appears strictly more than N/2 times in the array.
- 
-    Example 1:
-    Input: A[] = {1,2,3} 
-    Output: -1
-    Explanation:
-    Since, each element in {1,2,3} appears only once so there is no majority element.
+    Given an array nums of size n, return the majority element.
+    The majority element is the element that appears more than ⌊n / 2⌋ times. 
+    You may assume that the majority element always exists in the array.
 
-    Example 2:
-    Input: A[] = {3,1,3,3,2} 
-    Output: 3
-    Explanation:
-    Since, 3 is present more than N/2 times, so it is the majority element.
+    Example 1:
+    Input: nums = [3,2,3]
+    Output: 3.
 */
 
 #include<bits/stdc++.h>
@@ -20,9 +13,7 @@ using namespace std;
 
 class Solution{
   public:
-    int majorityElement(int a[], int size)
-    {
-        // your code here
+    int majorityElement(int a[], int size) {
         int candidate = -1;
         int count = 0;      
         int n = size;
@@ -46,6 +37,26 @@ class Solution{
         if (count > n / 2)
             return candidate;
     
+        return -1;
+    }
+    
+    int majorityElement(vector<int>& nums) {
+        // sort(nums.begin(), nums.end());
+        // int n = nums.size();
+        // return nums[n/2];
+
+        unordered_map<int, int> mp;
+
+        for(int i=0;i<nums.size();i++) 
+            mp[nums[i]]++;
+        
+        int n = nums.size() / 2;
+
+        for(auto i : mp) {
+            if(i.second > n)
+                return i.first;
+        }
+
         return -1;
     }
 };
