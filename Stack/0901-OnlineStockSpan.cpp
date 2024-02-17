@@ -41,8 +41,8 @@ public:
         if(s.empty()){
            s.push({price, i++});
            return 1;
-       }
-        else{
+        }
+        else {
             while(!s.empty() && s.top().first <= price )
                 s.pop();
             
