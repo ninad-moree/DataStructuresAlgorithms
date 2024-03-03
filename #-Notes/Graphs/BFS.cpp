@@ -16,7 +16,6 @@ class Graph {
         adjList[v].push_back(u);
     }
 
-
     void BFS(int startNode) {
         vector<bool> visited(nodes , false); 
         queue<int> q;
@@ -38,5 +37,4 @@ class Graph {
         }
         cout<<endl;
     }
-
 };
