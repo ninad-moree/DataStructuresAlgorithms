@@ -30,7 +30,6 @@ public:
         else if (y == mini)
             ans =  (y+y+1)*2 + z*2;
         
-
         return ans;
     }
 };
