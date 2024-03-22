@@ -1,6 +1,9 @@
 /*
-    Given the head of a singly linked list, return true if it is a palindrome
-    or false otherwise.
+    Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+
+    Example 1:
+    Input: head = [1,2,2,1]
+    Output: true
 */
 
 #include<bits/stdc++.h>
@@ -19,10 +22,12 @@ public:
     ListNode* getMid(ListNode* head) {
         ListNode* slow = head;
         ListNode* fast = head->next;
+
         while(fast!=NULL && fast->next!=NULL) {
             fast = fast->next->next;
             slow = slow->next;
         }
+
         return slow;
     }
 
@@ -37,10 +42,12 @@ public:
             prev = curr;
             curr = forward; 
         }
+
         return prev;
     }
     bool isPalindrome(ListNode* head) {
-        if(head==NULL || head->next==NULL) return true;
+        if(head==NULL || head->next==NULL) 
+            return true;
 
         ListNode* mid = getMid(head);
         ListNode* temp = mid->next;
@@ -55,6 +62,7 @@ public:
             head1 = head1->next;
             head2 = head2->next;
         }
+
         return true;
     }
 };  
