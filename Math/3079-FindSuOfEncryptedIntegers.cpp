@@ -15,24 +15,23 @@ using namespace std;
 class Solution {
 public:
     int encrypt(int n) {
-        vector<int> res;
         int maxi = 0;
+        int size = 0;
         
         while(n > 0) {
             int digit = n%10;
-            res.push_back(digit);
+            size++;
             maxi = max(maxi, digit);
             n = n/10;
         }
 
-        for(int i=0; i<res.size(); i++)
-            res[i] = maxi;
-
-        int newNum = 0;
-        for(auto i : res) 
-            newNum = newNum*10 + i;
+        int num = 0;
+        while(size) {
+            num = num*10 + maxi;
+            size--;
+        }
         
-        return newNum; 
+        return num; 
     }
 
     int sumOfEncryptedInt(vector<int>& nums) {
