@@ -43,7 +43,6 @@ public:
                 nums[i] = k;
         }
 
-
         for(int i=0; i<nums.size(); i++) {
             ans += abs(nums[i] - nums1[i]);
         }
