@@ -18,16 +18,12 @@
     Score of player1 is more than the score of player2, so, player1 is the winner, and the answer is 1.
 */
 
-#include<bits/stdc++.h>
-using namespace std;
-
 class Solution {
-public:
-    int isWinner(vector<int>& player1, vector<int>& player2) {
-        if(player1.size() == 1) {
+    public int isWinner(int[] player1, int[] player2) {
+        if(player1.length == 1) {
             if(player1[0] == player2[0])
                 return 0;
-            else if (player1[0] > player2[0])
+            else if(player1[0] > player2[0])
                 return 1;
             else
                 return 2;
@@ -46,14 +42,14 @@ public:
         else
             p2 += player2[1];
 
-        for(int i=2; i<player1.size(); i++) {
+       for(int i=2; i<player1.length; i++) {
             if(player1[i-1] == 10 || player1[i-2] == 10)
                 p1 += 2*player1[i];
             else
                 p1 += player1[i];
         }
 
-        for(int i=2; i<player1.size(); i++) {
+        for(int i=2; i<player1.length; i++) {
             if(player2[i-1] == 10 || player2[i-2] == 10)
                 p2 += 2*player2[i];
             else
@@ -64,4 +60,4 @@ public:
         else if(p2>p1) return 2;
         else return 0;
     }
-};
+}
