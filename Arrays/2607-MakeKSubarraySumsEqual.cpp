@@ -11,6 +11,7 @@
 */
 
 #include<bits/stdc++.h>
+#include <numeric>
 using namespace std;
 
 class Solution {
