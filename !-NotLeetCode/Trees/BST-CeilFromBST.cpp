@@ -13,7 +13,7 @@
 using namespace std;
 
 class BinaryTreeNode {
-    public:
+public:
     int data;
     BinaryTreeNode *left;
     BinaryTreeNode *right;
