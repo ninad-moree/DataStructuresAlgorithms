@@ -23,6 +23,7 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> ino;
+    
     void inorder(TreeNode* root) {
         if(!root) 
             return;
