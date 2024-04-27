@@ -35,11 +35,10 @@ class Solution {
             arr.push_back(front);
             
             for(auto i : adj[front]) {
-
-                    if(!visited[i]){
-                        q.push(i);
-                        visited[i] = true;
-                    }
+                if(!visited[i]) {
+                    q.push(i);
+                    visited[i] = true;
+                }
                 
             }
         }
