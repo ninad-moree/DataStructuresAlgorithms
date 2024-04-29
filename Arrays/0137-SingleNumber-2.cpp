@@ -21,4 +21,13 @@ public:
         }
         return nums[nums.size()-1];
     }
+
+    int singleNumber2(vector<int>& nums) {
+        int res = 0;
+
+        for(auto i : nums)
+            res ^= i;
+
+        return res;
+    }
 };
