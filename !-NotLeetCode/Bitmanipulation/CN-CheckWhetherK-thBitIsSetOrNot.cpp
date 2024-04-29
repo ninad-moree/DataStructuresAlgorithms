@@ -12,8 +12,22 @@ using namespace std;
 
 bool isKthBitSet(int n, int k) {
     // Write your code here.
-    int mask = 1 << (k-1);
-    int res = n & mask;
+    string bits = "";
 
-    return res != 0;
+    int temp = n;
+    while(temp) {
+        int i = temp%2;
+        string str = to_string(i);
+        bits += str[0];
+
+        temp = temp/2;
+    }
+
+    reverse(bits.begin(), bits.end());
+
+    int len = bits.size();
+
+    int idx = len-k;
+
+    return bits[idx] == '1' ? true : false;
 }
