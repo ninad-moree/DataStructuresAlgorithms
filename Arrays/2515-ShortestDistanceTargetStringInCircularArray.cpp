@@ -33,7 +33,7 @@ public:
         while(true) {
             if(words[i%n] == target)
                 ans = min(ans, left);
-            
+        
             i++;
             left++;
 
