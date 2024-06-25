@@ -37,7 +37,6 @@ public:
         toGST(root->left);
     }
 
-
     TreeNode* bstToGst(TreeNode* root) {
         toGST(root);
         return root;
