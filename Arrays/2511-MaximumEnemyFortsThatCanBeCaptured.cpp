@@ -23,10 +23,11 @@ class Solution {
 public:
     int captureForts(vector<int>& forts) {
         int maxi = 0;
+        int cnt = 0;
 
         for(int i=0; i<forts.size(); i++) {
             if(forts[i] == 1) {
-                int cnt = 0;
+                cnt = 0;
 
                 for(int j=i+1; j<forts.size(); j++) {
                     if(forts[j] == -1) {
@@ -37,8 +38,13 @@ public:
                     else
                         break;
                 }
+            }
+        }
 
+        for(int i=forts.size()-1; i>=0; i--) {
+            if(forts[i]==1) {
                 cnt = 0;
+
                 for(int j=i-1; j>=0; j--) {
                     if(forts[j] == -1) {
                         maxi = max(maxi, cnt);
