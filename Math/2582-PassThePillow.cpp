@@ -22,23 +22,22 @@ public:
 
         while (time > 0) {
             if (forward) {
-                if (idx < n) {
+                if (idx < n) 
                     idx++;
-                } else {
+                else {
                     forward = false;
                     idx--;
                 }
             } else {
-                if (idx > 1) {
+                if (idx > 1)
                     idx--;
-                } else {
+                else {
                     forward = true;
                     idx++;
                 }
             }
             time--;
         }
-
         return idx;
     }
 };
