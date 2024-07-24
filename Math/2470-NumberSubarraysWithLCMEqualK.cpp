@@ -18,6 +18,10 @@ using namespace std;
 
 class Solution {
 public:
+    int lcm(int a, int b) {
+        return (a / __gcd(a, b)) * b;
+    }
+    
     int subarrayLCM(vector<int>& nums, int k) {
         int ans = 0;
 
