@@ -23,7 +23,7 @@ using namespace std;
 
 class Solution {
 public:
-    int bestClosingTime(std::string customers) {
+    int bestClosingTime(string customers) {
         int n = customers.size();
         vector<int> penalty(n + 1, 0);
 
