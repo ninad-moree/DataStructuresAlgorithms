@@ -26,7 +26,7 @@ public:
             int l = 0;
             int r = m-1;
 
-            while(l < r) {
+            while(l<r) {
                 if(i[l] != i[r]) 
                     row++;
                 l++;
@@ -38,7 +38,7 @@ public:
             int l = 0;
             int r = n-1;
 
-            while(l < r) {
+            while(l<r) {
                 if(grid[l][i] != grid[r][i])
                     col++;
                 l++;
