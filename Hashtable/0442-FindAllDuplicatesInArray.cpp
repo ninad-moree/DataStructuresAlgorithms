@@ -14,16 +14,19 @@ using namespace std;
 class Solution {
 public:
     vector<int> findDuplicates(vector<int>& nums) {
-        vector<int> ans;
-        unordered_map<int, int> mp;
+        vector<int> mp(nums.size()+1, 0);
 
-        for (int num : nums) 
-            mp[num]++;
-        
-        for (const auto& pair : mp) {
-            if (pair.second > 1) 
-                ans.push_back(pair.first);
+        for(int i=0; i<nums.size(); i++) {
+            mp[nums[i]]++;
         }
+
+        vector<int> ans;
+
+        for(int i=1; i<=nums.size(); i++) {
+            if(mp[i] > 1)
+                ans.push_back(i);
+        }
+
         return ans;
     }
 };
