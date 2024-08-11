@@ -12,48 +12,47 @@ using namespace std;
 class Solution {
 public:
     struct Compare {
-        bool operator()(const pair<char, int>& a, const pair<char, int>& b) {
+        bool operator()(auto& a, auto& b) {
             return a.second < b.second;
         }
     };
-    
+
     string reorganizeString(string s) {
-        unordered_map<char, int> charFreq;
-        for (char ch : s) {
-            charFreq[ch]++;
+        unordered_map<char, int> mp;
+        for(auto i : s)
+            mp[i]++;
+        
+        priority_queue<pair<char, int>, vector<pair<char, int>>, Compare> pq;
+        for(auto i : mp)
+            pq.push(i);
+
+        string ans = "";
+
+        while(pq.size() > 1) {
+            auto curr = pq.top();
+            pq.pop();
+
+            auto next = pq.top();
+            pq.pop();
+
+            ans += curr.first;
+            ans += next.first;
+
+            curr.second--;
+            next.second--;
+
+            if(curr.second > 0)
+                pq.push(curr);
+            if(next.second > 0)
+                pq.push(next);
         }
 
-        priority_queue<pair<char, int>, vector<pair<char, int>>, Compare> maxHeap;
-        for (auto& entry : charFreq) {
-            maxHeap.push(entry);
-        }
-
-        string result = "";
-        while (maxHeap.size() > 1) {
-            auto current = maxHeap.top();
-            maxHeap.pop();
-
-            auto next = maxHeap.top();
-            maxHeap.pop();
-
-            result += current.first;
-            result += next.first;
-
-            if (--current.second > 0) {
-                maxHeap.push(current);
-            }
-            if (--next.second > 0) {
-                maxHeap.push(next);
-            }
-        }
-
-        if (!maxHeap.empty()) {
-            if (maxHeap.top().second > 1) {
+        if(!pq.empty()) {
+            if(pq.top().second > 1)
                 return "";
-            }
-            result += maxHeap.top().first;
+            ans += pq.top().first;
         }
 
-        return result;
+        return ans;
     }
 };
