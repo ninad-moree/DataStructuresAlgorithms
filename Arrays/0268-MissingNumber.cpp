@@ -15,21 +15,14 @@ using namespace std;
 class Solution {
 public:
     int missingNumber(vector<int>& nums) {
-        vector<int> freq(nums.size()+1, 0);
+        int sum = 0;
+        for(auto i : nums)
+            sum += i;
 
-        for(int i=0; i<nums.size(); i++) {
-            freq[nums[i]]++;
-        }
+        int actualSum;
+        int n = nums.size();
+        actualSum  = n*(n+1)/2;
 
-        int ans;
-
-        for(int i=0; i<freq.size(); i++) {
-            if(freq[i] == 0) {
-                ans = i;
-                break;
-            }
-        }
-
-        return ans;
+        return abs(actualSum - sum);
     }
 };
