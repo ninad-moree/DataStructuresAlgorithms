@@ -16,21 +16,20 @@ using namespace std;
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int l = 0;
-        int r = 1;
-        int maxProfit = 0;
-        int profit = 0;
+        int i = 0;
+        int j = 1;
 
-        while(r<prices.size()) {
-            if(prices[l] < prices[r]) {
-                profit = prices[r]-prices[l];
-                maxProfit = max(maxProfit, profit);
+        int profit = 0;
+        while(j < prices.size()) {
+            if(prices[j] >=  prices[i]) {
+                profit = max(prices[j] - prices[i], profit);
+                j++;
+            } else {
+                i = j;
+                j++;
             }
-            else 
-                l = r;
-            r++;
         }
-        
-        return maxProfit;
+
+        return profit;
     }
 };
