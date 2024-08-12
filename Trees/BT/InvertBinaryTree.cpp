@@ -19,10 +19,10 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if(!root) return root;
+        if(!root) 
+            return root;
 
         stack<TreeNode*> s;
-
         s.push(root);
 
         while(!s.empty()) {
@@ -39,6 +39,7 @@ public:
             if(curr->right!=NULL) 
                 s.push(curr->right);
         }
+
         return root;
     }
 };
