@@ -15,23 +15,23 @@ using namespace std;
 class Solution {
 public:
     bool backspaceCompare(string s, string t) {
-        stack<char> st1;
-        stack<char> st2;
+        stack<char> s1;
+        stack<char> s2;
 
-        for(int i=0; i<s.size();i++) {
-            if(s[i]!='#')
-                st1.push(s[i]);
-            else if(!st1.empty())
-                st1.pop();
+        for(auto i : s) {
+            if(i != '#')
+                s1.push(i);
+            else if(!s1.empty())
+                s1.pop();
         }
 
-        for(int i=0; i<t.size();i++) {
-            if(t[i]!='#')
-                st2.push(t[i]);
-            else if(!st2.empty())
-                st2.pop();
+        for(auto i : t) {
+            if(i != '#')
+                s2.push(i);
+            else if(!s2.empty())
+                s2.pop();
         }
         
-        return st1 == st2;
+        return s1 == s2;
     }
 };
