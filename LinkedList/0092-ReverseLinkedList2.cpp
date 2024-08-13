@@ -21,23 +21,24 @@ struct ListNode {
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        if(left==right) return head;
+        if(left==right) 
+            return head;
 
         ListNode *temp = head;
         ListNode *ansHead = head;
         stack<int> s;
 
-        int c=1;
-        while(c<left) {
+        int l=1;
+        while(l<left) {
             head = head->next;
-            c++;
+            l++;
         }
 
-        int beg = c;
-        while(c<=right) {
+        int beg = l;
+        while(l<=right) {
             s.push(head->val);
             head = head->next;
-            c++;
+            l++;
         }
 
         int cnt = 1;
@@ -45,12 +46,14 @@ public:
             temp = temp->next;
             cnt++;
         }
+
         while(!s.empty()) {
             int ele = s.top();
             s.pop();
             temp->val = ele;
             temp = temp->next;
         }
+
         return ansHead;
     }
 };
