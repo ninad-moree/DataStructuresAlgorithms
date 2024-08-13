@@ -25,20 +25,25 @@ struct ListNode {
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        ListNode *slow = head;
-        ListNode *fast = head;
+        ListNode* slow = head;
+        ListNode* fast = head;
 
-        while(fast!=NULL && fast->next!=NULL) {
+        while(fast != NULL && fast->next != NULL) {
             slow = slow->next;
             fast = fast->next->next;
-            if(slow==fast)
+
+            if(fast == slow)
                 break;
         }
-        if(fast == NULL || fast->next == NULL) return NULL;
-        while(head!=slow) {
-            head = head->next;
+
+        if(fast == NULL || fast->next == NULL) 
+            return NULL;
+
+        while(head != slow) {
             slow = slow->next;
+            head = head->next;
         }
+
         return head;
     }
 };
