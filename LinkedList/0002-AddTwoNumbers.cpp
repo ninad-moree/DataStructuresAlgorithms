@@ -29,11 +29,15 @@ public:
         int digit1,digit2;
 
         while(l1!=nullptr || l2!=nullptr || carry!=0) {
-            if(l1!=nullptr) digit1 = l1->val;
-            else digit1=0;
+            if(l1!=nullptr) 
+                digit1 = l1->val;
+            else 
+                digit1=0;
 
-            if(l2!=nullptr) digit2 = l2->val;
-            else digit2=0;
+            if(l2!=nullptr) 
+                digit2 = l2->val;
+            else 
+                digit2=0;
 
             int sum = digit1+digit2+carry;
             int digit = sum%10;
@@ -43,14 +47,17 @@ public:
             tail->next = ansNode;
             tail = tail->next;
 
-            if(l1!=nullptr) l1=l1->next;
-            else l1=nullptr;
+            if(l1!=nullptr) 
+                l1=l1->next;
+            else 
+                l1=nullptr;
 
-            if(l2!=nullptr) l2=l2->next;
-            else l2=nullptr;
+            if(l2!=nullptr) 
+                l2=l2->next;
+            else 
+                l2=nullptr;
         }
-        ListNode* result = head1->next;
-        delete head1;
-        return result;
+
+        return head1->next;
     }
 };
