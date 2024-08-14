@@ -18,18 +18,18 @@ using namespace std;
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int start = 0;
-        int end = nums.size()-1;
+        int l = 0;
+        int h = nums.size()-1;
 
-        while(start < end) {
-            int mid = (start+end)/2;
+        while(l < h) {
+            int m = l + (h-l)/2;
 
-            if(nums[mid] < nums[end])
-                end = mid;
+            if(nums[h] > nums[m])
+                h = m;
             else
-                start = mid+1;
+                l = m+1;
         }
 
-        return nums[start];
+        return nums[l];
     }
 };
