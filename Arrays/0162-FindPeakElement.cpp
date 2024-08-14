@@ -18,19 +18,19 @@ using namespace std;
 class Solution {
 public:
     int findPeakElement(vector<int>& nums) {
-        int left = 0;
-        int right = nums.size() - 1;
+        int l = 0;
+        int h = nums.size()-1;
+        int m = l + (h-l)/2;
 
-        while (left < right) {
-            int mid = left + (right - left) / 2;
+        while(l < h) {
+            if(nums[m] < nums[m+1])
+                l = m+1;
+            else
+                h = m;
 
-            if (nums[mid] < nums[mid + 1]) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
+            m = l + (h-l)/2;
         }
-
-        return left;
+        
+        return l;
     }
 };
