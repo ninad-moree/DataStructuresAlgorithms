@@ -19,34 +19,42 @@ using namespace std;
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        unordered_map<int, vector<pair<int,int>>> adj;
-        vector<int> visited (n, INT_MAX);
-        visited[src] = 0;
+        vector<int> dist(n, INT_MAX);
+        vector<vector<pair<int, int>>> adj(n);
 
-        for(auto i : flights) 
-            adj[i[0]].push_back({i[1], i[2]});
-        
-        int cnt = 0;
-        queue<pair<int, int>> q;
-        q.push({src, 0});
-        k++;
+        for(int i=0; i<flights.size(); i++) {
+            int u = flights[i][0];
+            int v = flights[i][1];
+            int d = flights[i][2];
 
-        while(k--) {
-            int s = q.size();
-            while(s--) {
-                int currPrice = q.front().second;
-                for(auto i : adj[q.front().first]) {
-                    int newPrice = i.second + currPrice;
-                    if(newPrice < visited[i.first]) {
-                        visited[i.first] = newPrice;
-                        q.push({i.first, newPrice});
-                    }
-                }
-                q.pop();
-            }
-            cnt++;
+            adj[u].push_back({v, d});
         }
 
-        return (visited[dst]==INT_MAX) ? -1 : visited[dst];
+        queue<pair<int, pair<int, int>>> q;
+        q.push({src, {0, 0}});
+
+        while(!q.empty()) {
+            auto f = q.front();
+            q.pop();
+
+            int node = f.first;
+            int stops = f.second.first;
+            int weight = f.second.second;
+
+            if(stops > k)
+                continue;
+
+            for(auto i : adj[node]) {
+                int v = i.first;
+                int w = i.second;
+
+                if(weight + w < dist[v] && stops <= k) {
+                    dist[v] = w + weight;
+                    q.push({v, {stops+1, dist[v]}});
+                }
+            }
+        }
+        
+        return dist[dst] == INT_MAX ? -1 : dist[dst];
     }
 };
