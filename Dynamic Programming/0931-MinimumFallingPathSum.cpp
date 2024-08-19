@@ -17,17 +17,31 @@ class Solution {
 public:
     int minFallingPathSum(vector<vector<int>>& matrix) {
         int n = matrix.size();
-    
-        for (int i = 1; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                int left = (j > 0) ? matrix[i - 1][j - 1] : INT_MAX;
-                int right = (j < n - 1) ? matrix[i - 1][j + 1] : INT_MAX;
-                int straight = matrix[i - 1][j];
+        int m = matrix[0].size();
+
+        vector<vector<int>> dp(n, vector<int>(m));
+
+        for(int i=0; i<m; i++) 
+            dp[n-1][i] = matrix[n-1][i];
+        
+        for(int i=n-2; i>=0; i--) {
+            for(int j=0; j<m; j++) {
+                int a=INT_MAX, b=INT_MAX, c=INT_MAX;
+                if(j>0)
+                    a = dp[i+1][j-1];
+                if(j<m-1)
+                    c = dp[i+1][j+1];
                 
-                matrix[i][j] += min({left, right, straight});
+                b = dp[i+1][j];
+
+                dp[i][j] = matrix[i][j] + min(a, min(b, c));
             }
         }
-        
-        return *min_element(matrix[n - 1].begin(), matrix[n - 1].end());
+
+        int ans = dp[0][0];
+        for(int i=1; i<m; i++)
+            ans = min(ans, dp[0][i]);
+
+        return ans;
     }
 };
