@@ -19,6 +19,7 @@ class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         vector<vector<int>> ans;
+
         if(!root) 
             return ans;
 
@@ -30,6 +31,7 @@ public:
         while(!q.empty()) {
             int s = q.size();
             vector<int> res;
+            
             while(s--) {
                 TreeNode* curr = q.front();
                 q.pop();
@@ -44,6 +46,7 @@ public:
                 if(curr->right)
                     q.push(curr->right);
             }
+
             ans.push_back(res);
             leftToRight = !leftToRight;
         }
