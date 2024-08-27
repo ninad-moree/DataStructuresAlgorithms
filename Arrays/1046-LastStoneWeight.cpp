@@ -24,25 +24,24 @@ using namespace std;
 class Solution {
 public:
     int lastStoneWeight(vector<int>& stones) {
-        while(stones.size()!=1) {
-            sort(stones.begin(), stones.end());
-            int i=stones.size()-1;
-            int j=i-1;
-            if(stones[i]>stones[j]) {
-                int f = stones[i];
-                int s = stones[j];
-                stones.pop_back();
-                stones.pop_back();
-                stones.push_back(f-s);
-            }
-            else {
-                int f = stones[i];
-                int s = stones[j];
-                stones.pop_back();
-                stones.pop_back();
-                stones.push_back(s-f);
-            }
+        priority_queue<int> pq;
+
+        for(auto i : stones)
+            pq.push(i);
+
+        while(pq.size() > 1) {
+            int l = pq.top();
+            pq.pop();
+
+            int sl = pq.top();
+            pq.pop();
+
+            int newStone = abs(l - sl);
+
+            if(newStone != 0)
+                pq.push(newStone);
         }
-        return stones[0];
+
+        return pq.empty() ? 0 : pq.top();
     }
 };
