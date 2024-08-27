@@ -22,12 +22,19 @@ using namespace std;
 
 class MinStack {
 public:
+    stack<pair<int, int>> st;
+
     MinStack() {}
-
-    stack<int> st;
-
+    
     void push(int val) {
-        st.push(val);
+        if(st.empty())
+            st.push({val, val});
+        else {
+            if(val < st.top().second) 
+                st.push({val, val});
+            else 
+                st.push({val, st.top().second});
+        }
     }
     
     void pop() {
@@ -35,18 +42,11 @@ public:
     }
     
     int top() {
-        return st.top();
+        return st.top().first;
     }
     
     int getMin() {
-        stack<int> temp = st;
-        int mini = INT_MAX;
-        while(!temp.empty()) {
-            int top = temp.top();
-            if(mini > top)
-                mini = top;
-            temp.pop();
-        }
-        return mini;
+        return st.top().second;
     }
 };
+
