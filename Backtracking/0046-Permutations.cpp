@@ -19,8 +19,9 @@ public:
 
         for(int j=index; j<nums.size(); j++) {
             swap(nums[index], nums[j]);
+
             solve(nums, ans, index+1);
-            //backtracking so that main string remains same;
+            
             swap(nums[index], nums[j]);
         }
     }
@@ -28,7 +29,9 @@ public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> ans;
         int index=0;
+
         solve(nums, ans, index);
+
         return ans;
     }
 };
