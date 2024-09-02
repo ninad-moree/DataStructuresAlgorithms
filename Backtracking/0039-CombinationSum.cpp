@@ -36,8 +36,8 @@ public:
 
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         sort(candidates.begin(), candidates.end());
-        vector < vector < int >> ans;
-        vector < int > ds;
+        vector <vector<int>> ans;
+        vector <int> ds;
         
         findCombination(0, target, candidates, ans, ds);
 
