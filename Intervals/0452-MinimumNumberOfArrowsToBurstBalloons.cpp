@@ -21,23 +21,19 @@ using namespace std;
 class Solution {
 public:
     int findMinArrowShots(vector<vector<int>>& points) {
-        sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) {
-            return a[1] < b[1];
-        });
-        
-        int arrows = 0;
-        int end = INT_MIN;
-        
-        for (const auto& point : points) {
-            if (point[0] > end) {
-                arrows++;
-                end = point[1];
-            }
+        sort(points.begin(), points.end());
+
+        vector<vector<int>> ans;
+        ans.push_back(points[0]);
+
+        for(int i=1; i<points.size(); i++) {
+            if(ans.back()[1] >= points[i][0]) {
+                ans.back()[0] = max(ans.back()[0], points[i][0]);
+                ans.back()[1] = min(ans.back()[1], points[i][1]);
+            } else
+                ans.push_back(points[i]);
         }
 
-        if(arrows == 0) 
-            return 1;
-            
-        return arrows;
+        return ans.size();
     }
 };
