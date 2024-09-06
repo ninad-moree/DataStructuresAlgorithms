@@ -23,23 +23,27 @@ struct ListNode {
 class Solution {
 public:
     ListNode* modifiedList(vector<int>& nums, ListNode* head) {
-        ListNode* curr = head;
-        ListNode* prev = nullptr;
+        unordered_map<int, int> mp;
+        for(auto i : nums)
+            mp[i]++;
 
-        set<int> s(nums.begin(), nums.end());
+        ListNode* temp = head;
+        ListNode* prev = NULL;
 
-        while(curr != nullptr) {
-            if(s.find(curr->val) != s.end()) {
-                if(curr == head) {
-                    head = curr->next;
-                    curr = head;
+        while(temp) {
+            if(mp.find(temp->val) != mp.end()) {
+                if(temp == head) {
+                    head = head->next;
+                    delete(temp);
+                    temp = head;
                 } else {
-                    prev->next = curr->next;
-                    curr = curr->next;
+                    prev->next = temp->next;
+                    delete(temp);
+                    temp = prev->next;
                 }
             } else {
-                prev = curr;
-                curr = curr->next;
+                prev = temp;
+                temp = temp->next;
             }
         }
 
