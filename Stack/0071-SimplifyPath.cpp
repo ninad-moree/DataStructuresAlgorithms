@@ -32,9 +32,6 @@ public:
 
         while(getline(ss, token, '/'))
             words.push_back(token);
-        
-        for(auto i : words)
-            cout<<i<<"-";
 
         string ans = "";
         for(auto i : words) {
