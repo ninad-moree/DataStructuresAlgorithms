@@ -31,24 +31,31 @@ struct ListNode {
 class Solution {
 public:
     int gcd(int a, int b) {
-        if(b==0) return a;
-        else  return gcd(b,a%b);
-    }
-    ListNode* insertGreatestCommonDivisors(ListNode* head) {
-        if(!head || !head->next) return head;
-        
-        ListNode* temp=head;
-        while(temp->next) {
-            int v1 = temp->val;
-            int v2 = temp->next->val;
-            int cd = gcd(v1,v2);
-            
-            ListNode* newNode = new ListNode(cd);
-            newNode->next = temp->next;
-            temp->next = newNode;
-            temp=newNode->next;
+        while(b != 0) {
+            int rem = a%b;
+            a = b;
+            b = rem;
         }
+        return a;
+    }
+
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        if(!head || head->next == NULL)
+            return head;
+
+        ListNode* prev = head;
+        ListNode* curr = head->next;
+
+        while(prev && curr) {
+            int val = gcd(curr->val, prev->val);
+            ListNode* newNode = new ListNode(val);
+            prev->next = newNode;
+            newNode->next = curr;
+
+            prev = curr;
+            curr = curr->next;
+        }
+
         return head;
     }
-    
 };
