@@ -30,11 +30,11 @@ public:
         int count = 0;
 
         for (char ch : s) {
-            if (isdigit(ch)) {
+            if (isdigit(ch)) 
                 count = count * 10 + (ch - '0'); 
-            } else if (isalpha(ch)) {
+            else if (isalpha(ch)) 
                 currentStr += ch; 
-            } else if (ch == '[') {
+            else if (ch == '[') {
                 countStack.push(count); 
                 strStack.push(currentStr);
                 count = 0; 
@@ -45,9 +45,8 @@ public:
                 string decodedStr = strStack.top(); 
                 strStack.pop();
 
-                for (int i = 0; i < k; ++i) {
+                for (int i = 0; i < k; ++i) 
                     decodedStr += currentStr; 
-                }
 
                 currentStr = decodedStr; 
             }
