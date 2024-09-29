@@ -14,12 +14,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class Solution
-{
+class Solution {
     public:
-    //Function to find the next greater element for each element of the array.
     vector<long long> nextLargerElement(vector<long long> arr, int n){
-        // Your code here
         vector<long long> ans(n, -1); 
         stack<int> s; 
     
@@ -28,6 +25,7 @@ class Solution
                 ans[s.top()] = arr[i]; 
                 s.pop(); 
             }
+            
             s.push(i);
         }
     
