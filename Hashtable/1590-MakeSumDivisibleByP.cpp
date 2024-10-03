@@ -26,18 +26,18 @@ public:
         sum = sum % p;
         unordered_map<int, int> mp;
         mp[0] = -1;
-        long long prefixSum = 0;
+        long long prefix = 0;
         int ans = nums.size();
 
         for(int i=0; i<nums.size(); i++) {
-            prefixSum = (prefixSum + nums[i]) % p;
+            prefix = (prefix + nums[i]) % p;
 
-            int diff = (prefixSum - sum + p) % p;
+            int diff = (prefix - sum + p) % p;
 
             if(mp.find(diff) != mp.end()) 
                 ans = min(ans, i - mp[diff]);
 
-            mp[prefixSum] = i;
+            mp[prefix] = i;
         }
 
         return ans == nums.size() ? -1 : ans;
