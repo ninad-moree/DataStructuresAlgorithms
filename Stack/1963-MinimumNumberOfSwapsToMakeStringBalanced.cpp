@@ -21,19 +21,6 @@ using namespace std;
 
 class Solution {
 public:
-    bool isBalanced(string s) {
-        stack<char> st;
-        for (char ch : s) {
-            if (ch == '[')
-                st.push(ch);
-            else if (!st.empty() && st.top() == '[')
-                st.pop();
-            else
-                return false;
-        }
-        return st.empty();
-    }
-
     int minSwaps(string s) {
         int openCount = 0;
         int closeCount = 0;
