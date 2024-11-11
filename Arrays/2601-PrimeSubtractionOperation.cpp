@@ -20,6 +20,7 @@ public:
             if(n%i == 0)
                 return false;
         }
+        
         return true;
     }
 
@@ -37,8 +38,10 @@ public:
                     if(primes[s] < nums[i])
                         break;
                 }
-                if(s==-1)
+
+                if(s == -1)
                     continue;
+
                 nums[i] -= primes[s];
             } else {
                 int s = primes.size();
@@ -49,6 +52,7 @@ public:
                         break;
                     }
                 }
+
                 if(s >= 0)
                     nums[i] -= x;
             }
