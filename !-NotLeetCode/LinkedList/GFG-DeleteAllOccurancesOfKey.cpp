@@ -1,6 +1,5 @@
 /*
-    You’re given a linked list and a key 'k'.
-    Delete all the nodes having data equal to ‘k’.
+    You’re given a linked list and a key 'k'. Delete all the nodes having data equal to ‘k’.
 
     Sample Input 1:
     10 4 10 3 5 20 10
