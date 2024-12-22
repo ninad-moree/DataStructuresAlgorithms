@@ -22,11 +22,10 @@ public:
         int n = mat.size(); 
 
         for (int i = 0; i < n; i++) {
-            sum += mat[i][i]; // Summing main diagonal elements mat[i][i]
-            sum += mat[i][n - 1 - i]; // Summing secondary diagonal elements mat[i][n - 1 - i]
+            sum += mat[i][i]; 
+            sum += mat[i][n - 1 - i]; 
         }
 
-        // If the matrix size is odd, one element will be included twice, so subtract it
         if (n % 2 != 0)
             sum -= mat[n / 2][n / 2];
         
