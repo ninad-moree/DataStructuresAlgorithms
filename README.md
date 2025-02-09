@@ -1,6 +1,6 @@
 # DSA
 
-LeetCode | GeeksForFeeks | Coding Ninjas
+LeetCode | GeeksForGeeks | Coding Ninjas
 
 ---
 
