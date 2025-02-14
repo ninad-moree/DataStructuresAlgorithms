@@ -11,29 +11,32 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class Solution{
+class Solution {
 public:
+    int maxProduct(vector<int>& nums) {
+        int ans = INT_MIN;
+        int prod = 1;
 
-	// Function to find maximum product subarray
-	long long maxProduct(vector<int> arr, int n) {
-	    // code here
-	    if (n == 0) 
-            return 0;
+        for(int i=0; i<nums.size(); i++) {
+            prod *= nums[i];
 
-        long long max_product = arr[0];
-        long long min_product = arr[0];
-        long long result = arr[0];
+            ans = max(ans, prod);
 
-        for (int i = 1; i < n; ++i) {
-            if (arr[i] < 0)
-                swap(max_product, min_product);
-
-            max_product = max((long long)arr[i], max_product * arr[i]);
-            min_product = min((long long)arr[i], min_product * arr[i]);
-
-            result = max(result, max_product);
+            if(prod == 0)   
+                prod = 1;
         }
 
-        return result;
-	}
+        prod = 1;
+
+        for(int i=nums.size()-1; i>=0; i--) {
+            prod *= nums[i];
+
+            ans = max(ans, prod);
+
+            if(prod == 0)   
+                prod = 1;
+        }
+
+        return ans;
+    }
 };
