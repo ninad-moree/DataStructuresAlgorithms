@@ -49,7 +49,7 @@ public:
             TreeNode* f = q.front();
             q.pop();
 
-            mp[f->val] = f->val;
+            mp[f->val]++;
 
             if(f->left) {
                 f->left->val = f->val * 2 + 1;
