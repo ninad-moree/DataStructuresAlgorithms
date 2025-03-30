@@ -47,9 +47,6 @@ public:
             auto f = pq.top();
             pq.pop();
 
-            // long long node = f.first;
-            // long long weight = f.second;
-
             long long weight = f.first;
             long long node = f.second;
 
@@ -59,7 +56,6 @@ public:
 
                 if(w + weight < dist[v]) {
                     dist[v] = w + weight;
-                    // pq.push({v, dist[v]});
                     pq.push({dist[v], v});
                     ways[v] = ways[node];
                 } else if(w + weight == dist[v]) 
