@@ -12,27 +12,20 @@ using namespace std;
 
 class Solution {
 public:
-    string solve(string s) {
-        string ans="";
-        for(int i=1;i<s.size();i++) 
-            ans+=s[i];
-        ans+=s[0];
-        
-        return ans;
-    }
-
     bool rotateString(string s, string goal) {
-        bool ans = false;
-        string rots=s;
+        int n = s.size();
+        int m = goal.size();
 
-        for(int i=0;i<s.size();i++){
-            rots = solve(rots);
-            if(rots==goal) {
-                ans=true;
-                break;
-            }
+        if(n != m)
+            return false;
+
+        goal += goal;
+
+        for(int i=0; i<goal.size() - n + 1; i++) {
+            if(goal.substr(i, n) == s)
+                return true;
         }
 
-        return ans;
+        return false;
     }
 };
