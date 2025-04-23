@@ -12,40 +12,32 @@ using namespace std;
 
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        int n = s.size();
-        if (n < 2)
-            return s;
-
-        int start = 0; 
-        int maxLength = 1;
-
-        for (int i = 0; i < n; i++) {
-            // Check for odd-length palindromes
-            int left = i - 1;
-            int right = i + 1;
-            while (left >= 0 && right < n && s[left] == s[right]) {
-                if (right - left + 1 > maxLength) {
-                    maxLength = right - left + 1;
-                    start = left;
-                }
-                left--;
-                right++;
-            }
-
-            // Check for even-length palindromes
-            left = i;
-            right = i + 1;
-            while (left >= 0 && right < n && s[left] == s[right]) {
-                if (right - left + 1 > maxLength) {
-                    maxLength = right - left + 1;
-                    start = left;
-                }
-                left--;
-                right++;
-            }
+    string solve(string s, int left, int right) {
+        while(left >= 0 && right<s.size() && s[left] == s[right]) {
+            left--;
+            right++;
         }
 
-        return s.substr(start, maxLength);
+        return s.substr(left + 1, right - left - 1);
+    }
+
+    string longestPalindrome(string s) {
+        int n = s.size();
+        if(n < 2)
+            return s;
+
+        string longest = s.substr(0, 1);
+
+        for(int i=0; i<s.size(); i++) {
+            string p1 = solve(s, i, i);
+            if(p1.size() > longest.size())
+                longest = p1;
+
+            string p2 = solve(s, i, i+1);
+            if(p2.size() > longest.size())
+                longest = p2;
+        }
+
+        return longest;
     }
 };
