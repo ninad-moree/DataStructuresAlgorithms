@@ -16,24 +16,18 @@ using namespace std;
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> ans;
         unordered_map<string, vector<string>> mp;
 
-        for(auto i : strs) {
-            string word = i;
-            string sortedWord = word;
-            sort(sortedWord.begin(), sortedWord.end());
+        for(auto w : strs) {
+            string sortWord = w;
+            sort(sortWord.begin(), sortWord.end());
 
-            mp[sortedWord].push_back(word);
+            mp[sortWord].push_back(w);
         }
 
-        vector<vector<string>> ans;
-
-        for(auto i : mp) {
-            vector<string> res;
-            for(auto j : i.second)
-                res.push_back(j);
-            ans.push_back(res);
-        }
+        for(auto i : mp)
+            ans.push_back(i.second);
 
         return ans;
     }
