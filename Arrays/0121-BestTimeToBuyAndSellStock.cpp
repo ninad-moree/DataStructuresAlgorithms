@@ -16,18 +16,14 @@ using namespace std;
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int i = 0;
-        int j = 1;
-
         int profit = 0;
-        while(j < prices.size()) {
-            if(prices[j] >=  prices[i]) {
-                profit = max(prices[j] - prices[i], profit);
-                j++;
-            } else {
-                i = j;
-                j++;
-            }
+        int buy = prices[0];
+
+        for(int i=1; i<prices.size(); i++) {
+            if(buy > prices[i])
+                buy = prices[i];
+            else
+                profit = max(profit, prices[i] - buy);
         }
 
         return profit;
