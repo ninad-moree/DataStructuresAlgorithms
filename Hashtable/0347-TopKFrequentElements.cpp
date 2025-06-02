@@ -11,26 +11,38 @@ using namespace std;
 
 class Solution {
 public:
-    static bool cmp(pair<int, int>& a, pair<int, int>& b) {
-        return a.second > b.second;
-    }
-
+    struct Compare {
+        bool operator() (pair<int, int>& a, pair<int, int>& b) {
+            return a.second > b.second;
+        }
+    };
+    
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        int n = nums.size();
+        priority_queue<pair<int, int>, vector<pair<int, int>>, Compare> pq;
         unordered_map<int, int> mp;
-        for(int i=0;i<n;i++) 
-            mp[nums[i]]++;
-         
-        vector<pair<int, int>> freqPairs;
-        for (auto it : mp) 
-            freqPairs.push_back({it.first, it.second});
-        
-        sort(freqPairs.begin(), freqPairs.end(), cmp);
+
+        for(auto i : nums) 
+            mp[i]++;
+
+        for(auto i : mp) {
+            int n = i.first;
+            int f = i.second;
+
+            pq.push({n, f});
+
+            if(pq.size() > k)
+                pq.pop();
+        }
 
         vector<int> ans;
-        for (int i = 0; i < k; i++) 
-            ans.push_back(freqPairs[i].first);
-        
+
+        while(!pq.empty()) {
+            auto f = pq.top();
+            pq.pop();
+
+            ans.push_back(f.first);
+        }
+
         return ans;
     }
 };
