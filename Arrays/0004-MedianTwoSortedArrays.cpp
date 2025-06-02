@@ -8,41 +8,46 @@ using namespace std;
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int l1 = nums1.size();
-        int l2 = nums2.size();
+        vector<int> arr(nums1.size() + nums2.size());
 
-        int i=0;
-        int j=0;
+        int i = 0;
+        int j = 0;
+        int k = 0;
 
-        vector<int> merge;
-
-        while(i<l1 && j<l2) {
-            if(nums1[i]<nums2[j]) {
-                merge.push_back(nums1[i]);
+        while(i < nums1.size() && j < nums2.size()) {
+            if(nums1[i] < nums2[j]) {
+                arr[k] = nums1[i];
                 i++;
-            }
-            else {
-                merge.push_back(nums2[j]);
+                k++;
+            } else {
+                arr[k] = nums2[j];
                 j++;
+                k++;
             }
         }
 
-        while(i<l1) {
-            merge.push_back(nums1[i]);
+        while(i < nums1.size()) {
+            arr[k] = nums1[i];
             i++;
+            k++;
         }
 
-        while(j<l2) {
-            merge.push_back(nums2[j]);
+        while(j < nums2.size()) {
+            arr[k] = nums2[j];
             j++;
+            k++;
         }
 
-        int l = merge.size();
-        double a;
+        double ans;
 
-        if(l%2==1)  a = merge[l/2];
-        else a = (merge[l/2] + merge[l/2 - 1])/2.0;
+        if(arr.size() % 2 == 1) 
+            ans = arr[arr.size() / 2];
+        else {
+            double n1 = arr[arr.size()/2 - 1];
+            double n2 = arr[arr.size()/2];
+            ans = (n1 + n2) / 2.0;
+        }
 
-        return a;
+        return ans;
     }
 };
