@@ -18,32 +18,43 @@ using namespace std;
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<int> adj[numCourses];
-        vector<int> indegree(numCourses,0);
-        vector<int> ans;
+        vector<int> indegree(numCourses, 0);
+        vector<vector<int>> adj(numCourses);
 
-        for(auto x: prerequisites) {
-            adj[x[0]].push_back(x[1]);
-            indegree[x[1]]++;
+        for(int i=0; i<prerequisites.size(); i++) {
+            int e1 = prerequisites[i][0];
+            int e2 = prerequisites[i][1];
+
+            indegree[e2]++;
+            adj[e1].push_back(e2);
         }
 
+        vector<int> res;
         queue<int> q;
-        for(int i=0;i<numCourses;i++) {
-            if(indegree[i]==0) 
+
+        for(int i=0; i<indegree.size(); i++) {
+            if(indegree[i] == 0)
                 q.push(i);
         }
 
+        if(q.size() == 0)
+            return false;
+
         while(!q.empty()) {
-            auto t = q.front();
-            ans.push_back(t);
+            auto f = q.front();
             q.pop();
 
-            for(auto x: adj[t]) {
-                indegree[x]--;
-                if(indegree[x]==0) 
-                    q.push(x);
+            res.push_back(f);
+
+            for(auto i : adj[f]) {
+                indegree[i]--;
+                if(indegree[i] == 0)
+                    q.push(i);
             }
         }
-        return ans.size() == numCourses;
+
+        if(res.size() != numCourses)
+            return false;
+        return true;
     }
 };
