@@ -22,42 +22,66 @@ struct ListNode {
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* head1 = new ListNode(0);
-        ListNode* tail = head1;
+        ListNode* t1 = l1;
+        ListNode* t2 = l2;
+
+        ListNode* ansHead = new ListNode();
+        ListNode* ans = ansHead;
+
         int carry = 0;
 
-        int digit1,digit2;
+        while(t1 != NULL && t2 != NULL) {
+            int n1 = t1->val;
+            int n2 = t2->val;
 
-        while(l1!=nullptr || l2!=nullptr || carry!=0) {
-            if(l1!=nullptr) 
-                digit1 = l1->val;
-            else 
-                digit1=0;
+            int sum = n1 + n2 + carry;
 
-            if(l2!=nullptr) 
-                digit2 = l2->val;
-            else 
-                digit2=0;
-
-            int sum = digit1+digit2+carry;
             int digit = sum%10;
             carry = sum/10;
 
-            ListNode* ansNode = new ListNode(digit);
-            tail->next = ansNode;
-            tail = tail->next;
+            ListNode* node = new ListNode(digit);
+            ans->next = node;
+            ans = ans->next;
 
-            if(l1!=nullptr) 
-                l1=l1->next;
-            else 
-                l1=nullptr;
-
-            if(l2!=nullptr) 
-                l2=l2->next;
-            else 
-                l2=nullptr;
+            t1 = t1->next;
+            t2 = t2->next;
         }
 
-        return head1->next;
+        while(t1 != NULL) {
+            int n1 = t1->val;
+            
+            int sum = n1 + carry;
+
+            int digit = sum%10;
+            carry = sum/10;
+
+            ListNode* node = new ListNode(digit);
+            ans->next = node;
+            ans = ans->next;
+
+            t1 = t1->next;
+        }
+
+        while(t2 != NULL) {
+            int n1 = t2->val;
+            
+            int sum = n1 + carry;
+
+            int digit = sum%10;
+            carry = sum/10;
+
+            ListNode* node = new ListNode(digit);
+            ans->next = node;
+            ans = ans->next;
+
+            t2 = t2->next;
+        }
+
+        if(carry != 0) {
+            ListNode* node = new ListNode(carry);
+            ans->next = node;
+        }
+
+        return ansHead->next;
     }
 };
