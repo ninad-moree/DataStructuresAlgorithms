@@ -14,24 +14,23 @@ using namespace std;
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
-       int n = nums.size();
+       long long maxi = 0;
+        for(auto i : nums)
+            maxi = max(maxi, (long long)i);
 
-        for (int i = 0; i < n; ++i) {
-            if (nums[i] <= 0 || nums[i] > n) 
-                nums[i] = n + 1;
+        unordered_map<long long, int> mp;
+        for(auto i: nums)
+            mp[i]++;
+
+        long long ans = -1;
+
+        for(int i=1; i<=maxi+1; i++) {
+            if(mp.find(i) == mp.end()) {
+                ans = i;
+                break;
+            }
         }
 
-        for (int i = 0; i < n; ++i) {
-            int val = abs(nums[i]);
-            if (val <= n) 
-                nums[val - 1] = -abs(nums[val - 1]);
-        }
-
-        for (int i = 0; i < n; ++i) {
-            if (nums[i] > 0) 
-                return i + 1;
-        }
-
-        return n + 1;
+        return ans;
     }
 };
