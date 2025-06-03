@@ -56,7 +56,6 @@ public:
                     median = maxi.top();
                 }
                 break;
-            
             case 1:
                 if(num > median) {
                     mini.push(num);
@@ -69,7 +68,6 @@ public:
                     median = ( mini.top() + maxi.top() ) /2.0;
                 }
                 break;
-
             case -1:
                 if(num > median) {
                     maxi.push(mini.top());
