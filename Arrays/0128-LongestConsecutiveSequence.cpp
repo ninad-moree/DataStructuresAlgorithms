@@ -14,28 +14,24 @@ using namespace std;
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        if(nums.size() == 0)
-            return 0;
-            
         sort(nums.begin(), nums.end());
         
-        int len = 1;
-        int currLen = 1;
-        int num = nums[0];
+        int ans = 1;
+        int curr = 1;
 
-        for(int i=1; i<nums.size(); i++) {
-            if(nums[i] == num + 1) {
-                num = nums[i];
-                currLen++;
-                len = max(len, currLen);
-            } else if (nums[i] == num){
+        if(nums.size() == 0)
+            return 0;
+
+        for(int i=0; i<nums.size()-1; i++) {
+            if(nums[i] == nums[i+1])
                 continue;
-            } else {
-                currLen = 1;
-                num = nums[i];
-            }
+            else if(nums[i] + 1 == nums[i+1]) {
+                curr++;
+                ans = max(ans, curr);
+            } else
+                curr = 1;
         }
 
-        return len;
+        return ans;
     }
 };
