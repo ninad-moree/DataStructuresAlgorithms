@@ -13,26 +13,18 @@ using namespace std;
 class Solution {
 public:
     int firstUniqChar(string s) {
-        unordered_map<char, pair<int,int>> mp;
+        unordered_map<char, int> mp;
+
+        for(auto i : s)
+            mp[i]++;
 
         for(int i=0; i<s.size(); i++) {
-            mp[s[i]].first = i;
-            mp[s[i]].second++;
+            int freq = mp[s[i]];
+
+            if(freq == 1)
+                return i;
         }
 
-        int ans = INT_MAX;
-
-        for(auto i : mp) {
-            int idx = i.second.first;
-            int freq = i.second.second;
-
-            if(freq == 1) 
-                ans = min(ans, idx);
-        }
-
-        if(ans == INT_MAX)
-            return -1;
-
-        return ans;
+        return -1;
     }
 };
