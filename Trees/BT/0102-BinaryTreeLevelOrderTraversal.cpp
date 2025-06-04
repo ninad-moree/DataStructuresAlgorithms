@@ -15,32 +15,34 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-class Solution{
-    public:
+class Solution {
+public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> ans;
+        if(!root)
+            return {};
 
-        if(root == NULL)
-            return ans;
-        
+        vector<vector<int>> ans;
         queue<TreeNode*> q;
+
         q.push(root);
 
         while(!q.empty()) {
-            int n = q.size();
-            vector<int> lev;
-            for(int i=0;i<n;i++) {
-                TreeNode* temp = q.front();
+            int s = q.size();
+            vector<int> lvl;
+
+            for(int i=0; i<s; i++) {
+                auto f = q.front();
                 q.pop();
 
-                if(temp->left)
-                    q.push(temp->left);
-                if(temp->right)
-                    q.push(temp->right);
-                
-                lev.push_back(temp->val);
+                lvl.push_back(f->val);
+
+                if(f->left)
+                    q.push(f->left);
+                if(f->right)
+                    q.push(f->right);
             }
-            ans.push_back(lev);
+
+            ans.push_back(lvl);
         }
 
         return ans;
