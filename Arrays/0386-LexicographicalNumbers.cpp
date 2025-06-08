@@ -13,17 +13,27 @@ using namespace std;
 class Solution {
 public:
     vector<int> lexicalOrder(int n) {
-        vector<string> nums;
-
-        for(int i=1; i<=n; i++) 
-            nums.push_back(to_string(i));
-
-        sort(nums.begin(), nums.end());
-
         vector<int> ans;
-        for(auto i : nums)
-            ans.push_back(stoi(i));
+
+        for(int i=1; i<=9; i++)
+            solve(i, n, ans);
 
         return ans;
+    }
+
+    void solve(int curr, int limit, vector<int>& num) {
+        if(curr > limit)
+            return;
+
+        num.push_back(curr);
+
+        for(int i=0; i<=9; i++) {
+            int next = curr*10 + i;
+
+            if(next <= limit)
+                solve(next, limit, num);
+            else
+                break;
+        }
     }
 };
