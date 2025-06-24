@@ -14,21 +14,20 @@ using namespace std;
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        int a = 0;
-        int b = 0;
-        int c = nums.size()-1;
+        int low = 0;
+        int mid = 0;
+        int high = nums.size() - 1;
 
-        while(b<=c) {
-            if(nums[b] == 0) {
-                swap(nums[a], nums[b]);
-                a++;
-                b++;
-            }
-            else if(nums[b] == 1) 
-                b++;
+        while(mid <= high) {
+            if(nums[mid] == 0) {
+                swap(nums[low], nums[mid]);
+                low++;
+                mid++;
+            } else if(nums[mid] == 1)
+                mid++;
             else {
-                swap(nums[b], nums[c]);
-                c--;
+                swap(nums[mid], nums[high]);
+                high--;
             }
         }
     }
