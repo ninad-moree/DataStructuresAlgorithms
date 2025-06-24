@@ -12,21 +12,24 @@ using namespace std;
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        unordered_map<int, int> sumFreq;
-        int count = 0;
+        unordered_map<int, int> mp;
         int sum = 0;
+        int cnt = 0;
 
-        sumFreq[0] = 1;
-
-        for (int i = 0; i < nums.size(); ++i) {
+        for(int i=0; i<nums.size(); i++) {
             sum += nums[i];
 
-            if (sumFreq.find(sum - k) != sumFreq.end()) 
-                count += sumFreq[sum - k];
+            int target = sum - k;
+
+            if(sum == k)
+                cnt++;
+
+            if(mp.find(target) != mp.end()) 
+                cnt += mp[target];
             
-            sumFreq[sum]++;
+            mp[sum]++;
         }
 
-        return count;
+        return cnt;
     }
 };
