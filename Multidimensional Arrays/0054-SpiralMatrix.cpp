@@ -14,41 +14,31 @@ public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
         vector<int> ans;
 
-        int row = matrix.size();
-        int col = matrix[0].size();
+        int left = 0;
+        int right = matrix[0].size()-1;
+        int top = 0;
+        int bottom = matrix.size()-1;
 
-        int cnt = 0;
-        int total = row*col;
+        while(left <= right && top <= bottom) {
+            for(int i=left; i<=right; i++)
+                ans.push_back(matrix[top][i]);
+            top++;
 
-        int s_row = 0;
-        int e_row = row-1;
-        int s_col = 0;
-        int e_col = col-1;
+            for(int i=top; i<=bottom; i++) 
+                ans.push_back(matrix[i][right]);
+            right--;
 
-        while(cnt<total) {
-            for(int i=s_col ; cnt<total && i<=e_col ; i++) {
-                ans.push_back(matrix[s_row][i]);
-                cnt++;
+            if(top <= bottom) {
+                for(int i=right; i>=left; i--) 
+                    ans.push_back(matrix[bottom][i]);
+                bottom--;
             }
-            s_row++;
 
-            for(int i=s_row ; cnt<total && i<=e_row ; i++) {
-                ans.push_back(matrix[i][e_col]);
-                cnt++;
+            if(left <= right) {
+                for(int i=bottom; i>=top; i--)
+                    ans.push_back(matrix[i][left]);
+                left++;
             }
-            e_col--;
-
-            for(int i=e_col ; i>=s_col && cnt<total ; i--) {
-                ans.push_back(matrix[e_row][i]);
-                cnt++;
-            }
-            e_row--;
-
-            for(int i=e_row ; i>=s_row && cnt<total ; i--) {
-                ans.push_back(matrix[i][s_col]);
-                cnt++;
-            }
-            s_col++;
         }
 
         return ans;
