@@ -16,11 +16,12 @@ public:
     int mySqrt(int x) {
         int low = 0;
         int high = x;
-        long long int mid = low + (high - low)/2;
 
         int ans = -1;
 
         while(low <= high) {
+            long long int mid = low + (high - low)/2;
+
             if(mid * mid == x)
                 return mid;
             else if(mid * mid > x)
@@ -29,8 +30,6 @@ public:
                 ans = mid;
                 low = mid + 1;
             }
-
-            mid = low + (high - low)/2;
         }
 
         return ans;
