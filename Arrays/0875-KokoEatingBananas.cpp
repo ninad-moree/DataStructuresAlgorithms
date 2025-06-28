@@ -14,33 +14,40 @@ using namespace std;
 
 class Solution {
 public:
-    int solve(vector<int>& piles, int h, int mid) {
-        int ans = 0;
+    long long calcHours(vector<int> piles, int mid) {
+        long long totalHours = 0;
 
         for(int i=0; i<piles.size(); i++) {
-            ans += piles[i]/mid;
-            if(piles[i]%mid != 0)
-                ans++;
+            if(piles[i] % mid == 0)
+                totalHours += (piles[i] / mid);
+            else
+                totalHours += ((piles[i] / mid) + 1);
         }
 
-        return ans<=h;
+        return totalHours;
     }
 
     int minEatingSpeed(vector<int>& piles, int h) {
-        sort(piles.begin(), piles.end());
+        int maxi = piles[0];
+        for(auto i : piles)
+            maxi = max(maxi, i);
 
-        int l = 1;
-        int hi = piles[piles.size()-1];
+        int low = 1;
+        int high = maxi;
+        int ans = maxi;
 
-        while(l < hi) {
-            int m = (l+hi)/2;
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
 
-            if(solve(piles, h, m))
-                hi = m;
-            else
-                l = m+1;
+            long long  totalHours = calcHours(piles, mid);
+
+            if(totalHours <= h) {
+                ans = mid;
+                high = mid - 1;
+            } else 
+                low = mid + 1;
         }
 
-        return l;
+        return ans;
     }
 };
