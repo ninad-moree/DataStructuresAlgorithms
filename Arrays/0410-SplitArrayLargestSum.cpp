@@ -1,8 +1,6 @@
 /*
-    Given an integer array nums and an integer k, split nums into k non-empty subarrays such 
-    that the largest sum of any subarray is minimized.
-    Return the minimized largest sum of the split.
-    A subarray is a contiguous part of the array.
+    Given an integer array nums and an integer k, split nums into k non-empty subarrays such that the largest sum of any subarray is minimized.
+    Return the minimized largest sum of the split. A subarray is a contiguous part of the array.
 
     Example 1:
     Input: nums = [7,2,5,10,8], k = 2
@@ -17,43 +15,40 @@ using namespace std;
 
 class Solution {
 public:
-    bool isPossible(vector<int>& arr, int k, int mid) {
-        int pageCnt = 0;
-        int studentCnt = 1;
-        for(int i=0;i<arr.size();i++) {
-            if(pageCnt + arr[i] <= mid) {
-                pageCnt += arr[i];
-            }
+    int countArray(vector<int> nums, int maxSum) {
+        int sum = 0;
+        int cnt = 1;
+
+        for(auto i : nums) {
+            if(sum + i <= maxSum)
+                sum += i;
             else {
-                studentCnt++;
-                if(studentCnt>k || arr[i] > mid ) 
-                    return false;
-                pageCnt = arr[i];
+                sum = i;
+                cnt++;
             }
         }
-        return true;
+
+        return cnt;
     }
 
     int splitArray(vector<int>& nums, int k) {
-        int sum = 0;
-        for(int i=0;i<nums.size();i++) 
-            sum+=nums[i];
-        
-        int s = 0;
-        int e = sum;
-        int m = s+(e-s)/2;
+        int low = *max_element(nums.begin(), nums.end());
+        int high = accumulate(nums.begin(), nums.end(), 0);
+        int ans = -1;
 
-        int ans=-1;
-        while(s<=e) {
-            if(isPossible(nums, k, m)) {
-                e = m-1;
-                ans = m;
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+
+            int cnt = countArray(nums, mid);
+
+            if(cnt > k)
+                low = mid + 1;
+            else {
+                ans = mid;
+                high = mid - 1;
             }
-            else 
-                s = m+1;
-
-            m = s+(e-s)/2;
         }
+
         return ans;
     }
 };
