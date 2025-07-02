@@ -16,27 +16,21 @@ using namespace std;
 class Solution {
 public:
     vector<int> rowAndMaximumOnes(vector<vector<int>>& mat) {
-        vector<int> rowOnes;
+        int rowNo = 0;
+        int one = 0;
+
         for(int i=0; i<mat.size(); i++) {
-            int cnt1 = 0;
+            int curr = 0;
             for(int j=0; j<mat[0].size(); j++) {
                 if(mat[i][j] == 1)
-                    cnt1++;
+                    curr++;
             }
-            rowOnes.push_back(cnt1);
-        }
-
-        int maxi = 0;
-        int idx = 0;
-        for(int i=0; i<rowOnes.size(); i++) {
-            if(rowOnes[i] > maxi) {
-                maxi = rowOnes[i];
-                idx = i;
-                if(idx > i) 
-                    idx = i;
+            if(curr > one) {
+                rowNo = i;
+                one = curr;
             }
         }
 
-        return {idx, maxi};
+        return {rowNo, one};
     }
 };
