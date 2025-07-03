@@ -25,13 +25,16 @@ public:
         
         while (word.length() < k) {
             string str = "";
+
             for(int i=0; i<word.size(); i++) {
                 char ch = word[i];
+                
                 if(word[i] == 'z')
                     str += 'a';
                 else
                     str += ch + 1;
             }
+
             word += str;  
         }
 
