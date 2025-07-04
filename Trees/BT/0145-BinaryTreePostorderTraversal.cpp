@@ -20,19 +20,18 @@ struct TreeNode {
 
 class Solution {
 public:
-    vector<int> pos;
-
-    void postorder(TreeNode* root) {
+    void postorder(TreeNode* root, vector<int>& pos) {
         if(!root)
             return;
 
-        postorder(root->left);
-        postorder(root->right);
+        postorder(root->left, pos);
+        postorder(root->right, pos);
         pos.push_back(root->val);
     }
 
     vector<int> postorderTraversal(TreeNode* root) {
-        postorder(root);
+        vector<int> pos;
+        postorder(root, pos);
         return pos;
     }
 };
