@@ -34,4 +34,28 @@ public:
         preorder(root, pre);
         return pre;
     }
+
+    vector<int> preorderTraversal2(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> ans;
+
+        if(root == NULL)
+            return ans;
+
+        st.push(root);
+        
+        while(!st.empty()) {
+            auto top = st.top();
+            st.pop();
+            
+            ans.push_back(top->val);
+
+            if(top->right != NULL)
+                st.push(top->right);
+            if(top->left != NULL)
+                st.push(top->left);
+        }
+
+        return ans;
+    }
 };
