@@ -63,4 +63,37 @@ public:
 
         return ans;
     }
+
+    vector<int> postorderTraversal3(TreeNode* root) {
+        vector<int> ans;
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+
+        if(!root)
+            return ans;
+
+        while(curr != NULL || !st.empty()) {
+            if(curr != NULL) {
+                st.push(curr);
+                curr = curr->left;
+            } else {
+                TreeNode* rightNode = st.top()->right;
+
+                if(rightNode == NULL) {
+                    rightNode = st.top();
+                    st.pop();
+                    ans.push_back(rightNode->val);
+
+                    while(!st.empty() && rightNode == st.top()->right) {
+                        rightNode = st.top();
+                        st.pop();
+                        ans.push_back(rightNode->val);
+                    }
+                } else
+                    curr = rightNode;
+            }
+        }
+
+        return ans;
+    }
 };
