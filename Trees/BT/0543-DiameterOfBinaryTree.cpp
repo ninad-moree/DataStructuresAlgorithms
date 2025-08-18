@@ -23,25 +23,22 @@ struct TreeNode {
 
 class Solution {
 public:
-    pair<int, int> fastDiameter(TreeNode* root) {
+    int findHeight(TreeNode* root, int& diameter) {
         if(root == NULL)
-            return {0,0};
+            return 0;
         
-        pair<int, int> left = fastDiameter(root->left);
-        pair<int, int> right = fastDiameter(root->right);
+        int leftHt = findHeight(root->left, diameter);
+        int rightHt = findHeight(root->right, diameter);
 
-        int op1 = left.first;
-        int op2 = right.first;
-        int op3 = left.second + right.second + 1;
+        diameter = max(diameter, leftHt + rightHt);
 
-        pair<int, int> ans;
-        ans.first = max(op1, max(op2, op3));
-        ans.second = max(left.second, right.second) + 1;
-
-        return ans;
+        return 1 + max(leftHt, rightHt);
     }
-
+    
     int diameterOfBinaryTree(TreeNode* root) {
-        return fastDiameter(root).first - 1;
+        int diameter = 0;
+        int ht = findHeight(root, diameter);
+
+        return diameter;
     }
 };
