@@ -20,26 +20,11 @@ struct TreeNode {
 };
 
 class Solution {
-    public:
-    bool checkNode(TreeNode* p, TreeNode* q) {
-        if(p==NULL && q==NULL)
-            return true;
-        
-        if( (p==NULL && q!=NULL) || (p!=NULL && q==NULL) )
-            return false;
-
-        bool leftTree = checkNode(p->left, q->left);
-        bool rightTree = checkNode(p->right, q->right);
-
-        bool val = p->val == q->val;
-
-        if(leftTree && rightTree && val)
-            return true;
-        else 
-            return false;
-    }
-
+public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        return checkNode(p,q);
+        if(p == NULL || q == NULL)
+            return p == q;
+
+        return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
