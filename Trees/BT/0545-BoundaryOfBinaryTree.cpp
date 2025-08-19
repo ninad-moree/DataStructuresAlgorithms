@@ -85,7 +85,7 @@ public:
         vector<int> ans;
 
         if(!root)
-            return;
+            return ans;
 
         if(!isLeaf(root))
             ans.push_back(root->val);
