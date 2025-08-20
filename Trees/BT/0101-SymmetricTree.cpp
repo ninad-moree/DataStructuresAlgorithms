@@ -20,42 +20,18 @@ struct TreeNode {
 };
 
 class Solution {
-    public:
+public:
+    bool solve(TreeNode* left, TreeNode* right) {
+        if(left == NULL || right == NULL)
+            return left == right;
 
-    bool check (TreeNode* p, TreeNode* q) {
-        if(p == NULL && q == NULL)
-            return true;
-        else if(p==NULL && q!=NULL || p!=NULL && q==NULL) 
+        if(left->val != right->val)
             return false;
-        else {
-            bool l = check(p->left, q->right);
-            bool r = check(p->right, q->left);
-            bool val = p->val == q->val;
-            return val && l && r;
-        }
+        
+        return solve(left->left, right->right) && solve(left->right, right->left);
     }
 
     bool isSymmetric(TreeNode* root) {
-        bool ans;
-        
-        if(root->left==NULL && root->right==NULL) {
-            ans =  true;
-            return ans;
-        }
-        else if(root->left==NULL && root->right!=NULL) {
-            ans = false;
-            return ans;
-        }
-        else if(root->left!=NULL && root->right==NULL) {
-            ans = false;
-            return ans;
-        }
-        else if(root->left != NULL && root->right != NULL) {
-            TreeNode *p = root->left;
-            TreeNode *q = root->right;
-
-            ans = check(p,q);
-        }
-        return ans;
+        return root == NULL || solve(root->left, root->right);
     }
 };
