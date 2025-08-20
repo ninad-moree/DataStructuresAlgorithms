@@ -23,57 +23,33 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> rightSideView(TreeNode* root) {
-        if(!root)
-            return {};
-
-        queue<TreeNode*> q;
-        vector<vector<int>> bfs;
         vector<int> ans;
+        queue<pair<TreeNode*, int>> q;
+        map<int, int> mp;
 
-        q.push(root);
+        if(!root)
+            return ans; 
+
+        q.push({root, 0});
 
         while(!q.empty()) {
-            int s = q.size();
-            vector<int> lvl;
+            auto f = q.front();
+            q.pop();
 
-            for(int i=0; i<s; i++) {
-                auto f = q.front();
-                q.pop();
+            TreeNode* node = f.first;
+            int lvl = f.second;
 
-                lvl.push_back(f->val);
+            mp[lvl] = node->val;
 
-                if(f->left != NULL)
-                    q.push(f->left);
-                if(f->right != NULL)
-                    q.push(f->right);
-            }
-
-            bfs.push_back(lvl);
+            if(node->left)
+                q.push({node->left, lvl + 1});
+            if(node->right)
+                q.push({node->right, lvl + 1});
         }
 
-        for(auto i : bfs) 
-            ans.push_back(i[i.size()-1]);
+        for(auto i : mp)
+            ans.push_back(i.second);
 
         return ans;
     }
 };
-
-// class Solution {
-// public:
-//     void solve(TreeNode* root, vector<int>& ans, int lvl) {
-//         if(root == NULL) 
-//             return;
-
-//         if(lvl == ans.size())
-//             ans.push_back(root->val);
-
-//         solve(root->right, ans, lvl+1);
-//         solve(root->left, ans, lvl+1);
-//     }
-    
-//     vector<int> rightSideView(TreeNode* root) {
-//         vector<int> ans;
-//         solve(root, ans, 0);
-//         return ans;
-//     }
-// };
