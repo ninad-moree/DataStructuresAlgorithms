@@ -27,38 +27,42 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-vector<int> verticalTraversal(TreeNode* root) {
-    if(!root)
-        return {};
-    
-    unordered_map<int, unordered_map<int, vector<int>>> Nodes;
-    queue<pair<TreeNode*, pair<int,int>>> q; // contains: node, {distance, level}
-    vector<int> ans;
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> ans;
+        queue<pair<TreeNode*, pair<int, int>>> q; // {node, {vertical, level}}
+        map<int, map<int, multiset<int>>> mp; // {vertical, {level, {nodes}}}
 
-    q.push({root, {0,0}});
+        if(!root)   
+            return ans;
 
-    while (!q.empty()) {
-        pair<TreeNode*, pair<int, int>> temp = q.front();
-        q.pop();
+        q.push({root, {0, 0}});
 
-        TreeNode* front = temp.first;
-        int horizontalDistance = temp.second.first;
-        int level = temp.second.second;
+        while(!q.empty()) {
+            auto f = q.front();
+            q.pop();
 
-        Nodes[horizontalDistance][level].push_back(front->val);
+            auto node = f.first;
+            int vertical = f.second.first;
+            int level = f.second.second;
 
-        if(front->left)
-            q.push({front->left, {horizontalDistance-1, level+1}});
-        if(front->right)
-            q.push({front->right, {horizontalDistance+1, level+1}});
-    }
+            mp[vertical][level].insert(node->val);
 
-    for(auto i :Nodes) {
-        for(auto j : i.second) {
-            for(auto k: j.second) 
-                ans.push_back(k);
+            if(node->left) 
+                q.push({node->left, {vertical-1, level+1}});
+
+            if(node->right) 
+                q.push({node->right, {vertical+1, level+1}});
         }
+
+        for(auto i : mp) {
+            vector<int> col;
+            for(auto j : i.second) 
+                col.insert(col.end(), j.second.begin(), j.second.end());
+            ans.push_back(col);
+        }
+
+        return ans;
     }
-    
-    return ans;
-}
+};
