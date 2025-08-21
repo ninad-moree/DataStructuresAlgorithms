@@ -24,23 +24,45 @@ struct TreeNode {
 
 class Solution {
 public:
-    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(root == NULL) 
-            return NULL;
-            
-        if(root == p || root == q)
-            return root;
-        
-        TreeNode* left = lowestCommonAncestor(root->left, p, q);
-        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+    bool pathToNode(TreeNode* root, vector<TreeNode*>& ans, int node) {
+        if(!root)
+            return false;
 
-        if(left != NULL && right != NULL)
-            return root;
-        else if(left != NULL && right == NULL)
-            return left;
-        else if(left == NULL && right != NULL)
-            return right;
-        else
-            return NULL;
+        ans.push_back(root);
+
+        if(root->val == node)
+            return true;
+
+        if(pathToNode(root->left, ans, node) || pathToNode(root->right, ans, node))
+            return true;
+
+        ans.pop_back();
+
+        return false;
+    }
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        vector<TreeNode*> p1, p2;
+
+        pathToNode(root, p1, p->val);
+        pathToNode(root, p2, q->val);
+
+        int i = 0, j = 0;
+
+        TreeNode* ans;
+
+        while(i < p1.size() && j < p2.size()) {
+            TreeNode* n1 = p1[i];
+            TreeNode* n2 = p2[j];
+
+            if(n1->val == n2->val) {
+                ans = n1;
+                i++;
+                j++;
+            } else 
+                break;
+        }
+
+        return ans;
     }
 };
