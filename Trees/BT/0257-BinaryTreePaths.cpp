@@ -21,25 +21,27 @@ struct TreeNode {
 
 class Solution {
 public:
-    void stringGen(TreeNode* root, vector<string>& ans, string temp) {
-        if(!root) 
+    void paths(TreeNode* root, vector<string>& ans, string res) {
+        if(!root)
             return;
+        
+        res += to_string(root->val);
 
-        if(!root->left && !root->right) {
-            temp += to_string(root->val);
-            ans.push_back(temp);
+        if(root->left == NULL && root->right == NULL) {
+            ans.push_back(res);
+            return;
         }
 
-        temp += to_string(root->val);
-        stringGen(root->left, ans, temp+"->");
-        stringGen(root->right, ans, temp+"->");
+        paths(root->left, ans, res + "->");
+        paths(root->right, ans, res + "->");
     }
 
     vector<string> binaryTreePaths(TreeNode* root) {
-        string temp="";
+        string res = "";
         vector<string> ans;
-        stringGen(root, ans, temp);
-        
+
+        paths(root, ans, res);
+
         return ans;
     }
 };
