@@ -18,9 +18,9 @@ public:
         vector<int>x;
         vector<int>y;
         
-        for(int i = 0 ; i< grid.size();i++){
-            for(int j= 0 ; j < grid[0].size() ;j++){
-               if(grid[i][j]==1){
+        for(int i = 0 ; i< grid.size();i++) {
+            for(int j= 0 ; j < grid[0].size() ;j++) {
+                if(grid[i][j]==1) {
                    x.push_back(j);
                    y.push_back(i);
                }
@@ -30,6 +30,6 @@ public:
         sort(x.begin(),x.end());
         sort(y.begin(),y.end());
         
-        return (x[x.size()-1]-x[0]+1)*(y[y.size()-1]-y[0]+1);
+        return (x[x.size()-1] - x[0] + 1) * (y[y.size()-1] - y[0] + 1);
     }
 };
