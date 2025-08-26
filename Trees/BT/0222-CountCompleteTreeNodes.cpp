@@ -22,19 +22,38 @@ struct TreeNode {
 
 class Solution {
 public:
-    vector<int> ino;
-    
-    void inorder(TreeNode* root) {
-        if(!root) 
-            return;
-            
-        inorder(root->left);
-        ino.push_back(root->val);
-        inorder(root->right);
+    int leftHt(TreeNode* node) {
+        int ht = 0;
+
+        while(node) {
+            ht++;
+            node = node->left;
+        }
+
+        return ht;
+    }
+
+    int rightHt(TreeNode* node) {
+        int ht = 0;
+
+        while(node) {
+            ht++;
+            node = node->right;
+        }
+
+        return ht;
     }
 
     int countNodes(TreeNode* root) {
-        inorder(root);
-        return ino.size();
+        if(!root)
+            return 0;
+
+        int lh = leftHt(root);
+        int rh = rightHt(root);
+
+        if(lh == rh)
+            return (1<<lh) - 1;
+        
+        return 1 + countNodes(root->left) + countNodes(root->right);
     }
 };
