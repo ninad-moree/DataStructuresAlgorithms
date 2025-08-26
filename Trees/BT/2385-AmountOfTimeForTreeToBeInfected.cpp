@@ -1,9 +1,6 @@
 /*
-    You are given the root of a binary tree with unique values, and an integer start. 
-    At minute 0, an infection starts from the node with value start.
-    Each minute, a node becomes infected if:
-    The node is currently uninfected.
-    The node is adjacent to an infected node.
+    You are given the root of a binary tree with unique values, and an integer start.  At minute 0, an infection starts from the node with value start.
+    Each minute, a node becomes infected if: The node is currently uninfected. The node is adjacent to an infected node.
     Return the number of minutes needed for the entire tree to be infected.
 
     Example 1:
@@ -32,75 +29,65 @@ struct TreeNode {
 
 class Solution {
 public:
-    TreeNode* createMapping(TreeNode* root, int start, map<TreeNode*, TreeNode*> &n2p) {
-        TreeNode* res = NULL;
-
+    void getParents(TreeNode* root, unordered_map<TreeNode*, TreeNode*>& parent, TreeNode*& startNode, int start) {
         queue<TreeNode*> q;
-        q.push(root);
-        n2p[root] = NULL;
+        q.push({root});
 
         while(!q.empty()) {
-            TreeNode* front = q.front();
+            auto f = q.front();
             q.pop();
 
-            if(front->val == start)
-                res = front;
-            
-            if(front->left) {
-                n2p[front->left] = front;
-                q.push(front->left);
+            if(f->val == start)
+                startNode = f;
+
+            if(f->left) {
+                parent[f->left] = f;
+                q.push(f->left);
             }
-            if(front->right) {
-                n2p[front->right] = front;
-                q.push(front->right);
+            if(f->right) {
+                parent[f->right] = f;
+                q.push(f->right);
             }
         }
-        return res;
     }
 
-    int burnTree(TreeNode* root, map<TreeNode*, TreeNode*> &n2p) {
-        map<TreeNode*, bool> visited;
+    int amountOfTime(TreeNode* root, int start) {
+        unordered_map<TreeNode*, TreeNode*> parent;
+        TreeNode* startNode;
+        getParents(root, parent, startNode, start);
+
         queue<TreeNode*> q;
-
-        q.push(root);
-        visited[root] = true;
-
+        unordered_map<TreeNode*, bool> vis;
         int time = 0;
 
-        while(!q.empty()) {
-            bool flag = 0;
-            int size = q.size();
+        q.push(startNode);
+        vis[startNode] = true;
 
-            for(int i=0;i<size;i++) {
-                TreeNode* front = q.front();
+        while(!q.empty()) {
+            int s = q.size();
+
+            for(int i=0; i<s; i++) {
+                auto f = q.front();
                 q.pop();
 
-                if(front->left && !visited[front->left]) {
-                    flag = 1;
-                    q.push(front->left);
-                    visited[front->left] = true;
+                if(f->left && !vis[f->left]) {
+                    q.push(f->left);
+                    vis[f->left] = true;
                 }
-                if(front->right && !visited[front->right]) {
-                    flag = 1;
-                    q.push(front->right);
-                    visited[front->right] = true;
+                if(f->right && !vis[f->right]) {
+                    q.push(f->right);
+                    vis[f->right] = true;
                 }
-                if(n2p[front] && !visited[n2p[front]]) {
-                    flag = 1;
-                    q.push(n2p[front]);
-                    visited[n2p[front]] = true;
+
+                if(parent[f] && !vis[parent[f]]) {
+                    q.push(parent[f]);
+                    vis[parent[f]] = true;
                 }
             }
-            if(flag == 1)
-                time++;
+
+            time++;
         }
-        return time;
-    }
-    
-    int amountOfTime(TreeNode* root, int start) {
-        map<TreeNode* , TreeNode*> n2p;
-        TreeNode* targetNode = createMapping(root, start, n2p);
-        int time = burnTree(targetNode, n2p);
-        return time;
+
+        return time - 1;
     }
 };
