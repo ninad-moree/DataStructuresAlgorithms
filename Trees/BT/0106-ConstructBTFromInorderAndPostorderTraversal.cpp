@@ -22,34 +22,33 @@ struct TreeNode {
 
 class Solution {
 public:
-    map<int, int> createMapping(vector<int>& inorder) {
-        map<int, int> nodeToIndex;
-        for (int i = 0; i < inorder.size(); i++) {
-            nodeToIndex[inorder[i]] = i;
-        }
-        return nodeToIndex;
-    }
+    TreeNode* buildTreePostIn(vector<int>& inorder, int is, int ie, vector<int>& postorder, int ps, int pe, map<int, int>& mp) {
+        if(ps > pe || is > ie)
+            return NULL;
 
-    TreeNode* solve(vector<int>& postorder, vector<int>& inorder, int& posIndex, int inStart, int inEnd, map<int, int>& nodeToIndex) {
-        if (posIndex < 0 || inStart > inEnd) {
-            return nullptr;
-        }
+        TreeNode* root = new TreeNode(postorder[pe]);
 
-        int element = postorder[posIndex];
-        posIndex--;
-        TreeNode* root = new TreeNode(element);
-        int position = nodeToIndex[element];
+        int idxRoot = mp[postorder[pe]];
+        int numsOnLeft = idxRoot - is;
 
-        root->right = solve(postorder, inorder, posIndex, position + 1, inEnd, nodeToIndex);
-        root->left = solve(postorder, inorder, posIndex, inStart, position - 1, nodeToIndex);
+        root->left = buildTreePostIn(inorder, is, idxRoot - 1, postorder, ps, ps + numsOnLeft -1, mp);
+        root->right = buildTreePostIn(inorder, idxRoot + 1, ie, postorder, ps + numsOnLeft, pe - 1, mp);
 
         return root;
     }
-    
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int postorderIndex = inorder.size() -1;
-        map<int, int> nodeToIndex = createMapping(inorder);
 
-        return solve(postorder, inorder, postorderIndex, 0, inorder.size() - 1, nodeToIndex);
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        if(inorder.size() != postorder.size())
+            return NULL;
+
+        int ino = inorder.size();
+        int post = postorder.size();
+
+        map<int, int> mp;
+
+        for(int i=0; i<ino; i++)
+            mp[inorder[i]] = i;
+
+        return buildTreePostIn(inorder, 0, ino -1, postorder, 0, post - 1, mp);
     }
 };
