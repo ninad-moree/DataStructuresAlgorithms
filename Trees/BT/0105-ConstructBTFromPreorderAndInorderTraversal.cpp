@@ -17,34 +17,33 @@ struct TreeNode {
 
 class Solution {
 public:
-    map<int, int> createMapping(vector<int>& inorder) {
-        map<int, int> nodeToIndex;
+    TreeNode* buildTreePreIn(vector<int>& inorder, int is, int ie, vector<int>& preorder, int ps, int pe, map<int, int>& mp) {
+        if(ps > pe || is > ie)
+            return NULL;
 
-        for (int i = 0; i < inorder.size(); i++) 
-            nodeToIndex[inorder[i]] = i;
+        TreeNode* root = new TreeNode(preorder[ps]);
 
-        return nodeToIndex;
-    }
+        int idxRoot = mp[preorder[ps]];
+        int numsOnLeft = idxRoot - is;
 
-    TreeNode* solve(vector<int>& preorder, vector<int>& inorder, int& preIndex, int inStart, int inEnd, map<int, int>& nodeToIndex) {
-        if (preIndex >= preorder.size() || inStart > inEnd) 
-            return nullptr;
-
-        int element = preorder[preIndex];
-        preIndex++;
-        TreeNode* root = new TreeNode(element);
-        int position = nodeToIndex[element];
-
-        root->left = solve(preorder, inorder, preIndex, inStart, position - 1, nodeToIndex);
-        root->right = solve(preorder, inorder, preIndex, position + 1, inEnd, nodeToIndex);
+        root->left = buildTreePreIn(inorder, is, idxRoot - 1, preorder, ps+1, ps + numsOnLeft, mp);
+        root->right = buildTreePreIn(inorder, idxRoot + 1, ie, preorder, ps + numsOnLeft + 1, pe, mp);
 
         return root;
     }
 
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int preorderIndex = 0;
-        map<int, int> nodeToIndex = createMapping(inorder);
+        if(inorder.size() != preorder.size())
+            return NULL;
 
-        return solve(preorder, inorder, preorderIndex, 0, inorder.size() - 1, nodeToIndex);
+        int ino = inorder.size();
+        int pre = preorder.size();
+
+        map<int, int> mp;
+
+        for(int i=0; i<ino; i++)
+            mp[inorder[i]] = i;
+
+        return buildTreePreIn(inorder, 0, ino -1, preorder, 0, pre - 1, mp);
     }
 };
