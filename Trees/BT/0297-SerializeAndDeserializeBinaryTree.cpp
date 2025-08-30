@@ -20,28 +20,71 @@ struct TreeNode {
 
 class Codec {
 public:
+    // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        if (!root)
-            return "null,";
+        string ans = "";
 
-        return to_string(root->val) + "," + serialize(root->left) + serialize(root->right);
+        if(!root)
+            return ans;
+
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while(!q.empty()) {
+            auto f = q.front();
+            q.pop();
+
+            if(f != NULL) {
+                ans += to_string(f->val);
+                ans += ",";
+            } else
+                ans += "#,";
+
+            if(f != NULL) {
+                q.push(f->left);
+                q.push(f->right);  
+            }
+        }
+        
+        return ans;
     }
 
-    TreeNode* buildTree(stringstream& ss) {
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        if(data.empty())
+            return NULL;
+
+        stringstream s(data);
         string str;
-        getline(ss, str, ',');
-        if (str == "null")
-            return nullptr;
+        getline(s, str, ',');
 
         TreeNode* root = new TreeNode(stoi(str));
-        root->left = buildTree(ss);
-        root->right = buildTree(ss);
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while(!q.empty()) {
+            auto f = q.front();
+            q.pop();
+
+            getline(s, str, ',');
+            if(str == "#")
+                f->left = NULL;
+            else {
+                TreeNode* leftNode = new TreeNode(stoi(str));
+                f->left = leftNode;
+                q.push(leftNode);
+            }
+
+            getline(s, str, ',');
+            if(str == "#")
+                f->right = NULL;
+            else {
+                TreeNode* rightNode = new TreeNode(stoi(str));
+                f->right = rightNode;
+                q.push(rightNode);
+            }
+        }
 
         return root;
-    }
-
-    TreeNode* deserialize(string data) {
-        stringstream ss(data);
-        return buildTree(ss);
     }
 };
