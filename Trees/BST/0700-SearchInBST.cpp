@@ -25,18 +25,18 @@ public:
     TreeNode* searchBST(TreeNode* root, int val) {
         if(!root)
             return NULL;
-        
-        TreeNode* temp = root;
 
-        while(temp != NULL) {
-            if(temp->val > val) 
-                temp = temp->left;
-            else if(temp->val < val)
-                temp = temp->right;
-            else
-                break;
+        TreeNode* curr = root;
+
+        while(curr) {
+            if(curr->val > val)
+                curr = curr->left;
+            else if(curr->val < val)
+                curr = curr->right;
+            else 
+                return curr;
         }
 
-        return temp;
+        return NULL;
     }
 };
