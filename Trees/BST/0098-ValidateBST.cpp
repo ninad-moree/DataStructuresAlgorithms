@@ -20,22 +20,16 @@ struct TreeNode {
 
 class Solution {
 public:
-    bool isBST(TreeNode* root, long long mini, long long maxi) {
-        if(root == NULL)
+    bool isValid(TreeNode* root, long maxi, long mini) {
+        if(!root)
             return true;
-
-        if (root->val < mini || root->val > maxi) 
+        
+        if(root->val >= maxi || root->val <= mini)
             return false;
-    
-        if(root->val > mini && root->val < maxi) {
-            bool left = isBST(root->left, mini, root->val);
-            bool right = isBST(root->right, root->val, maxi);
-            return left && right;
-        }
-
-        return false;
+        
+        return isValid(root->left, root->val, mini) && isValid(root->right, maxi, root->val);
     }
     bool isValidBST(TreeNode* root) {
-        return isBST(root, LLONG_MIN, LLONG_MAX);
+        return isValid(root, LLONG_MAX, LLONG_MIN);
     }
 };
