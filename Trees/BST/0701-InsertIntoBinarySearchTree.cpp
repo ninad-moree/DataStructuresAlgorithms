@@ -23,33 +23,30 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
-        TreeNode* newNode = new TreeNode(val);
+        TreeNode* node = new TreeNode(val);
 
-        if(root == NULL) {
-            root = newNode;
+        if(!root) {
+            root = node;
             return root;
         }
-        
-        TreeNode* curr = root;
-        TreeNode* prev = nullptr;
 
-        while(true) {
-            prev = curr;
-            if(val < prev->val) {
+        TreeNode* curr = root;
+        TreeNode* prev = NULL;
+
+        while(curr) {
+            if(curr->val < val) {
+                prev = curr;
+                curr =  curr->right;
+            } else {
+                prev = curr;
                 curr = curr->left;
-                if(curr == NULL) {
-                    prev->left = newNode;
-                    return root;
-                }
-            }
-            else {
-                curr = curr->right;
-                if(curr == NULL) {
-                    prev->right = newNode;
-                    return root;
-                }
             }
         }
+
+        if(prev->val > val)
+            prev->left = node;
+        else
+            prev->right = node;
 
         return root;
     }
