@@ -22,53 +22,51 @@ struct TreeNode {
 
 class Solution {
 public:
-    TreeNode* minVal(TreeNode* root) {
-        TreeNode* temp = root;
-        while(temp->left != NULL) 
-            temp = temp->left;
-        return temp;
+    TreeNode* findLastRight(TreeNode* root) {
+        if(!root->right)
+            return root;
+
+        return findLastRight(root->right);
+    }
+
+    TreeNode* deleteAndRearrange(TreeNode* root) {
+        if(!root->left)
+            return root->right;
+        else if (!root->right)
+            return root->left;
+
+        TreeNode* rightChild = root->right;
+        TreeNode* lastRight = findLastRight(root->left);
+        lastRight->right = rightChild;
+
+        return root->left;
     }
 
     TreeNode* deleteNode(TreeNode* root, int key) {
         if(root == NULL)
-            return root;
-        
-        if(root->val == key) {
-            //0 child
-            if(root->left == NULL && root->right == NULL) {
-                delete root;
-                return NULL;
-            }
+            return NULL;
 
-            //1 child
-            if(root->left != NULL && root->right == NULL) {
-                TreeNode* temp = root->left;
-                delete root;
-                return temp;
-            }
-            
-            if(root->left == NULL && root->right != NULL) {
-                TreeNode* temp = root->right;
-                delete root;
-                return temp;
-            }
+        if(root->val == key) 
+            return deleteAndRearrange(root);
 
-            // 2 child
-            if(root->left != NULL && root->right != NULL) {
-                int mini = minVal(root->right)->val;
-                root->val = mini;
-                root->right = deleteNode(root->right, mini);
-                return root;
+        TreeNode* node = root;
+
+        while(root != NULL) {
+            if(root->val > key) {
+                if(root->left != NULL && root->left->val == key) {
+                    root->left = deleteAndRearrange(root->left);
+                    break;
+                } else
+                    root = root->left;
+            } else {
+                if(root->right != NULL && root->right->val == key) {
+                    root->right = deleteAndRearrange(root->right);
+                    break;
+                } else
+                    root = root->right;
             }
         }
-        else if(root->val > key) {
-            root->left = deleteNode(root->left, key);
-            return root;
-        }
-        else {
-            root->right = deleteNode(root->right, key);
-            return root;
-        }
-        return root;
+
+        return node;
     }
 };
