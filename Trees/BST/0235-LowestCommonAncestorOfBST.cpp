@@ -24,18 +24,20 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(root == NULL)
+        if(!root)
             return root;
-
-        while(root != NULL) {
-            if(root->val < p->val && root->val < q->val)
-                root = root->right;
-            else if(root->val > p->val && root->val > q->val)
-                root = root->left;
-            else
-                return root;
-        }
         
-        return root;
+        TreeNode* curr = root;
+
+        while(true) {
+            if(curr->val < p->val && curr->val < q->val)
+                curr = curr->right;
+            else if(curr->val > p->val && curr->val > q->val)
+                curr = curr->left;
+            else
+                return curr;
+        }
+
+        return NULL;
     }
 };
