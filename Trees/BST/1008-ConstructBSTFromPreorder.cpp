@@ -22,27 +22,21 @@ struct TreeNode {
 
 class Solution {
 public:
-    TreeNode* solve(vector<int> pre, int mini, int maxi, int &i) {
-        if(i>=pre.size())
+    TreeNode* build(vector<int>& preorder, int& i, int upperbound) {
+        if(i == preorder.size() || preorder[i] > upperbound)
             return NULL;
 
-        if(pre[i] < mini || pre[i] > maxi)
-            return NULL;
-
-        TreeNode* root = new TreeNode(pre[i]);
+        TreeNode* root = new TreeNode(preorder[i]);
         i++;
 
-        root->left = solve(pre, mini, root->val, i);
-        root->right = solve(pre, root->val, maxi, i);
+        root->left = build(preorder, i, root->val);
+        root->right = build(preorder, i, upperbound);
 
         return root;
     }
-    
+
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        int mini = INT_MIN;
-        int maxi = INT_MAX;
         int i = 0;
-        
-        return solve(preorder, mini, maxi, i);    
+        return build(preorder, i, INT_MAX);
     }
 };
