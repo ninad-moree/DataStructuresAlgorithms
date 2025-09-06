@@ -20,39 +20,21 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : data(x), left(left), right(right) {}
 };
 
-pair<int, int> predecessorSuccessor(TreeNode *root, int key)
-{
-    // Write your code here.
-    int pred = -1;
-    int succ = -1;
-
-    TreeNode* pre = NULL;
-    TreeNode* suc = NULL;
-
-    TreeNode* temp1 = root;
-    while (temp1) {
-        if (temp1->data > key) {
-            suc = temp1;
-            temp1 = temp1->left;
+class Solution {
+public:
+    int inOrderSuccessor(TreeNode *root, TreeNode *x) {
+        TreeNode* succ = root;
+        int ans = -1;
+        
+        while(succ != NULL) {
+            if(succ->data <= x->data)
+                succ = succ->right;
+            else {
+                ans = succ->data;
+                succ = succ->left;
+            } 
         }
-        else
-            temp1 = temp1->right;
+        
+        return ans;
     }
-
-    TreeNode* temp2 = root;
-    while (temp2) {
-        if (temp2->data < key) {
-            pre = temp2;
-            temp2 = temp2->right;
-        }
-        else
-            temp2 = temp2->left;
-    }
-
-    if(pre != NULL)
-        pred = pre->data;
-    if(suc != NULL)
-        succ = suc->data;
-
-    return {pred, succ};
-}
+};
