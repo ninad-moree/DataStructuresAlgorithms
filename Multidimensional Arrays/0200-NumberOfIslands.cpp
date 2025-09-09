@@ -1,7 +1,7 @@
 /*
-    Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
-    An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all 
-    four edges of the grid are all surrounded by water.
+    Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded 
+    by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by 
+    water.
 
     Example 1:
     Input: grid = [
@@ -18,38 +18,50 @@ using namespace std;
 
 class Solution {
 public:
-    void dfs(vector<vector<char>>& grid, int i, int j) {
-        int rows = grid.size();
-        int cols = grid[0].size();
+    void bfs(int row, int col, vector<vector<int>> &vis, vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size(); 
         
-        if (i < 0 || i >= rows || j < 0 || j >= cols || grid[i][j] == '0') 
-            return;
+        queue<pair<int, int>> q;
+        q.push({row, col});
+        vis[row][col] = 1;
+
+        int drow[4] = {-1, 0, 1, 0};
+        int dcol[4] = {0, 1, 0, -1};
         
-        grid[i][j] = '0';
-        
-        dfs(grid, i + 1, j); // Down
-        dfs(grid, i - 1, j); // Up
-        dfs(grid, i, j + 1); // Right
-        dfs(grid, i, j - 1); // Left
+        while(!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            
+            for(int k=0; k<4; k++) {
+                int nx = x + drow[k];
+                int ny = y + dcol[k];
+                
+                if(nx>=0 && nx<m && ny>=0 && ny<n && !vis[nx][ny] && grid[nx][ny] == '1') {
+                    vis[nx][ny] = 1;
+                    q.push({nx, ny});
+                }
+            }
+        }
     }
 
     int numIslands(vector<vector<char>>& grid) {
-        if (grid.empty()) 
-            return 0;
+        int ans = 0;
+        int row = grid.size();
+        int col = grid[0].size();
         
-        int rows = grid.size();
-        int cols = grid[0].size();
-        int islands = 0;
+        vector<vector<int>> vis(row, vector<int>(col, 0));
         
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                if (grid[i][j] == '1') {
-                    ++islands;
-                    dfs(grid, i, j);
+        for(int i=0; i<row; i++) {
+            for(int j=0; j<col; j++) {
+                if(!vis[i][j] && grid[i][j] == '1') {
+                    ans++;
+                    bfs(i, j, vis, grid);
                 }
             }
         }
         
-        return islands;
+        return ans;
     }
 };
