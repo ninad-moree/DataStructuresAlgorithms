@@ -17,41 +17,31 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-        int n = image.size();
-        int m = image[0].size();
+    void dfs(int row, int col, vector<vector<int>>& image, vector<vector<int>>& ans, int dx[], int dy[], int newColor, int prevColor) {
+        ans[row][col] = newColor;
+        int m = image.size();
+        int n = image[0].size();
 
-        queue<pair<int, int>> q;
-        vector<vector<int>> vis(n, vector<int>(m, 0));
-        q.push({sr, sc});
-        vis[sr][sc] = 1;
-        int c = image[sr][sc];
-        image[sr][sc] = color;
+        for(int i=0; i<4; i++) {
+            int nrow = row + dx[i];
+            int ncol = col + dy[i];
 
-        vector<pair<int, int>> dir = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
-        while(!q.empty()) {
-            int s = q.size();
-
-            for(int i=0; i<s; i++) {
-                auto f = q.front();
-                q.pop();
-                int x = f.first;
-                int y = f.second;
-
-                for(auto d : dir) {
-                    int newX = x + d.first;
-                    int newY = y + d.second;
-
-                    if(newX>=0 && newX<n && newY>=0 && newY<m && image[newX][newY] == c && !vis[newX][newY]) {
-                        vis[newX][newY] = 1;
-                        image[newX][newY] = color;
-                        q.push({newX, newY});
-                    }
-                }
-            }
+            if(nrow >= 0 && nrow < m && ncol >=0 && ncol < n && image[nrow][ncol] == prevColor && ans[nrow][ncol] != newColor)
+                dfs(nrow, ncol, image, ans, dx, dy, newColor, prevColor);
         }
+    }
+    
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        vector<vector<int>> ans = image;
 
-        return image;
+        int m = image.size();
+        int n = image[0].size();
+        int prevColor = image[sr][sc];
+        int dx[] = {-1, 0, 1, 0};
+        int dy[] = {0, 1, 0, -1};
+
+        dfs(sr, sc, image, ans, dx, dy, color, prevColor);
+
+        return ans;
     }
 };
