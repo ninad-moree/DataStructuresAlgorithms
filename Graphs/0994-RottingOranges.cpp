@@ -17,49 +17,52 @@ using namespace std;
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-
+        vector<vector<int>> ans = grid;
         queue<pair<int, int>> q;
 
-        int fresh = 0;
-        int time = 0;
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        int dx[] = {-1, 0, 1, 0};
+        int dy[] = {0, 1, 0, -1};
 
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<m; j++) {
-                if(grid[i][j] == 2)
+        int time = 0;
+        int fresh = 0;
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] == 2) 
                     q.push({i, j});
                 else if(grid[i][j] == 1)
                     fresh++;
             }
         }
 
-        vector<pair<int, int>> dir = {{1, 0}, {-1, 0}, {0, -1}, {0, 1}};
+        if(fresh == 0)
+            return 0;
 
-        while(!q.empty() && fresh>0) {
+        while(!q.empty()) {
             int s = q.size();
+            time++;
 
-            for(int i=0; i<s; i++) {
-                auto p = q.front();
-                int x = p.first;
-                int y = p.second;
+            while(s--) {
+                int x = q.front().first;
+                int y = q.front().second;
                 q.pop();
 
-                for(auto j : dir) {
-                    int newX = x + j.first;
-                    int newY = y + j.second;
+                for(int i=0; i<4; i++) {
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
 
-                    if(newX>=0 && newX<n && newY>=0 && newY<m && grid[newX][newY] == 1) {
-                        grid[newX][newY] = 2;
+                    if(nx >= 0 && nx < m && ny >= 0 && ny < n && ans[nx][ny] == 1) {
+                        ans[nx][ny] = 2;
                         fresh--;
-                        q.push({newX, newY});
+                        q.push({nx, ny});
                     }
-                } 
+                }
             }
-
-            time++;
         }
 
-        return fresh > 0 ? -1 : time;
+        return fresh > 0 ? -1 : time - 1;
     }
 };
