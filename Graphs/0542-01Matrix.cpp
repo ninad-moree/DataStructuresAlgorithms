@@ -12,42 +12,39 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int n = mat.size();
-        int m = mat[0].size();
+        int m = mat.size();
+        int n = mat[0].size();
 
-        vector<vector<int>> ans(n, vector<int>(m, 0));
-        vector<vector<int>> vis(n, vector<int>(m, 0));
+        vector<vector<int>> ans(m, vector<int>(n, 0));
+        vector<vector<int>> vis(m, vector<int>(n, 0));
+        queue<pair<pair<int, int>, int>> q;
 
-        queue<pair<int, pair<int, int>>> q;
-
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<m; j++) {
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
                 if(mat[i][j] == 0) {
-                    q.push({0, {i, j}});
+                    q.push({{i, j}, 0});
                     vis[i][j] = 1;
-                } else
-                    vis[i][j] = 0;
+                }
             }
         }
 
-        vector<pair<int, int>> dir = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+        int dx[] = {-1, 0, 1, 0};
+        int dy[] = {0, 1, 0, -1};
 
         while(!q.empty()) {
-            auto f = q.front();
+            int x = q.front().first.first;
+            int y = q.front().first.second;
+            int steps = q.front().second;
+            ans[x][y] = steps;
             q.pop();
 
-            int dist = f.first;
-            int x = f.second.first;
-            int y = f.second.second;
-            
-            for(auto d : dir) {
-                int newX = x + d.first;
-                int newY = y + d.second;
+            for(int i=0; i<4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
 
-                if(newX>=0 && newX<n && newY>=0 && newY<m && !vis[newX][newY]) {
-                    q.push({dist+1, {newX, newY}});
-                    vis[newX][newY] = 1;
-                    ans[newX][newY] = dist+1;
+                if(nx >= 0 && nx < m && ny >= 0 && ny < n && !vis[nx][ny]) {
+                    q.push({{nx, ny}, steps+1});
+                    vis[nx][ny] = 1;
                 }
             }
         }
