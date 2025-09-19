@@ -18,43 +18,37 @@ using namespace std;
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<int> indegree(numCourses, 0);
         vector<vector<int>> adj(numCourses);
-
-        for(int i=0; i<prerequisites.size(); i++) {
-            int e1 = prerequisites[i][0];
-            int e2 = prerequisites[i][1];
-
-            indegree[e2]++;
-            adj[e1].push_back(e2);
+        for(auto i : prerequisites) 
+            adj[i[0]].push_back(i[1]);
+        
+        vector<int> indegree(numCourses);
+        for(int i=0; i<numCourses; i++) {
+            for(auto j : adj[i])
+                indegree[j]++;
         }
 
-        vector<int> res;
         queue<int> q;
-
-        for(int i=0; i<indegree.size(); i++) {
+        for(int i=0; i<numCourses; i++) {
             if(indegree[i] == 0)
                 q.push(i);
         }
 
-        if(q.size() == 0)
-            return false;
-
+        vector<int> topo;
         while(!q.empty()) {
-            auto f = q.front();
+            int node = q.front();
             q.pop();
+            topo.push_back(node);
 
-            res.push_back(f);
-
-            for(auto i : adj[f]) {
+            for(auto i : adj[node]) {
                 indegree[i]--;
                 if(indegree[i] == 0)
                     q.push(i);
             }
         }
 
-        if(res.size() != numCourses)
-            return false;
-        return true;
+        if(topo.size() == numCourses)
+            return true;
+        return false;
     }
 };
