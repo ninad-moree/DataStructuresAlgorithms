@@ -17,39 +17,37 @@ using namespace std;
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        vector<int> outD(graph.size(), 0);
-        vector<vector<int>> revGraph(graph.size());
+        vector<vector<int>> adj(graph.size());
+        vector<int> indegree(graph.size(), 0);
 
         for(int i=0; i<graph.size(); i++) {
-            for(int j=0; j<graph[i].size(); j++) {
-                revGraph[graph[i][j]].push_back(i);
-                outD[i]++;
+            for(auto j : graph[i]) {
+                adj[j].push_back(i);
+                indegree[i]++;
             }
         }
 
         queue<int> q;
-        for(int i=0; i<outD.size(); i++) {
-            if(outD[i] == 0)
+        vector<int> ans;
+
+        for(int i=0; i<adj.size(); i++) {
+            if(indegree[i] == 0)
                 q.push(i);
         }
 
-        vector<int> ans;
-
         while(!q.empty()) {
-            int f = q.front();
+            int node = q.front();
             q.pop();
+            ans.push_back(node);
 
-            ans.push_back(f);
-
-            for(auto i : revGraph[f]) {
-                outD[i]--;
-                if(outD[i] == 0)
+            for(auto i : adj[node]) {
+                indegree[i]--;
+                if(indegree[i] == 0)
                     q.push(i);
             }
         }
 
         sort(ans.begin(), ans.end());
-
         return ans;
     }
 };
