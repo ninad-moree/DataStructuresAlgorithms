@@ -18,8 +18,6 @@ using namespace std;
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        int ans = 0;
-
         queue<pair<string, int>> q;
         q.push({beginWord, 1});
 
