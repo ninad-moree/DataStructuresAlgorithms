@@ -15,47 +15,42 @@ using namespace std;
 class Solution {
 public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> dist(m, vector<int>(m, INT_MAX));
+        queue<pair<int, pair<int, int>>> q; // {distance, {x, y}}
 
-        if(grid[0][0] == 1 || grid[n-1][m-1] == 1)
+        if(grid[0][0] == 1 || grid[m-1][n-1] == 1)
             return -1;
 
-        vector<vector<int>> vis(n, vector<int>(m, 0));
-        queue<pair<int, int>> q;
+        if(m == 1 && n == 1)
+            return 1;
 
-        q.push({0, 0});
-        vis[0][0] = 1;
-
-        vector<pair<int, int>> dir = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, 1}, {-1, -1}, {1, -1}};
-        
-        int ans = 1;
+        q.push({0, {0, 0}});
+        dist[0][0] = 0;
 
         while(!q.empty()) {
-            int s = q.size();
+            int dis = q.front().first;
+            int x = q.front().second.first;
+            int y = q.front().second.second;
+            q.pop();
 
-            for(int i=0; i<s; i++) {
-                auto f = q.front();
-                q.pop();
-                
-                int x = f.first;
-                int y = f.second;
-
-                if(x == n-1 && y == m-1)
-                    return ans;
-
-                for(auto d : dir) {
-                    int newX = x + d.first;
-                    int newY = y + d.second;
-
-                    if(newX>=0 && newX<n && newY>=0 && newY<m && !vis[newX][newY] && grid[newX][newY] == 0) {
-                        vis[newX][newY] = true;
-                        q.push({newX, newY});
+            for(int i=-1; i<=1; i++) {
+                for(int j=-1; j<=1; j++) {
+                    int nx = x + i;
+                    int ny = y + j;
+                    
+                    if(nx>=0 && nx<m && ny>=0 && ny<n && grid[nx][ny] != 1) {
+                        if(dis + 1 < dist[nx][ny]) {
+                            dist[nx][ny] = dis + 1;
+                            q.push({dist[nx][ny], {nx, ny}});
+                            
+                            if(nx == m-1 && ny == n-1)
+                                return dist[nx][ny] + 1;
+                        }
                     }
                 }
             }
-
-            ans++;
         }
 
         return -1;
