@@ -19,58 +19,30 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* getMid(ListNode* head) {
-        ListNode* slow = head;
-        ListNode* fast = head->next;
-        while(fast != NULL && fast->next!=NULL) {
-            fast = fast->next->next;
-            slow = slow->next;
+    struct Cmp {
+        bool operator()(pair<int, ListNode*>& p1, pair<int, ListNode*>& p2) {
+            return p1.first > p2.first;
         }
-        return slow;
-    }
+    };
 
-    ListNode* merge(ListNode* left, ListNode* right) {
-        if(left == NULL) return right;
-        if(right == NULL) return left;
-
-        ListNode* ansHead = new ListNode(-1);
-        ListNode* ansTail = ansHead;
-        while(left != NULL && right != NULL) {
-            if(left->val < right->val) {
-                ansTail->next = left;
-                ansTail = left;
-                left = left->next;
-            } 
-            else {
-                ansTail->next = right;
-                ansTail = right;
-                right = right->next;
-            }
-        }
-        while(left != NULL) {
-            ansTail->next = left;
-            ansTail = left;
-            left = left->next;
-        }
-        while(right != NULL) {
-            ansTail->next = right;
-            ansTail = right;
-            right = right->next;
-        }
-        return ansHead->next;
-    }
     ListNode* sortList(ListNode* head) {
-        if(head == NULL || head->next == NULL) return head;
+        priority_queue<pair<int, ListNode*>, vector<pair<int, ListNode*>>, Cmp> pq;
 
-        ListNode* mid = getMid(head);
-        ListNode* left = head;
-        ListNode* right = mid->next;
-        mid->next = NULL;
+        ListNode* curr = head;
+        while(curr != NULL) {
+            pq.push({curr->val, curr});
+            curr = curr->next;
+        }
 
-        left = sortList(left);
-        right = sortList(right);
+        ListNode* ans = new ListNode(0, NULL);
+        ListNode* ansHead = ans;
+        while(!pq.empty()) {
+            ans->next = pq.top().second;
+            ans = ans->next;
+            pq.pop();
+        }
+        ans->next = NULL;
 
-        ListNode* result = merge(left, right);
-        return result;
+        return ansHead->next;
     }
 };
