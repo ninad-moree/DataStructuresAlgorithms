@@ -15,45 +15,45 @@ using namespace std;
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<int> dist(n+1, INT_MAX);
         vector<vector<pair<int, int>>> adj(n+1);
-
-        dist[0] = -1;
-
         for(int i=0; i<times.size(); i++) {
             int u = times[i][0];
             int v = times[i][1];
-            int w = times[i][2];
+            int wt = times[i][2];
 
-            adj[u].push_back({v, w});
+            adj[u].push_back({v, wt});
         }
 
-        queue<pair<int, int>> q;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        vector<int> dist(n+1, INT_MAX);
+
+        pq.push({0, k});
         dist[k] = 0;
-        q.push({k, 0});
 
-        while(!q.empty()) {
-            auto f = q.front();
-            q.pop();
-
-            int node = f.first;
-            int weight = f.second;
+        while(!pq.empty()) {
+            int node = pq.top().second;
+            int time = pq.top().first;
+            pq.pop();
 
             for(auto i : adj[node]) {
                 int v = i.first;
-                int w = i.second;
+                int t = i.second;
 
-                if(w + weight < dist[v]) {
-                    dist[v] = w +weight;
-                    q.push({v, dist[v]});
+                if(dist[v] > time + t) {
+                    dist[v] = time + t;
+                    pq.push({dist[v], v});
                 }
             }
         }
 
-        int ans = dist[1];
-        for(auto i : dist) 
-            ans = max(ans, i); 
-        
-        return ans == INT_MAX ? -1 : ans;
+        int ans = INT_MIN;
+        for(int i=1; i<dist.size(); i++) {
+            if(dist[i] == INT_MAX)
+                return -1;
+            else 
+                ans = max(ans, dist[i]);
+        }
+
+        return ans;
     }
 };
