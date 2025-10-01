@@ -18,37 +18,36 @@ using namespace std;
 class Solution {
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int n = heights.size();
-        int m = heights[0].size();
+        int m = heights.size();
+        int n = heights[0].size();
 
         priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
-
-        vector<vector<int>> effort(n, vector<int>(m, INT_MAX));
-        effort[0][0] = 0;
+        vector<vector<int>> effort(m, vector<int>(n, INT_MAX));
 
         pq.push({0, {0, 0}});
+        effort[0][0] = 0;
 
-        vector<pair<int, int>> dir = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        int dx[4] = {-1, 0, 1, 0};
+        int dy[4] = {0, 1, 0, -1};
 
         while(!pq.empty()) {
-            auto f = pq.top();
-            int ef = f.first;
-            int x = f.second.first;
-            int y = f.second.second;
+            int eff = pq.top().first;
+            int x = pq.top().second.first;
+            int y = pq.top().second.second;
             pq.pop();
 
-            if(x == n-1 && y == m-1)
-                return ef;
+            if(x == m-1 && y == n-1)
+                return eff;
 
-            for(auto d : dir) {
-                int newX = x + d.first;
-                int newY = y + d.second;
+            for(int i=0; i<4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
 
-                if(newX>=0 && newX<n && newY>=0 && newY<m) {
-                    int currEff = max(abs(heights[newX][newY] - heights[x][y]), ef);
-                    if(currEff < effort[newX][newY]) {
-                        effort[newX][newY] = currEff;
-                        pq.push({currEff, {newX, newY}});
+                if(nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int currEffort = max(eff, abs(heights[nx][ny] - heights[x][y]));
+                    if(currEffort < effort[nx][ny]) {
+                        effort[nx][ny] = currEffort;
+                        pq.push({effort[nx][ny], {nx, ny}});
                     }
                 }
             }
