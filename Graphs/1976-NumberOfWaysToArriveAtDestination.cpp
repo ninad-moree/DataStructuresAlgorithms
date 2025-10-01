@@ -23,46 +23,44 @@ using namespace std;
 class Solution {
 public:
     int countPaths(int n, vector<vector<int>>& roads) {
-        const long long MOD = 1e9 + 7;
+        int mod = 1e9 + 7;
 
-        vector<long long> dist(n, LLONG_MAX);
-        vector<long long> ways(n, 0);
-        vector<vector<pair<int, int>>> adj(n);  
-
+        vector<vector<pair<int, int>>> adj(n);
         for(int i=0; i<roads.size(); i++) {
             int u = roads[i][0];
             int v = roads[i][1];
-            int w = roads[i][2];
+            int wt = roads[i][2];
 
-            adj[u].push_back({v, w});
-            adj[v].push_back({u, w});
+            adj[u].push_back({v, wt});
+            adj[v].push_back({u, wt});
         }
 
-        priority_queue<pair<long long, long long>, vector<pair<long long, long long>>, greater<pair<long long, long long>>> pq;
+        priority_queue<pair<long long, long long>, vector<pair<long long, long long>>, greater<pair<long long, long long>>> pq; // {dist, node}
+        vector<long long> dist(n, LLONG_MAX);
+        vector<long long> ways(n, 0);
+
         pq.push({0, 0});
         dist[0] = 0;
         ways[0] = 1;
 
-        while (!pq.empty()) {
-            auto f = pq.top();
+        while(!pq.empty()) {
+            long long node = pq.top().second;
+            long long dis = pq.top().first;
             pq.pop();
 
-            long long weight = f.first;
-            long long node = f.second;
-
-            for (auto i : adj[node]) {
+            for(auto i : adj[node]) {
                 long long v = i.first;
-                long long w = i.second;
+                long long wt = i.second;
 
-                if(w + weight < dist[v]) {
-                    dist[v] = w + weight;
+                if(dist[v] > dis + wt) {
+                    dist[v] = dis + wt;
                     pq.push({dist[v], v});
                     ways[v] = ways[node];
-                } else if(w + weight == dist[v]) 
-                    ways[v] = (ways[v] + ways[node])%MOD;
+                } else if(dist[v] == dis + wt) 
+                    ways[v] = (ways[v] + ways[node]) % mod;
             }
         }
 
-        return ways[n - 1] % MOD;
+        return ways[n-1] % mod;
     }
 };
