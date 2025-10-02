@@ -21,71 +21,47 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> dijkstras(int node, vector<vector<pair<int, int>>> adj, int n) {
-        vector<int> dist(n, INT_MAX);
-        queue<pair<int, int>> q;
-        q.push({node, 0});
-        dist[node] = 0;
-
-        while(!q.empty()) {
-            auto f = q.front();
-            q.pop();
-
-            int n = f.first;
-            int w = f.second;
-
-            for(auto i : adj[n]) {
-                int v = i.first;
-                int wt = i.second;
-
-                if(w + wt < dist[v]) {
-                    dist[v] = w + wt;
-                    q.push({v, dist[v]});
-                }
-            }
-        }
-
-        return dist;
-    }
-
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        vector<vector<pair<int, int>>> adj(n);
+        vector<vector<int>> dist(n, vector<int>(n, INT_MAX));
+
         for(int i=0; i<edges.size(); i++) {
             int u = edges[i][0];
             int v = edges[i][1];
             int w = edges[i][2];
 
-            adj[u].push_back({v, w});
-            adj[v].push_back({u, w});
+            dist[u][v] = w;
+            dist[v][u] = w;
         }
 
-        vector<vector<int>> dist(n, vector<int>(n, INT_MAX));
-        
-        for(int i=0; i<n; i++) {
-            vector<int> d = dijkstras(i, adj, n);
-            dist[i] = d;
+        for(int i=0; i<n; i++)
+            dist[i][i] = 0;
+
+        for(int k=0; k<n; k++) {
+            for(int i=0; i<n; i++) {
+                for(int j=0; j<n; j++) {
+                    if(dist[i][k] != INT_MAX && dist[k][j] != INT_MAX)
+                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
         }
 
-        vector<pair<int, int>> city;
+        int cntCity = n;
+        int cityNo = -1;
 
-        for(int i=0; i<n; i++) {
+        for(int city=0; city<n; city++) {
             int cnt = 0;
-            for(int j=0; j<n; j++) {
-                if(dist[i][j] <= distanceThreshold && dist[i][j] != 0)
+
+            for(int adjCity=0; adjCity<n; adjCity++) {
+                if(dist[city][adjCity] <= distanceThreshold)
                     cnt++;
             }
-            city.push_back({i, cnt});
+
+            if(cnt <= cntCity) {
+                cntCity = cnt;
+                cityNo = city;
+            }
         }
 
-        int mini = INT_MAX;
-        int ans = INT_MIN;
-
-        for(auto i : city) {
-            mini = min(mini, i.second);
-            if(mini == i.second)
-                ans = max(ans, i.first);
-        }
-
-        return ans;
+        return cityNo;
     }
 };
