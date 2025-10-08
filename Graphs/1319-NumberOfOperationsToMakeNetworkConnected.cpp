@@ -14,38 +14,66 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class Solution {
-public:
-    void dfs(int node, vector<bool>& visited, vector<vector<int>>& adj) {
-        visited[node] = true;
+class DisjointSet {
+    public:
+    vector<int> size, parent;
 
-        for(auto i : adj[node]) {
-            if(!visited[i]) 
-                dfs(i, visited, adj);
-        }
+    DisjointSet(int n) {
+        size.resize(n+1, 0); // For both 0-based and 1-based indexing
+        parent.resize(n+1);
+        for(int i=0; i<=n; i++)
+            parent[i] = i;
     }
 
-    int makeConnected(int n, vector<vector<int>>& connections) {
-        if(connections.size() < n-1)
-            return -1;
+    int findUParent(int node) {
+        if(node == parent[node])
+            return node;
+        return parent[node] = findUParent(parent[node]); // Path Compression
+    }
 
-        int ans = 0;
-        vector<bool> vis(n, false);
+    void unionBySize(int u, int v) {
+        int ultimateParentU = findUParent(u); // ultimate parent of u
+        int ultimateParentV = findUParent(v); // ultimate parent of v
 
-        vector<vector<int>> adj(n);
-        for(auto i : connections) {
-            adj[i[0]].push_back(i[1]);
-            adj[i[1]].push_back(i[0]);
+        if(ultimateParentU == ultimateParentV)
+            return;
+
+        if(size[ultimateParentU] < size[ultimateParentV]) {
+            parent[ultimateParentU] = ultimateParentV;
+            size[ultimateParentV] += size[ultimateParentU];
+        } else {
+            parent[ultimateParentV] = ultimateParentU;
+            size[ultimateParentU] += size[ultimateParentV];
         }
-
-        for(int i=0; i<n; i++) {
-            if(!vis[i]) {
-                ans++;
-                dfs(i, vis, adj);
-            }
-        }
-
-        return ans-1;
     }
 };
 
+class Solution {
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        DisjointSet ds(n);
+        int extraEdges = 0;
+
+        for(auto i : connections) {
+            int u = i[0];
+            int v = i[1];
+
+            if(ds.findUParent(u) == ds.findUParent(v))
+                extraEdges++;
+            else
+                ds.unionBySize(u, v);
+        }
+
+        int components = 0;
+        for(int i=0; i<n; i++) {
+            if(ds.parent[i] == i)
+                components++;
+        }
+
+        int ans = components - 1;
+
+        if(extraEdges >= ans)
+            return ans;
+        return -1;
+    }
+};
