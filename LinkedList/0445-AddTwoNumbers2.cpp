@@ -63,6 +63,7 @@ public:
 
         ListNode* result = reverseList(dummy->next);
         delete dummy; 
+        
         return result;
     }
 };
