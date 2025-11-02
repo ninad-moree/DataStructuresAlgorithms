@@ -23,6 +23,9 @@ struct ListNode {
 class Solution {
 public:
     ListNode* modifiedList(vector<int>& nums, ListNode* head) {
+        if(!head)
+            return head;
+            
         unordered_map<int, int> mp;
         for(auto i : nums)
             mp[i]++;
@@ -32,13 +35,12 @@ public:
 
         while(temp) {
             if(mp.find(temp->val) != mp.end()) {
-                if(temp == head) {
+                ListNode* deleteNode = temp;
+                if(deleteNode == head) {
                     head = head->next;
-                    delete(temp);
                     temp = head;
                 } else {
                     prev->next = temp->next;
-                    delete(temp);
                     temp = prev->next;
                 }
             } else {
