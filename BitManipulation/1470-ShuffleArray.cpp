@@ -14,17 +14,22 @@ using namespace std;
 class Solution {
 public:
     vector<int> shuffle(vector<int>& nums, int n) {
-        vector<int> ans;
+        vector<int> ans(2*n);
 
-        int i=0;
-        int j=n;
-        int k=0;
-
-        while(j<2*n) {
-            ans.push_back(nums[i]);
-            ans.push_back(nums[j]);
+        int i = 0;
+        int j = n;
+        int k = 0;
+        
+        while(j < 2*n) {
+            ans[k] = nums[i];
             i++;
+
+            k++;
+
+            ans[k] = nums[j];
             j++;
+
+            k++;
         }
 
         return ans;
