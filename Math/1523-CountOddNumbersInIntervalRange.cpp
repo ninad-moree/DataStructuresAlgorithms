@@ -13,14 +13,13 @@ using namespace std;
 class Solution {
 public:
     int countOdds(int low, int high) {
-        if(low == high && low%2==0)
-            return 0;
-            
-        if (low % 2 == 0) 
-            low++;
+        int ans = 0;
 
-        int count = (high - low) / 2 + 1;
+        for(int i=low; i<=high; i++) {
+            if(i%2 != 0)
+                ans++;
+        }
 
-        return count;
+        return ans;
     }
 };
