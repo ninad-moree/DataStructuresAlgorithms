@@ -1,7 +1,6 @@
 /*
-    Given an integer array nums of unique elements, return all possible 
-    subsets (the power set).
-    The solution set must not contain duplicate subsets. Return the solution in any order.
+    Given an integer array nums of unique elements, return all possible subsets (the power set). The solution set must not contain duplicate subsets. Return the solution in any 
+    order.
 
     Example 1:
     Input: nums = [1,2,3]
@@ -13,27 +12,28 @@ using namespace std;
 
 class Solution {
 public:
-    void solve(vector<int> nums, vector<int> output, int index, vector<vector<int>>&ans) {
-        if(index>=nums.size()) {
-            ans.push_back(output);
+    void solve(int index, vector<int>& arr, vector<int> nums, int n, vector<vector<int>>& ans) {
+        if(index >= n) {
+            ans.push_back(arr);
             return;
         }
 
-        solve(nums, output, index+1, ans);
+        arr.push_back(nums[index]);
+        solve(index+1, arr, nums, n, ans);
+        arr.pop_back();
 
-        int ele = nums[index];
-        output.push_back(ele);
-        
-        solve(nums, output, index+1, ans);
+        solve(index+1, arr, nums, n, ans);
     }
 
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> ans;
-        vector<int>output;
+        vector<int> arr;
 
-        int index=0;
+        int index = 0;
+        int n = nums.size();
 
-        solve(nums, output, index, ans);
+        solve(index, arr, nums, n, ans);
+
         return ans;
     }
 };
