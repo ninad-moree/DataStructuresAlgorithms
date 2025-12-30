@@ -44,6 +44,39 @@ class Solution {
         return true;
     }
 
+    bool isSafe2(int row, int col, vector<string>& board, int n) {
+        int upperDiagonalRow = row;
+        int upperDiagonalCol = col;
+
+        while(row>=0 && col>=0) {
+            if(board[row][col] == 'Q')
+                return false;
+            row--;
+            col--;
+        }
+
+        col = upperDiagonalCol;
+        row = upperDiagonalRow;
+
+        while(col >= 0) {
+            if(board[row][col] == 'Q')
+                return false;
+            col--;
+        }
+
+        col = upperDiagonalCol;
+        row = upperDiagonalRow;
+
+        while(row<n && col>=0) {
+            if(board[row][col] == 'Q')
+                return false;
+            row++;
+            col--;
+        }
+
+        return true;
+    }
+
     void solve(int row, vector<vector<string>>& ans, vector<vector<string>>& board, int n) {
         if(row == n) {
             addSolution(board, ans);
