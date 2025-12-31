@@ -11,21 +11,27 @@ using namespace std;
 
 class Solution {
 public:
-    void dfs(int openP, int closeP, string s, int n, vector<string>& res) {
-        if (openP == closeP && openP + closeP == n * 2) {
-            res.push_back(s);
+    void solve(int n, int open, int close, string str, vector<string>& ans) {
+        if(2*n == str.size()) {
+            ans.push_back(str);
             return;
         }
 
-        if (openP < n) 
-            dfs(openP + 1, closeP, s + "(", n, res);
-        if (closeP < openP) 
-            dfs(openP, closeP + 1, s + ")", n, res);
+        if(open < n)
+            solve(n, open + 1, close, str + '(', ans);
+
+        if(close < open)
+            solve(n, open, close + 1, str + ')', ans);
     }
 
     vector<string> generateParenthesis(int n) {
         vector<string> ans;
-        dfs(0, 0, "", n, ans);
+        string str = "";
+        int open = 0;
+        int close = 0;
+
+        solve(n, open, close, str, ans);
+
         return ans;
     }
 };
