@@ -16,45 +16,44 @@ using namespace std;
 
 class Solution {
 public:
-    int solve(vector<int> nums) {
+    int robTabulation(vector<int>& nums) {
         int n = nums.size();
 
-        if (n == 0)
-            return 0;
-        if (n == 1) 
-            return nums[0];
-
-        int prev = 0;
-        int temp = nums[0];
-
+        vector<int> dp(n, -1);
+        dp[0] = nums[0];
+        
         for(int i=1; i<n; i++) {
-            int curr = max(prev + nums[i], temp);
-            prev = temp;
-            temp = curr;
+            int pick = nums[i];
+            if(i > 1)
+                pick += dp[i-2];
+            
+            int notPick = dp[i-1];
+
+            dp[i] = max(pick, notPick);
         }
 
-        return temp;
+        return dp[n-1];
     }
 
     int rob(vector<int>& nums) {
         int n = nums.size();
 
-        if(n == 0)
-            return 0;
         if(n == 1)
             return nums[0];
 
-        vector<int> a1(nums.size()-1);
-        for(int i=0; i<nums.size()-1; i++) 
-            a1[i] = nums[i];
+        vector<int> temp1;
+        vector<int> temp2;
 
-        vector<int> a2(nums.size()-1);
-        for(int i=1; i<nums.size(); i++) 
-            a2[i-1] = nums[i];
+        for(int i=0; i<n; i++) {
+            if(i != 0)
+                temp1.push_back(nums[i]);
+            if(i != n-1)
+                temp2.push_back(nums[i]);
+        }
+            
+        int ans1 = robTabulation(temp1);
+        int ans2 = robTabulation(temp2);
 
-        int c1 = solve(a1);
-        int c2 = solve(a2);
-
-        return max(c1, c2);
+        return max(ans1, ans2);
     }
 };
