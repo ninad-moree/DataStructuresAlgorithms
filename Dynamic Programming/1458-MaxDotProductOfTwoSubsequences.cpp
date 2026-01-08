@@ -24,12 +24,12 @@ public:
         int prod = INT_MIN;
 
         int takeBoth = solve(i+1, j+1, nums1, nums2, dp);
-        int take1 = solve(i+1, j, nums1, nums2, dp);
-        int take2 = solve(i, j+1, nums1, nums2, dp);
+        int skip1 = solve(i+1, j, nums1, nums2, dp); // skips from array nums1 and takes from nums2
+        int skip2 = solve(i, j+1, nums1, nums2, dp); // skips from array nums2 and takes from nums1
 
         prod = max(prod, nums1[i] * nums2[j] + max(0, takeBoth));
-        prod = max(prod, take1);
-        prod = max(prod, take2);
+        prod = max(prod, skip1);
+        prod = max(prod, skip2);
 
         return dp[i][j] = prod;
     }
