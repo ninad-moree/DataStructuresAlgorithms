@@ -14,32 +14,40 @@ using namespace std;
 
 class Solution {
 public:
+    int solve(int row, int col, vector<vector<int>>& matrix, vector<vector<int>>& dp) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+
+        if(col < 0 || col >= m)
+            return 1e9;
+        if(row == 0)
+            return matrix[row][col];
+
+        if(dp[row][col] != INT_MAX)
+            return dp[row][col];
+
+        int diagLeft = matrix[row][col] + solve(row-1, col-1, matrix, dp);
+        int up = matrix[row][col] + solve(row-1, col, matrix, dp);
+        int diagRight = matrix[row][col] + solve(row-1, col+1, matrix, dp);
+
+        return dp[row][col] = min(diagLeft, min(diagRight, up));
+    }
+
     int minFallingPathSum(vector<vector<int>>& matrix) {
         int n = matrix.size();
         int m = matrix[0].size();
 
-        vector<vector<int>> dp(n, vector<int>(m));
+        if(n == 1)
+            return matrix[0][0];
 
-        for(int i=0; i<m; i++) 
-            dp[n-1][i] = matrix[n-1][i];
-        
-        for(int i=n-2; i>=0; i--) {
-            for(int j=0; j<m; j++) {
-                int a=INT_MAX, b=INT_MAX, c=INT_MAX;
-                if(j>0)
-                    a = dp[i+1][j-1];
-                if(j<m-1)
-                    c = dp[i+1][j+1];
-                
-                b = dp[i+1][j];
+        vector<vector<int>> dp(n, vector<int>(m, INT_MAX));
 
-                dp[i][j] = matrix[i][j] + min(a, min(b, c));
-            }
-        }
+        for(int j=0; j<m; j++)
+            solve(n-1, j, matrix, dp);
 
-        int ans = dp[0][0];
-        for(int i=1; i<m; i++)
-            ans = min(ans, dp[0][i]);
+        int ans = 1e9;
+        for(int j=0; j<m; j++)
+            ans = min(ans, dp[n-1][j]);
 
         return ans;
     }
