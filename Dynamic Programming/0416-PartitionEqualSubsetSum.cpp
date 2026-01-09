@@ -13,23 +13,37 @@ using namespace std;
 
 class Solution {
 public:
+    bool solve(int index, int sum, vector<int>& arr, vector<vector<int>>& dp) {
+        if (sum == 0)
+            return true;
+        if (index == 0)
+            return arr[0] == sum;
+
+        if (dp[index][sum] != -1)
+            return dp[index][sum];
+
+        bool notTake = solve(index - 1, sum, arr, dp);
+        bool take = false;
+
+        if (sum >= arr[index])
+            take = solve(index - 1, sum - arr[index], arr, dp);
+
+        return dp[index][sum] = (notTake || take);
+    }
+
     bool canPartition(vector<int>& nums) {
+        int n = nums.size();
         int sum = 0;
         for(auto i : nums)
             sum += i;
-
-        if(sum%2 != 0)
+        
+        if(sum % 2 == 1)
             return false;
 
-        int target = sum / 2;
-        vector<bool> dp(target + 1, false);
-        dp[0] = true;
+        int target = sum/2;
 
-        for (int num : nums) {
-            for (int i = target; i >= num; --i) 
-                dp[i] = dp[i] || dp[i - num];
-        }
+        vector<vector<int>> dp(n, vector<int>(target+1, -1));
 
-        return dp[target];
+        return solve(n-1, target, nums, dp);
     }
 };
