@@ -17,14 +17,14 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int mini = prices[0];
-        int maxi = 0;
-
+        int maxProfit = INT_MIN;
+         
         for(int i=1; i<prices.size(); i++) {
-            int diff = prices[i] - mini;
-            maxi = max(maxi, diff);
+            int profit = prices[i] - mini;
+            maxProfit = max(maxProfit, profit);
             mini = min(mini, prices[i]);
         }
 
-        return maxi;
+        return maxProfit < 0 ? 0 : maxProfit;
     }
 };
