@@ -12,21 +12,27 @@ using namespace std;
 
 class Solution {
 public:
+    int solve(int idx, int prev, vector<int>& nums, vector<vector<int>>& dp) {
+        if(idx == nums.size())
+            return 0;
+
+        if(dp[idx][prev+1] != -1)
+            return dp[idx][prev+1];
+        
+
+        int notTake = 0 + solve(idx+1, prev, nums, dp); 
+
+        int take=0;
+        if(prev == -1 || nums[idx] > nums[prev]) 
+            take = 1 + solve(idx+1, idx, nums, dp); 
+        
+        return dp[idx][prev+1] = max(take, notTake);
+    }
+
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
+        vector<vector<int>> dp(n, vector<int>(n+1, -1));
 
-        if (n <= 1) 
-            return n;
-        
-        vector<int> dp(n, 1); 
-
-        for (int i = 1; i < n; ++i) {
-            for (int j = 0; j < i; ++j) {
-                if (nums[i] > nums[j]) 
-                    dp[i] = max(dp[i], dp[j] + 1);
-            }
-        }
-
-        return *max_element(dp.begin(), dp.end());
+        return solve(0, -1, nums, dp);
     }
 };
