@@ -19,7 +19,6 @@ public:
         if(dp[idx][prev+1] != -1)
             return dp[idx][prev+1];
         
-
         int notTake = 0 + solve(idx+1, prev, nums, dp); 
 
         int take=0;
