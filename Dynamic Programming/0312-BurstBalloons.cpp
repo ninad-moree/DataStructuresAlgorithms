@@ -44,9 +44,4 @@ public:
 
         return solve(1, n, nums, dp);
     }
-
-    /* BOTTOM UP APPROACH - TABULATION */
-    int maxCoinsBottomUp(vector<int>& nums) {
-        
-    }
 };
