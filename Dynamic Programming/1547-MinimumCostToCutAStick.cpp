@@ -36,14 +36,14 @@ public:
     }
 
     int minCost(int n, vector<int>& cuts) {
+        int m = cuts.size();
+
         cuts.insert(cuts.begin(), 0);
         cuts.push_back(n);
         sort(cuts.begin(), cuts.end());
 
-        int m = cuts.size();
-
         vector<vector<int>> dp(m+1, vector<int>(m+1, -1));
 
-        return solve(1, m-2, cuts, dp);
+        return solve(1, m, cuts, dp);
     }
 };
