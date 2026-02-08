@@ -12,39 +12,45 @@ using namespace std;
 
 class Solution {
 public:
-    int rows, cols;
-    
-    bool backtrack(vector<vector<char>>& board, string& word, int i, int j, int index) {
-        if (index == word.length())
+    bool solve(int i, int j, vector<vector<char>>& board, string word, int idx) {
+        if(idx == word.size())
             return true;
-        
-        if (i < 0 || i >= rows || j < 0 || j >= cols || board[i][j] != word[index])
+
+        int n = board.size();
+        int m = board[0].size();
+
+        if(i < 0 || j < 0 || i >= n || j >= m || board[i][j] != word[idx])
             return false;
-        
+
+        bool found = false;
+
+        int dx[4] = {-1, 1, 0, 0};
+        int dy[4] = {0, 0, -1, 1};
+
         char temp = board[i][j];
-        board[i][j] = '#'; 
-        
-        bool found = backtrack(board, word, i + 1, j, index + 1) || backtrack(board, word, i - 1, j, index + 1) || backtrack(board, word, i, j + 1, index + 1) || backtrack(board, word, i, j - 1, index + 1);
-        
-        board[i][j] = temp; // Revert the cell
-        
+        board[i][j] = '#';
+
+        for(int d = 0; d < 4; d++) {
+            int ni = i + dx[d];
+            int nj = j + dy[d];
+            if(solve(ni, nj, board, word, idx + 1))
+                return true;
+        }
+
         return found;
     }
 
     bool exist(vector<vector<char>>& board, string word) {
-        if (board.empty() || board[0].empty())
-            return false;
-        
-        rows = board.size();
-        cols = board[0].size();
-        
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                if (backtrack(board, word, i, j, 0))
+        int n = board.size();
+        int m = board[0].size();
+
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                if(solve(i, j, board, word, 0))
                     return true;
             }
         }
-        
+
         return false;
     }
 };
