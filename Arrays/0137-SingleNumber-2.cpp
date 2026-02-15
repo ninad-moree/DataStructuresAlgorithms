@@ -12,22 +12,49 @@ using namespace std;
 
 class Solution {
 public:
+    /* Using BItIdx */
     int singleNumber(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        
-        for(int i=2;i<nums.size();i=i+3) {
-            if(nums[i-2] != nums[i])
-                return nums[i-2];
+        int ans = 0;
+
+        for(int bitIdx=0; bitIdx<32; bitIdx++) {
+            int cnt = 0;
+
+            for(int i=0; i<nums.size(); i++) {
+                if(nums[i] & (1 << bitIdx))
+                    cnt++;
+            }
+
+            if(cnt%3 == 1)
+                ans = ans | (1 << bitIdx);
         }
-        return nums[nums.size()-1];
+
+        return ans;
     }
 
-    int singleNumber2(vector<int>& nums) {
-        int res = 0;
+    /* For loop using Sorted array*/
+    int singleNumberSortedArray(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
 
-        for(auto i : nums)
-            res ^= i;
+        for(int i=1; i<nums.size(); i+=3) {
+            if(nums[i] != nums[i-1])
+                return nums[i-1];
+        }
 
-        return res;
+        return nums[n-1];
+    }
+
+    /* Bucket Method */
+    int singleNumberBuckets(vector<int>& nums) {
+        int n = nums.size();
+        int ones = 0;
+        int twos = 0;
+
+        for(int i=0; i<n; i++) {
+            ones = (ones ^ nums[i]) & ~twos;
+            twos = (twos ^ nums[i]) & ~ones;
+        }
+
+        return ones;
     }
 };
