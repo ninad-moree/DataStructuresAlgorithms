@@ -12,49 +12,95 @@ using namespace std;
 class Solution {
 public:
     string addBinary(string a, string b) {
-        string s;
-        if(b.size() > a.size()) 
-            swap(a,b);
+        string ans = "";
 
-        while(b.size() < a.size()) 
-            b = "0" +b;
+        int n = a.size();
+        int m = b.size();
 
+        int i = n-1;
+        int j = m-1;
         int carry = 0;
-        int i=a.size()-1;
-        int j=b.size()-1;
-        
-        while(i>=0 && j>=0) {
-            if(a[i]=='1' && b[i]=='1') {
-                if(carry == 1) 
-                    s.push_back('1');
-                else {
-                    carry = 1;
-                    s.push_back('0');
-                }
-            }
-            else if(a[i]=='0' && b[i]=='1' || a[i]=='1' && b[i]=='0') {
+
+        while(i >=0 && j >= 0) {
+            char s1 = a[i];
+            char s2 = b[j];
+
+            if(s1 == '1' && s2 == '1') {
                 if(carry == 1) {
-                    s.push_back('0');
+                    ans += '1';
+                    carry = 1;
+                } else {
+                    ans += '0';
                     carry = 1;
                 }
-                else 
-                    s.push_back('1');
-            }
-            else {
-                if(carry ==1) {
-                    s.push_back('1');
+            } else if(s1 == '1' || s2 == '1') {
+                if(carry == 1) {
+                    ans += '0';
+                    carry = 1;
+                } else {
+                    ans += '1';
                     carry = 0;
                 }
-                else 
-                    s.push_back('0');
+            } else if(s1 == '0' && s2 == '0') {
+                if(carry == 1) {
+                    ans += '1';
+                    carry = 0;
+                } else {
+                    ans += '0';
+                    carry = 0;
+                }
             }
+
             i--;
             j--;
         }
-        if(carry == 1) 
-            s.push_back('1');
 
-        reverse(s.begin(), s.end());
-        return s;
+        while(i >= 0) {
+            if(a[i] == '1') {
+                if(carry) {
+                    ans += '0';
+                    carry = 1;
+                } else {
+                    ans += '1';
+                    carry = 0;
+                }
+            } else {
+                if(carry) {
+                    ans += '1';
+                    carry = 0;
+                } else {
+                    ans += '0';
+                    carry = 0;
+                }
+            }
+            i--;
+        }
+
+        while(j >= 0) {
+            if(b[j] == '1') {
+                if(carry) {
+                    ans += '0';
+                    carry = 1;
+                } else {
+                    ans += '1';
+                    carry = 0;
+                }
+            } else {
+                if(carry) {
+                    ans += '1';
+                    carry = 0;
+                } else {
+                    ans += '0';
+                    carry = 0;
+                }
+            }
+            j--;
+        }
+
+        if(carry)
+            ans += '1';
+
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
