@@ -18,27 +18,17 @@
 using namespace std;
 
 class Solution {
-public:
+public: 
     int minBitFlips(int start, int goal) {
-        int res = start ^ goal;
+        int diff = start ^ goal;
 
-        string num = "";
+        int ans = 0;
 
-        while(res) {
-            int i = res%2;
-            string str = to_string(i);
-            num += str[0];
-
-            res = res/2;
+        while(diff > 0) {
+            diff = diff & (diff-1);
+            ans++;
         }
 
-        int cnt = 0;
-
-        for(int i=0; i<num.size(); i++) {
-            if(num[i] == '1')
-                cnt++;
-        }
-
-        return cnt;
+        return ans;
     }
 };
