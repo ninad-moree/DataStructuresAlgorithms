@@ -18,25 +18,25 @@ using namespace std;
 class Solution {
 public:
     int maxScore(vector<int>& cardPoints, int k) {
-        int sum = 0;
-        for(auto i : cardPoints)
-            sum += i;
+        int n = cardPoints.size();
+        int lsum = 0;
+        int rsum = 0;
+        int maxi = 0;
 
-        int m = cardPoints.size() - k;
-        int ans = 0;
-        int windowSum = 0;
+        for(int i=0; i<k; i++)
+            lsum += cardPoints[i];
+
+        maxi = lsum;
+
+        int idx = n - 1;
         
-        for(int i=0;i<m;i++) 
-            windowSum += cardPoints[i];
-
-        ans = sum - windowSum;
-
-        for (int i = m; i < cardPoints.size(); i++) {
-            windowSum -= cardPoints[i - m];
-            windowSum += cardPoints[i];
-            ans = max(ans, sum - windowSum);
+        for(int i=k-1; i>=0; i--) {
+            lsum -= cardPoints[i];
+            rsum += cardPoints[idx];
+            idx--;
+            maxi = max(maxi, lsum + rsum);
         }
 
-        return ans;
+        return maxi;
     }
 };
