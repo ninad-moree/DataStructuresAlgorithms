@@ -15,23 +15,27 @@ using namespace std;
 class Solution {
 public:
     int longestOnes(vector<int>& nums, int k) {
-        int left = 0;
-        int zeroCount = 0;
-        int res = 0;
+        int ans = 0;
+        int l = 0;
+        int r = 0;
+        int zeros = 0;
 
-        for (int right = 0; right < nums.size(); right++) {
-            if (nums[right] == 0) {
-                zeroCount++;
-                while (zeroCount > k) {
-                    if (nums[left] == 0) 
-                        zeroCount--;
-                    left++;
-                }
+        while(r < nums.size()) {
+            if(nums[r] == 0)
+                zeros++;
+
+            if (zeros > k) {
+                if(nums[l] == 0)
+                    zeros--;
+                l++;
             }
 
-            res = max(res, right - left + 1);
+            if(zeros <= k) 
+                ans = max(ans, r - l +1);
+            
+            r++;
         }
 
-        return res;
+        return ans;
     }
 };
