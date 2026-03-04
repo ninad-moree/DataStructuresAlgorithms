@@ -12,22 +12,24 @@ using namespace std;
 
 class Solution {
 public:
-    int lengthOfLongestSubstring(string& s) {
+    int lengthOfLongestSubstring(string s) {
         unordered_map<char, int> mp;
-
-        int i = 0;
-        int j = 0;
+        int l = 0;
+        int r = 0;
         int ans = 0;
 
-        while (j < s.size()) {
-            if (mp.find(s[j]) == mp.end()) {
-                mp[s[j]] = 1;
-                ans = std::max(ans, j - i + 1);
-                j++;
-            } else {
-                mp.erase(s[i]);
-                i++;
+        while(r < s.size()) {
+            mp[s[r]]++;
+
+            if(mp[s[r]] > 1) {
+                while(mp[s[r]] > 1) {
+                    mp[s[l]]--;
+                    l++;
+                }
             }
+
+            ans = max(ans, r - l + 1);
+            r++;
         }
 
         return ans;
