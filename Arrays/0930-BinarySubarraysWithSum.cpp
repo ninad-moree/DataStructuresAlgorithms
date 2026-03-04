@@ -13,30 +13,31 @@ using namespace std;
 
 class Solution {
 public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        int i=0;
-        int j=0;
-        int cnt = 0;
-        int sum =0;
+    int solve(vector<int>& nums, int goal) {
+        if(goal < 0)
+            return 0;
 
-        for (j = 0; j < nums.size(); j++) {
-            sum += nums[j];
+        int l = 0;
+        int r = 0;
+        int ans = 0;
+        int sum = 0;
 
-            while (sum > goal && i < j) {
-                sum -= nums[i];
-                i++;
+        while(r < nums.size()) {
+            sum += nums[r];
+
+            while(sum > goal) {
+                sum -= nums[l];
+                l++;
             }
 
-            if (sum == goal) {
-                int k = i;
-                while (k < j && nums[k] == 0) {
-                    cnt++;
-                    k++;
-                }
-                cnt++;
-            }
+            ans += (r - l + 1);
+            r++;
         }
 
-        return cnt;
+        return ans;
+    }
+
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        return solve(nums, goal) - solve(nums, goal - 1);
     }
 };
