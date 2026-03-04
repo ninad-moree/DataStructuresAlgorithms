@@ -13,24 +13,31 @@ using namespace std;
 
 class Solution {
 public:
-    int numberOfSubarrays(vector<int>& nums, int k) {
-        int n = nums.size();
-        int count = 0; 
-        int oddCount = 0; 
-        unordered_map<int, int> prefixCounts;  
-        
-        prefixCounts[0] = 1;  
-        
-        for (int i = 0; i < n; ++i) {
-            if (nums[i] % 2 != 0) 
-                oddCount++;  
-            
-            if (prefixCounts.find(oddCount - k) != prefixCounts.end()) 
-                count += prefixCounts[oddCount - k];
-            
-            prefixCounts[oddCount]++;
+    int solve(vector<int>& nums, int goal) {
+        if(goal < 0)
+            return 0;
+
+        int l = 0;
+        int r = 0;
+        int ans = 0;
+        int sum = 0;
+
+        while(r < nums.size()) {
+            sum += (nums[r] % 2);
+
+            while(sum > goal) {
+                sum -= (nums[l] % 2);
+                l++;
+            }
+
+            ans += (r - l + 1);
+            r++;
         }
-        
-        return count;
-    };
-}; 
+
+        return ans;
+    }
+
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        return solve(nums, k) - solve(nums, k - 1);
+    }
+};
