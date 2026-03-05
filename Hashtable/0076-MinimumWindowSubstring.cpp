@@ -16,39 +16,38 @@ using namespace std;
 class Solution {
 public:
     string minWindow(string s, string t) {
-        unordered_map<char , int> mp;
-        for(auto c : t) {
-            mp[c]++;
-        }
+        int l = 0;
+        int r = 0;
+        int cnt = 0;
+        int miniLen = INT_MAX;
+        int sIdx = -1;
+        vector<int> hash(256, 0);
 
-        int left = 0, right = 0;
-        int cnt = t.size();
+        for(int i=0; i<t.size(); i++)
+            hash[t[i]]++;
 
-        int minStart = 0;
-        int minLen = INT_MAX;
+        while(r < s.size()) {
+            if(hash[s[r]] > 0) 
+                cnt++;
+            hash[s[r]]--;
 
-        while(right < s.size()) {
-            if(mp[s[right]] > 0)
-                cnt--;
-            
-            mp[s[right]]--;
-            right++;
-
-            while(cnt == 0) {
-                if(right-left < minLen) {
-                    minStart = left;
-                    minLen = right - left;
+            while(cnt == t.size()) {
+                int currLen = r - l + 1;
+                if(currLen < miniLen) {
+                    miniLen = currLen;
+                    sIdx = l;
                 }
-
-                mp[s[left]]++;
-                if(mp[s[left]] > 0)
-                    cnt++;
-                left++;
+                
+                hash[s[l]]++;
+                if(hash[s[l]] > 0)
+                    cnt--;
+                
+                l++;
             }
+
+            r++;
         }
-        if (minLen != INT_MAX) {
-            return s.substr(minStart, minLen);
-        }
-        return "";
+
+        return sIdx == -1 ? "" : s.substr(sIdx, miniLen);
     }
 };
