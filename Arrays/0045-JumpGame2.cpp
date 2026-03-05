@@ -15,30 +15,23 @@
 using namespace std;
 
 class Solution {
-    public:
-    int jump(vector<int>& arr) {
-        int n = arr.size();
-        if(n<=1)
-            return 0;
-        
-        int maxReach = arr[0];
-        int steps = arr[0];
-        int jumps = 1;
+public:
+    int jump(vector<int>& nums) {
+        int l = 0;
+        int r = 0;
+        int jumps = 0;
 
-        for(int i=1;i<n;i++) {
-            if(i==n-1)
-                return jumps;
-            
-            maxReach = max(maxReach, i+arr[i]);
-            steps--;
+        while(r < nums.size() - 1) {
+            int maxReach = 0;
 
-            if(steps == 0) {
-                jumps++;
-                if(i>= maxReach)
-                    return -1;
-                steps = maxReach - i;
-            }
+            for(int i=l; i<=r; i++)
+                maxReach = max(maxReach, i + nums[i]);
+
+            l = r + 1;
+            r = maxReach;
+            jumps++;
         }
-        return -1;
+
+        return jumps;
     }
 };
