@@ -11,34 +11,15 @@
 class Solution {
     public boolean canJump(int[] nums) {
         int n = nums.length;
+        int maxIdx = 0;
 
-        if(n<=1)
-            return true;
-        
-        if(nums[0]==0) 
-            return false;
-        
-        int maxReach = nums[0];
-        int steps = nums[0];
-        
-        @SuppressWarnings("unused")
-        int jumps = 1;
-
-        for(int i=1;i<n;i++) {
-            if (i == n-1) 
-                return true;
-
-            maxReach = Math.max(maxReach, i+nums[i]);
-            steps--;
-
-            if(steps == 0) {
-                jumps++;
-                if(i>=maxReach)
-                    return false;
-                
-                steps = maxReach-i;
-            }
+        for(int i=0; i<n; i++) {
+            if(i > maxIdx)
+                return false;
+            
+            maxIdx = Math.max(maxIdx, i + nums[i]);
         }
-        return false;
+
+        return true;
     }
 }
