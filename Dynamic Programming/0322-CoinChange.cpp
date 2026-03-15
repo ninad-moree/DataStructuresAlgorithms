@@ -30,7 +30,6 @@ public:
         if(amount >= coins[index]) 
             take = 1 + solve(index, amount - coins[index], coins, dp);
         
-
         return dp[index][amount] = min(notTake, take);
     }
 
