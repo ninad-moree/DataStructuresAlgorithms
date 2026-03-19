@@ -45,48 +45,51 @@ public:
 class LRUCache {
 public:
     unordered_map<int, Node*> mp;
-    Node* least;
-    Node* most;
+    Node* head;
+    Node* tail;
     int size;
 
     LRUCache(int capacity) {
         size = capacity;
-        least = new Node(0, 0);
-        most = new Node(0, 0);
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
 
-        least->next = most;
-        most->prev = least;
+        head->next = tail;
+        tail->prev = head;
     }
     
     int get(int key) {
-        if(mp.find(key) != mp.end()) {
-            Node* node = mp[key];
-            
-            remove(node);
-            insert(node);
+        if(mp.find(key) == mp.end())
+            return -1;
+        
+        Node* node = mp[key];
+        deleteNode(node);
+        insertAtHead(node);
 
-            return node->val;
-        }
-
-        return -1;
+        return node->val;
     }
     
     void put(int key, int value) {
-        if(mp.find(key) != mp.end())
-            remove(mp[key]);
+        if(mp.find(key) != mp.end()) {
+            Node* node = mp[key];
+            node->val = value;
+            deleteNode(node);
+            insertAtHead(node);
+        } else {
+            if(mp.size() == size) {
+                Node* lruNode = tail->prev;
+                mp.erase(lruNode->key);
+                deleteNode(lruNode);
+            }
 
-        Node* newNode = new Node(key, value);
-        mp[key] = newNode;
-        insert(newNode);
-
-        if(mp.size() > size) {
-            Node* lru = least->next;
-            remove(lru);
-            mp.erase(lru->key);
+            Node* node = new Node(key, value);
+            mp[key] = node;
+            insertAtHead(node);
         }
+        
     }
 
-    void remove(Node* node) {
+    void deleteNode(Node* node) {
         Node* prevNode = node->prev;
         Node* nextNode = node->next;
 
@@ -94,13 +97,12 @@ public:
         nextNode->prev = prevNode;
     }
 
-    void insert(Node* node) {
-        Node* prevNode = most->prev;
+    void insertAtHead(Node* node) {
+        Node* headNext = head->next;
 
-        prevNode->next = node;
-        node->prev = prevNode;
-
-        node->next = most;
-        most->prev = node;
+        head->next = node;
+        node->next = headNext;
+        node->prev = head;
+        headNext->prev = node; 
     }
 };
