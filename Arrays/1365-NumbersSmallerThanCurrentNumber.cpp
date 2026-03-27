@@ -15,15 +15,14 @@ using namespace std;
 class Solution {
 public:
     vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
-        vector<int> ans;
+        int n = nums.size();
+        vector<int> ans(n);
 
-        for(int i=0;i<nums.size();i++) {
-            int small = 0;
-            for(int j=0;j<nums.size();j++) {
-                if(nums[j] < nums[i])
-                    small++;
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                if(i != j && nums[i] > nums[j])
+                    ans[i]++;
             }
-            ans.push_back(small);
         }
 
         return ans;
