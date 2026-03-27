@@ -16,19 +16,20 @@ using namespace std;
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
-        vector<int> freq(nums.size(), 0);
+        int n = nums.size();
 
-        for (int i = 0; i < nums.size(); i++) 
-            freq[nums[i] - 1]++;
+        vector<int> hash(n+1, 0);
+        for(auto i : nums)
+            hash[i]++;
 
-        int miss = -1;
         int rep = -1;
+        int miss = -1;
 
-        for(int i = 0; i < freq.size(); i++) {
-            if(freq[i] == 2)
-                rep = i + 1;
-            if(freq[i] == 0)
-                miss = i + 1;
+        for(int i=0; i<hash.size(); i++) {
+            if(hash[i] == 2)
+                rep = i;
+            if(hash[i] == 0)
+                miss = i;
         }
 
         return {rep, miss};
