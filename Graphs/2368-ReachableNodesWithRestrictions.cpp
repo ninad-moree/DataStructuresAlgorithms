@@ -14,21 +14,20 @@ using namespace std;
 
 class Solution {
 public:
-    void bfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& restricted) {
+    void bfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& restricted, int& cnt) {
         queue<int> q;
         q.push(node);
         vis[node] = 1;
-
-        unordered_set<int> restrictedSet(restricted.begin(), restricted.end());
 
         while(!q.empty()) {
             int n = q.front();
             q.pop();
 
             for(auto neigh : adj[n]) {
-                if(!vis[neigh] && !vis[neigh] && restrictedSet.find(neigh) == restrictedSet.end()) {
+                if(!vis[neigh] && !vis[neigh]) {
                     q.push(neigh);
                     vis[neigh] = 1;
+                    cnt++;
                 }
             }
         }
@@ -37,6 +36,7 @@ public:
     int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
         vector<vector<int>> adj(n);
         vector<int> vis(n);
+        int cnt = 1;
 
         for(auto i : edges) {
             int x = i[0];
@@ -46,15 +46,11 @@ public:
             adj[y].push_back(x);
         }
 
-        bfs(0, adj, vis, restricted);
+        for(auto i : restricted)
+            vis[i] = 1;
 
-        int ans = 0;
-
-        for(auto i : vis) {
-            if(i == 1)
-                ans++;
-        }
-
-        return ans;
+        bfs(0, adj, vis, restricted, cnt);
+        
+        return cnt;
     }
 };
