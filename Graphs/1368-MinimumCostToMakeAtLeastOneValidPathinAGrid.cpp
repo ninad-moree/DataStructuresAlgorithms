@@ -21,7 +21,7 @@ using namespace std;
 class Solution {
 public:
     int minCost(vector<vector<int>>& grid) {
-        vector<vector<int>> dir =  {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        vector<vector<int>> dir =  {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}; // 0 -> right, 1->left, 2->down, 3->up
 
         int rows = grid.size();
         int cols = grid[0].size();
@@ -46,7 +46,7 @@ public:
                 int ny = y + dir[i][1];
 
                 if(nx >= 0 && nx < rows && ny >= 0 && ny < cols) {
-                    int newCost = c + (i != (grid[x][y] - 1) ? 1 : 0);
+                    int newCost = c + (i == (grid[x][y] - 1) ? 0 : 1); // 0 -> right, 1->left, 2->down, 3->up therfore grid[x][y] - 1
 
                     if(newCost < cost[nx][ny]) {
                         cost[nx][ny] = newCost;
