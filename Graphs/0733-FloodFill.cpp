@@ -44,4 +44,41 @@ public:
 
         return ans;
     }
+
+    // BFS
+    vector<vector<int>> floodFill2(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n = image.size();
+        int m = image[0].size();
+
+        vector<vector<int>> ans = image;
+
+        queue<pair<int, int>> q;
+        vector<vector<int>> vis(n, vector<int>(m));
+        int dx[] = {0, 0, 1, -1};
+        int dy[] = {1, -1, 0, 0};
+
+        q.push({sr, sc});
+        vis[sr][sc] = 1;
+        ans[sr][sc] = color;
+        int st = image[sr][sc];
+
+        while(!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+
+            for(int i=0; i<4; i++) {
+                int newX = x + dx[i];
+                int newY = y + dy[i];
+
+                if(newX >= 0 && newX < n && newY >= 0 && newY < m && !vis[newX][newY] && image[newX][newY] == st) {
+                    ans[newX][newY] = color;
+                    vis[newX][newY] = 1;
+                    q.push({newX, newY});
+                }
+            }
+        }
+
+        return ans;
+    }
 };
