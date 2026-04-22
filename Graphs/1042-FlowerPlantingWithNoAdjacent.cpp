@@ -16,6 +16,7 @@ using namespace std;
 
 class Solution {
 public:
+    /* BFS */
     void bfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& flower) {
         queue<int> q;
         q.push(node);
@@ -66,5 +67,48 @@ public:
         }
 
         return flower;
+    }
+
+    /* DFS */
+    bool isSafe(int node, int flo, vector<vector<int>>& adj, vector<int>& flowers) {
+        for(auto i : adj[node]) {
+            if(flowers[i] == flo)
+                return false;
+        }
+
+        return true;
+    }
+
+    bool dfs(int node, int n, vector<vector<int>>& adj, vector<int>& flowers) {
+        if(node == n)
+            return true;
+
+        for(int i=1; i<=4; i++) {
+            if(isSafe(node, i, adj, flowers)) {
+                flowers[node] = i;
+                if(dfs(node+1, n, adj, flowers))
+                    return true;
+                flowers[node] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
+        vector<vector<int>> adj(n);
+        vector<int> flowers(n);
+
+        for(auto p : paths) {
+            int u = p[0] - 1;
+            int v = p[1] - 1;
+            
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        bool ans = dfs(0, n, adj, flowers);
+
+        return flowers;
     }
 };
