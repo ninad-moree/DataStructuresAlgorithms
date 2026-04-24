@@ -15,6 +15,7 @@ using namespace std;
 
 class Solution {
 public:
+    /* DFS */
     void dfs(int row, int col, vector<vector<int>>& vis, vector<vector<char>>& board) {
         int m = board.size();
         int n = board[0].size();
@@ -58,6 +59,57 @@ public:
         for(int i=0; i<m; i++) {
             for(int j=0; j<n; j++) {
                 if(!vis[i][j] && board[i][j] == 'O')
+                    board[i][j] = 'X';
+            }
+        }
+    }
+
+    /* BFS */
+    void bfs(int sx, int sy, vector<vector<char>>& board, vector<vector<int>>& vis) {
+        int n = board.size();
+        int m = board[0].size();
+
+        queue<pair<int, int>> q;
+        q.push({sx, sy});
+        vis[sx][sy] = 1;
+
+        int dx[] = {-1, 1, 0, 0};
+        int dy[] = {0, 0, -1, 1};
+
+        while(!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+
+            for(int i=0; i<4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if(nx >= 0 && nx < n && ny >= 0 && ny < m && !vis[nx][ny] && board[nx][ny] == 'O') {
+                    q.push({nx, ny});
+                    vis[nx][ny] = 1;
+                }
+            }
+        }
+    }
+
+    void solve(vector<vector<char>>& board) {
+        int n = board.size();
+        int m = board[0].size();
+
+        vector<vector<int>> vis(n, vector<int>(m));
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if ((i == 0 || i == n-1 || j == 0 || j == m-1) && board[i][j] == 'O' && !vis[i][j])
+                    bfs(i, j, board, vis);
+            }
+        }
+
+        // Flip unvisited 'O' cells to 'X' (they are surrounded)
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!vis[i][j] && board[i][j] == 'O')
                     board[i][j] = 'X';
             }
         }
