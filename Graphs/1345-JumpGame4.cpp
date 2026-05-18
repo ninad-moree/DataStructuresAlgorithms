@@ -39,11 +39,11 @@ public:
                 int x = q.front(); 
                 q.pop();
 
-                vector<int> neighbors = {x - 1, x + 1};
-                if (valToIdx.count(arr[x])) {
+                vector<int> neighbors = {x - 1, x + 1}; // 1st 2 rules
+                if (valToIdx.find(arr[x]) != valToIdx.end()) {
                     for (int j : valToIdx[arr[x]])
-                        neighbors.push_back(j);
-                    valToIdx.erase(arr[x]);
+                        neighbors.push_back(j); // 3rd rule
+                    valToIdx.erase(arr[x]); // already visited
                 }
 
                 for (int nx : neighbors) {
