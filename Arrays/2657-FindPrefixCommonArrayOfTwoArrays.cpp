@@ -14,23 +14,28 @@
     At i = 3: 1, 2, 3, and 4 are common in A and B, so C[3] = 4.
 */
 
+#include<bits/stdc++.h>
+using namespace std;
+
 class Solution {
-    public int[] findThePrefixCommonArray(int[] A, int[] B) {
-        int[] C = new int[A.length];
+public:
+    vector<int> findThePrefixCommonArray(vector<int>& A, vector<int>& B) {
+        vector<int> ans(A.size());
+        unordered_map<int, int> mp;
+        int freq = 0;
 
-        for(int i=0; i<A.length; i++) {
-            int freq = 0;
+        for(int i=0; i<A.size(); i++) {
+            mp[A[i]]++;
+            if(mp[A[i]] == 2)
+                freq++;
 
-            for(int j=0; j<=i; j++) {
-                for(int k=0; k<=i; k++) {
-                    if(A[j] == B[k])
-                        freq++;
-                }
-            }
+            mp[B[i]]++;
+            if(mp[B[i]] == 2)
+                freq++;
 
-            C[i] = freq;
+            ans[i] = freq;
         }
 
-        return C;
+        return ans;
     }
-}
+};
