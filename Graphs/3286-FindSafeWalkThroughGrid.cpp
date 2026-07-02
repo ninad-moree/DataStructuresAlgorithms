@@ -16,42 +16,59 @@ using namespace std;
 
 class Solution {
 public:
-    bool findSafeWalk(vector<vector<int>>& grid, int health) {
-        int rows = grid.size();
-        int cols = grid[0].size();
+    bool bfs(int sx, int sy, vector<vector<int>>& grid, int health, vector<vector<int>>& hea) {
+        int n = grid.size();
+        int m = grid[0].size();
 
-        queue<vector<int>> q;
-        q.push({0, 0, (grid[0][0] == 1 ? health-1 : health)});
+        int dx[] = {1, -1, 0, 0};
+        int dy[] = {0, 0, 1, -1};
 
-        vector<pair<int, int>> dir = {{0,1}, {0, -1}, {1, 0}, {-1, 0}};
+        int sh = health - grid[0][0];
+        if (sh <= 0) 
+            return false;
 
-        vector<vector<int>> vis(rows, vector<int>(cols, -1));
-        vis[0][0] = health;
+        priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
+        pq.push({sh, {sx, sy}});
+        hea[sx][sy] = sh;
 
-        while(!q.empty()) {
-            int x = q.front()[0];
-            int y = q.front()[1];
-            int h = q.front()[2];
-            q.pop();
+        while(!pq.empty()) {
+            int x = pq.top().second.first;
+            int y = pq.top().second.second;
+            int h = pq.top().first;
+            pq.pop();
 
-            if(x == rows-1 && y == cols-1) 
-                return h > 0 ? true : false;
+            if(x == n-1 && y == m-1) {
+                if(h >= 1)
+                    return true;
+                else
+                    return false;
+            }
 
-            for(auto i : dir) {
-                int newX = x + i.first;
-                int newY = y + i.second;
+            for(int i=0; i<4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
 
-                if(newX >= 0 && newX < rows && newY >= 0 && newY < cols) {
-                    int newHealth = h - ((grid[newX][newY] == 1) ? 1 : 0);
+                if(nx >= 0 && nx < n && ny >= 0 && ny < m) {
+                    int nh = (grid[nx][ny] == 1 ? h - 1 : h);
 
-                    if(newHealth > 0 && newHealth > vis[newX][newY]) {
-                        vis[newX][newY] = newHealth;
-                        q.push({newX, newY, newHealth});
+                    if(nh > hea[nx][ny] && nh > 0 ) {
+                        hea[nx][ny] = nh;
+                        pq.push({hea[nx][ny], {nx, ny}});
                     }
+                    
                 }
             }
         }
 
         return false;
+    }
+
+    bool findSafeWalk(vector<vector<int>>& grid, int health) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        vector<vector<int>> hea(n, vector<int>(m, 0));
+
+        return bfs(0, 0, grid, health, hea);
     }
 };
