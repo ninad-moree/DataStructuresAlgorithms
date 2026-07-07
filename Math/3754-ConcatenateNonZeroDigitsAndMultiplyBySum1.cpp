@@ -26,7 +26,6 @@ public:
             return 0;
 
         long long num = stoll(res);
-
         long long sum = 0;
         long long temp = num;
 
