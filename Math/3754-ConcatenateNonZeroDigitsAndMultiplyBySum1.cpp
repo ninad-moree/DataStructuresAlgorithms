@@ -17,9 +17,9 @@ public:
         string str = to_string(n);
         string res = "";
 
-        for(int i=0; i<str.size(); i++) {
-            if(str[i] != '0')
-                res += str[i];
+        for(auto i : str) {
+            if(i != '0')
+                res += i;
         }
 
         if(res.size() == 0)
