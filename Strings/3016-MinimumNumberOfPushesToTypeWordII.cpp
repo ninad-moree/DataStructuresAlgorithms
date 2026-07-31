@@ -28,23 +28,23 @@ using namespace std;
 class Solution {
 public:
     int minimumPushes(string word) {
-        vector<int> f(26);
-        for(auto &w : word) 
-            f[w - 'a']++;
+        vector<int> freq(26);
 
-        sort(f.rbegin(), f.rend());
+        for(auto i : word)
+            freq[i - 'a']++;
 
-        vector<int> position(8, 8); 
+        sort(freq.rbegin(), freq.rend());
+
         int ans = 0;
-        
-        for(int i = 0, j = 0; i < 26; i++) {
-            if(f[i]) {
-                ans += f[i] * (j + 1); 
-                if(--position[j] == 0) 
-                    j++; 
-            }
+
+        for(int i=0; i<26; i++) {
+            if(freq[i] == 0)
+                break;
+
+            int push = (i / 8) + 1; // we assign most frequent char to the 1st position of each number (2-9)
+            ans += freq[i] * push;
         }
-        
+
         return ans;
     }
 };
