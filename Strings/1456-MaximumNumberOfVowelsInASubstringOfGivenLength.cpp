@@ -19,20 +19,19 @@ public:
         int curr = 0;
 
         for (int i = 0; i < k; ++i) {
-            if (vowels.count(s[i])) {
+            if (vowels.count(s[i])) 
                 curr++;
-            }
         }
 
         ans = curr;
 
         for (int i = k; i < s.length(); ++i) {
-            if (vowels.count(s[i - k])) {
+            if (vowels.count(s[i - k])) 
                 curr--;
-            }
-            if (vowels.count(s[i])) {
+            
+            if (vowels.count(s[i])) 
                 curr++;
-            }
+            
             ans = max(ans, curr);
         }
 
