@@ -17,35 +17,30 @@ using namespace std;
 class Solution {
 public:
     int missingInteger(vector<int>& nums) {
-        int prefixSum = nums[0];
-        
-        for(int i=1;i<nums.size();i++) {
-            if(nums[i]-nums[i-1] == 1)
-                prefixSum += nums[i];
-            if(nums[i]-nums[i-1] != 1)
+        int len = 1;
+        int i = 1;
+        int sum = nums[0];
+        unordered_map<int, int> mp;
+
+        while(true && i < nums.size()) {
+            if(nums[i-1] + 1 == nums[i]) {
+                len++;
+                sum += nums[i];
+                i++;
+            } else
                 break;
-        }
-        
-        sort(nums.begin(), nums.end());
-        
-        int ans = -1;
-        int idx = -1;
-        
-        for(int i=0;i<nums.size();i++) {
-            if(nums[i] == prefixSum)
-                idx = i;
-        }
-        
-        if(idx == -1)
-            return prefixSum;
-        
-        for (int i = idx; i < nums.size() - 1; ++i) {
-            if (nums[i + 1] - nums[i] > 1) {
-                ans = nums[i] + 1;
-                break;
-            }
         }
 
-        return (ans == -1) ? nums.back() + 1 : ans;
+        for(auto i : nums)
+            mp[i]++;
+
+        while(true) {
+            if(mp.find(sum) == mp.end()) 
+                break;
+            
+            sum++;
+        }
+
+        return sum;
     }
 };
