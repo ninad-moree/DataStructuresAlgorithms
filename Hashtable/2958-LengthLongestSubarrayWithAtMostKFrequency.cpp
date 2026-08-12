@@ -19,23 +19,26 @@ using namespace std;
 class Solution {
 public:
     int maxSubarrayLength(vector<int>& nums, int k) {
-        map<int, int> mp;
+        int n = nums.size();
+        int i = 0;
+        int j = 0;
+        int maxLen = 0;
 
-        int ans = 0;
-        int left = 0, right = 0;
+        unordered_map<int, int> mp;
 
-        while(right < nums.size()) {
-            if(mp[nums[right]] < k) {
-                mp[nums[right]]++;
-                right++;
+        while(j < n) {
+            mp[nums[j]]++;
+
+            while(mp[nums[j]] > k) {
+                mp[nums[i]]--;
+                i++;
             }
-            else {
-                mp[nums[left]]--;
-                left++;
-            }
-            ans = max(ans, right-left);
+
+            maxLen = max(maxLen, j-i+1);
+
+            j++;
         }
 
-        return ans;
+        return maxLen;
     }
 };
