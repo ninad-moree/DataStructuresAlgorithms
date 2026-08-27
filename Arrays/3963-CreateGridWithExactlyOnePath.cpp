@@ -19,6 +19,7 @@ public:
         string res = "";
         for(int i=0; i<n; i++)
             res += '#';
+            
         vector<string> ans(m, res);
 
         for(int i=0; i<m; i++) 
