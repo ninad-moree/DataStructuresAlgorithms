@@ -53,9 +53,8 @@ public:
         int mini = INT_MAX;
         int maxi = critical.back() - critical.front();
         
-        for (int i = 1; i < critical.size(); i++) {
+        for (int i = 1; i < critical.size(); i++) 
             mini = min(mini, critical[i] - critical[i - 1]);
-        }
         
         return {mini, maxi};
     }
