@@ -42,7 +42,6 @@ public:
 
                 if (classroom[i][j] == 'L') 
                     litter[i][j] = litterCount++;
-                
             }
         }
 
@@ -97,8 +96,7 @@ public:
                     if (classroom[nx][ny] == 'L') 
                         newMask |= (1 << litter[nx][ny]);
 
-                    // We only need to revisit if we have more energy
-                    // for the same position + collected litter
+                    // We only need to revisit if we have more energy for the same position + collected litter
                     if (vis[nx][ny][newMask] >= newEnergy)
                         continue;
 
