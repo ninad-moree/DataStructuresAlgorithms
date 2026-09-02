@@ -16,10 +16,12 @@ class Solution {
 public:
     int compareBitonicSums(vector<int>& nums) {
         int peakIdx = -1;
+        long long sum = 0;
 
         for(int i=0; i<nums.size(); i++) {
             int pI = i-1;
             int nI = i+1;
+            sum += nums[i];
 
             if(pI >= 0 && nI < nums.size()) {
                 if(nums[i] > nums[pI] && nums[i] > nums[nI]) 
@@ -28,13 +30,10 @@ public:
         }
 
         long long ascSum = 0;
-        long long descSum = 0;
-
         for(int i=0; i<=peakIdx; i++)
             ascSum += nums[i];
 
-        for(int i=peakIdx; i<nums.size(); i++)
-            descSum += nums[i];
+        long long descSum = sum - ascSum + nums[peakIdx];
 
         if(ascSum == descSum)
             return -1;
