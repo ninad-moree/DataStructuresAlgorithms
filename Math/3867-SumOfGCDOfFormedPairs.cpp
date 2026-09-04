@@ -22,48 +22,29 @@ using namespace std;
 
 class Solution {
 public:
-    int gcd(int a, int b) {
-        while(b != 0) {
-            int rem = a % b;
-            a = b;
-            b = rem;
-        }
-
-        return a;
-    }
-
     long long gcdSum(vector<int>& nums) {
         int n = nums.size();
+        vector<int> maxi(n);
+        maxi[0] = nums[0];
 
-        vector<int> mx(n);
-        vector<int> preGCD(n);
+        for(int i=1; i<n; i++) 
+            maxi[i] = max(maxi[i-1], nums[i]);
+        
+        vector<int> prefix(n);
 
-        int maxi = nums[0];
-        mx[0] = maxi;
+        for(int i=0; i<n; i++) 
+            prefix[i] = __gcd(nums[i], maxi[i]);
 
-        for(int i=1; i<n; i++) {
-            maxi = max(maxi, nums[i]);
-            mx[i] = maxi;
-        }
+        sort(prefix.begin(), prefix.end());
 
-        for(int i=0; i<n; i++) {
-            int gcdi = gcd(mx[i], nums[i]);
-            preGCD[i] = gcdi;
-        }
-        sort(preGCD.begin(), preGCD.end());
-
-        long long ans = 0;
         int i = 0;
         int j = n-1;
+        long long ans = 0;
 
         while(i < j) {
-            int n1 = preGCD[i];
-            int n2 = preGCD[j];
-            int m = gcd(n1, n2);
+            ans += __gcd(prefix[i], prefix[j]);
             i++;
             j--;
-
-            ans += m;
         }
 
         return ans;
