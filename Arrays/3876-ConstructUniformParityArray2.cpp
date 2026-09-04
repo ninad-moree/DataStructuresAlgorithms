@@ -38,7 +38,6 @@ public:
         if(even == 0 || odd == 0)
             return true;
 
-        vector<int> arr(n);
         bool canEven = true;
         bool canOdd = true;
 
@@ -53,8 +52,6 @@ public:
                 }
             } 
         }
-
-        arr.clear();
 
         // CHECK ODD
         for(int i=0; i<n; i++) {
