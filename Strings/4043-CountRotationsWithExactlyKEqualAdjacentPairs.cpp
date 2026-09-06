@@ -1,0 +1,39 @@
+/*
+    You are given a string s of length n and an integer k. A cyclic rotation of s is obtained by choosing a prefix of s whose length is between 0 and n - 1 (inclusive), and 
+    moving it to the end of the string while preserving the order of all characters. For every cyclic rotation of s, let its score be the number of indices i such that 0 <= i <
+    n - 1 and the characters at positions i and i + 1 are equal. Return the number of cyclic rotations of s whose score equals k. A prefix of a string is a substring that 
+    starts from the beginning of the string and extends to any point within it. A substring is a contiguous sequence of characters within a string, which may be empty.
+
+    Example 1:
+    Input: s = "aab", k = 1
+    Output: 2
+    Explanation: The cyclic rotations of s are: "aab": The characters at positions 0 and 1 are equal, so score = 1. "aba": No two adjacent characters are equal, so score = 0.
+    "baa": The characters at positions 1 and 2 are equal, so score = 1. Since score equals k for 2 cyclic rotations of s, the answer is 2.
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int countRotations(string s, int k) {
+        int n = s.size();
+        int total = 0;
+
+        for(int i=0; i<n-1; i++) {
+            if(s[i] == s[i+1])
+                total++;
+        }
+
+        if(s[0] == s[n-1])
+            total++;
+
+        if(k == total)
+            return n - total;
+        
+        if(k == total - 1)
+            return total;
+            
+        return 0;
+    }
+};
