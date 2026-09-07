@@ -27,7 +27,7 @@ public:
                 op++;
                 maxi = max(maxi , num - 1);
                 mini = min(mini , num + 1);
-            } else{
+            } else {
                 maxi = max(num , maxi);
                 mini = min(num , mini);
             }
