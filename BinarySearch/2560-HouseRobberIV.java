@@ -28,6 +28,7 @@ class Solution {
             if(i < low)
                 low = i;
         }
+        
         while(low <= high) {
             int mid = low + (high-low)/2;
             int curr = 0;

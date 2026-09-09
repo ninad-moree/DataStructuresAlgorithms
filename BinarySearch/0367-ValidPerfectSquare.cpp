@@ -18,10 +18,13 @@ class Solution {
     bool isPerfectSquare(int num) {
         int left = 0;
         int right = num/2;
+
         if(num == 1 || num == 0)
             return true;
+
         while(left <= right) {
             long long int mid = (left+right)/2;
+
             if(mid*mid == num)
                 return true;
             else if (mid*mid < num)
@@ -29,6 +32,7 @@ class Solution {
             else
                 right = mid -1;
         }
+        
         return false;
     }
 };

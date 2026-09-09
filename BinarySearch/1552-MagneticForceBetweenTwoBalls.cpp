@@ -41,15 +41,17 @@ public:
         int mid = s+(e-s)/2;
 
         int ans = -1;
+
         while(s<=e) {
             if(isPossible(position, m, mid)) {
                 ans = mid;
                 s=mid+1;
-            }
-            else 
+            } else 
                 e = mid-1;
-            mid = s+(e-s)/2;
+
+            mid = s + (e-s)/2;
         }
+        
         return ans;
     }
 };
