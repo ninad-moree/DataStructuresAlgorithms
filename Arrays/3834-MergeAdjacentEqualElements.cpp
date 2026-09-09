@@ -21,9 +21,7 @@ public:
         for (long long n : nums) {
             st.push_back(n);
 
-            while (st.size() >= 2 &&
-                   st[st.size() - 1] == st[st.size() - 2]) {
-
+            while (st.size() >= 2 && st[st.size() - 1] == st[st.size() - 2]) {
                 long long sum = st.back() + st[st.size() - 2];
 
                 st.pop_back();
