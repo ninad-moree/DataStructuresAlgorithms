@@ -34,9 +34,8 @@ public:
                 char r0 = right[0];
                 char r3 = right[3];
 
-                if(t3 != r0) {
+                if(t3 != r0) 
                     continue;
-                }
 
                 for(int k=0; k<n; k++) {
                     if(words[k] == words[i] || words[k] == words[j])
