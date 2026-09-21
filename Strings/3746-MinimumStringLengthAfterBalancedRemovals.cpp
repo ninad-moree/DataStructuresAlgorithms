@@ -14,6 +14,7 @@ using namespace std;
 
 class Solution {
 public:
+    /* COUNTING */
     int minLengthAfterRemovals(string s) {
         int cntA = 0;
         int cntB = 0;
@@ -26,5 +27,27 @@ public:
         }
 
         return abs(cntA - cntB);
+    }
+
+    /* STACK */
+    int minLengthAfterRemovals2(string s) {
+        stack<char> st;
+
+        for(auto i : s) {
+            char ch = i;
+            
+            if(!st.empty()) {
+                char top = st.top();
+
+                if(ch != top) {
+                    st.pop();
+                    continue;
+                }
+            } 
+
+            st.push(ch); 
+        }
+
+        return st.size();
     }
 };
