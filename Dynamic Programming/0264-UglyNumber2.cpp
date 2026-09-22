@@ -39,4 +39,39 @@ public:
 
         return ans[n-1];
     }
+
+
+    /* MEMOIZATION DP*/
+
+    long long solve(int n, vector<long long>& dp) {
+        if(n == 1)
+            return 1;
+        
+        if(dp[n] != -1)
+            return dp[n];
+
+        long long ans = LLONG_MAX;
+
+        for(int i=1; i<n; i++) {
+            long long x = solve(i, dp);
+
+            if(x * 2 > solve(n-1, dp))
+                ans = min(ans, x * 2);
+            
+            if(x * 3 > solve(n-1, dp))
+                ans = min(ans, x * 3);
+
+            if(x * 5 > solve(n-1, dp))
+                ans = min(ans, x * 5);
+        }
+
+        return dp[n] = ans;
+    }
+
+    int nthUglyNumber2(int n) {
+        // dp[n] = nth ugly number.
+        vector<long long> dp(n+1, -1);
+
+        return solve(n, dp);
+    }
 };
