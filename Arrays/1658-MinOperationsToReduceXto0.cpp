@@ -18,30 +18,35 @@ class Solution {
 public:
     int minOperations(std::vector<int>& nums, int x) {
         int n = nums.size();
-        int target = accumulate(nums.begin(), nums.end(), 0) - x;
+        int totalSum = 0;
 
-        if (target < 0)
+        for(auto i : nums)
+            totalSum += i;
+
+        int target = totalSum - x;
+
+        if(target < 0)
             return -1;
-
-        if (target == 0)
+        
+        if(target == 0)
             return n;
 
-        int left = 0, minLength = numeric_limits<int>::max();
+        int left = 0;
+        int ans = 1e9;
         int sum = 0;
 
-        for (int right = 0; right < n; ++right) {
+        for(int right=0; right<n; right++) {
             sum += nums[right];
-            
-            while (sum > target) {
+
+            while(sum > target) {
                 sum -= nums[left];
-                ++left;
+                left++;
             }
 
-            if (sum == target) {
-                minLength = min(minLength, n - (right - left + 1));
-            }
+            if(sum == target) 
+                ans = min(ans, n - (right - left + 1));
         }
 
-        return minLength == numeric_limits<int>::max() ? -1 : minLength;
+        return ans >= 1e9 ? -1 : ans;
     }
 };
