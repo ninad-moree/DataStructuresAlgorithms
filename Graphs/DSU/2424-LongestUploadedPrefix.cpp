@@ -31,7 +31,7 @@ public:
     }
 
     int findUltPar(int u) {
-        if( u == -1 || parent[u] == u)
+        if(u == -1 || parent[u] == u)
             return u;
         return parent[u] = findUltPar(parent[u]);
     }
@@ -61,8 +61,9 @@ public:
     LUPrefix(int n) : ds(n) {}
     
     void upload(int video) {
-        ds.parent[video] = video;
+        ds.parent[video] = video; // when video is uploaded it becomes online and therefore its parent is itself
 
+        // check videos neighbors --> video + 1 and video -1
         if(video + 1 < ds.parent.size() && ds.parent[video + 1] != offline )
             ds.unionBySize(video, video + 1);
 
@@ -76,6 +77,6 @@ public:
         if(par == offline)
             return 0;
         
-        return ds.size[par]; ;
+        return ds.size[par];
     }
 };
