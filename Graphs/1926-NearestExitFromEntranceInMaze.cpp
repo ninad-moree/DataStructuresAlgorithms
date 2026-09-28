@@ -40,7 +40,7 @@ public:
                 int y = q.front().second;
                 q.pop();
 
-                if(!(x == entrance[0] && y == entrance[1])){
+                if(!(x == entrance[0] && y == entrance[1])) {
                     if(x == 0 || x == n-1 || y == 0 || y == m-1)
                         return ans;
                 }
