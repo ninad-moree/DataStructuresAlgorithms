@@ -26,7 +26,6 @@ public:
     int maxDepth(string s) {
         int i = 0;
         int ans = 0;
-        
         stack<char> st;
 
         while(i < s.size()) {
