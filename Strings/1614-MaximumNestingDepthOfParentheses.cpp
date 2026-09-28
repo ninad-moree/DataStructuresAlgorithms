@@ -24,18 +24,22 @@ using namespace std;
 class Solution {
 public:
     int maxDepth(string s) {
-        int cnt=0;
-        int max1=0;
-        
-        for(char ch:s){
-            if(ch=='(') {
-                cnt++;
-                max1 = max(max1,cnt);
+        int i = 0;
+        int ans = 0;
+        stack<char> st;
+
+        while(i < s.size()) {
+            if(s[i] == '(') 
+                st.push(s[i]);
+            else if(s[i] == ')') {
+                int n = st.size();
+                ans = max(ans, n);
+                st.pop();
             }
-            else if(ch==')') 
-                cnt--;
+
+            i++;
         }
 
-        return max1;
+        return ans;
     }
 };
