@@ -22,8 +22,8 @@ public:
         vector<int> ans;
         int depth = 0;
 
-        for(char ch : seq) {
-            if(ch == '(') {
+        for(char c : seq) {
+            if(c == '(') {
                 depth++;
                 ans.push_back(depth % 2);
             } else {
