@@ -44,6 +44,7 @@ vector<vector<int>> highestRankedKItems(vector<vector<int>>& grid, vector<int>& 
         q.push({sx, sy});
         dist[sx][sy] = 0;
 
+        // {distance, price, x, y}
         vector<vector<int>> item;
 
         while(!q.empty()) {

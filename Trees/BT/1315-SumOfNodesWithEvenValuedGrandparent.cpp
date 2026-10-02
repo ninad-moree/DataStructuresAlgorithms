@@ -76,14 +76,14 @@ public:
             return;
 
         if (root -> val % 2 == 0) {
-            if (root -> left and root -> left -> left) 
-                res.push_back(root -> left -> left -> val);
-            if (root -> left and root -> left -> right) 
-                res.push_back(root -> left -> right -> val);
-            if (root -> right and root -> right -> left) 
-                res.push_back(root -> right -> left -> val);
-            if (root -> right and root -> right -> right) 
-                res.push_back(root -> right -> right -> val);
+            if (root->left && root->left->left)
+                res.push_back(root->left->left->val);
+            if (root->left && root->left->right) 
+                res.push_back(root->left->right->val);
+            if (root->right && root->right->left) 
+                res.push_back(root->right->left->val);
+            if (root->right && root->right->right) 
+                res.push_back(root->right->right->val);
         }
 
         solve(root -> left);
@@ -95,6 +95,7 @@ public:
     int sumEvenGrandparent2(TreeNode* root) {
         solve(root);
         int tot = accumulate(res.begin(), res.end(), 0);
+        
         return tot;
     }
 };

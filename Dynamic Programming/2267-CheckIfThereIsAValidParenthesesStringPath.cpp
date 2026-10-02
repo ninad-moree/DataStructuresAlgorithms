@@ -21,9 +21,6 @@ public:
         int n = grid.size();
         int m = grid[0].size();
 
-        int dx[] = {-1, 0, 1, 0};
-        int dy[] = {0, 1, 0, -1};
-
         // A valid parentheses string must have even length
         if ((n + m - 1) % 2 != 0)
             return false;
