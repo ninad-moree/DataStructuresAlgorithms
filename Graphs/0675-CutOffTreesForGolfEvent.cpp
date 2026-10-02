@@ -81,7 +81,6 @@ public:
 
         // consider cells containing trees as node of a graph
         for(auto tree : trees) {
-            int t = tree.first;
             int nx = tree.second.first;
             int ny = tree.second.second;
 
