@@ -8,13 +8,7 @@
     Example 1:
     Input: n = 4, s = "1502"
     Output: 9
-    Explanation: Reverse the suffix starting at k = 1 to obtain "1205", then dial it.
-    Step	From	To	Rotations
-    1	0	1	1
-    2	1	2	1
-    3	2	0	2
-    4	0	5	5
-    The total is 1 + 1 + 2 + 5 = 9, which is the minimum total number of rotations.
+    Explanation: Reverse the suffix starting at k = 1 to obtain "1205", then dial it. The total is 1 + 1 + 2 + 5 = 9, which is the minimum total number of rotations.
 */
 
 #include<bits/stdc++.h>
