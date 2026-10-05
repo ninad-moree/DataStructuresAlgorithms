@@ -23,7 +23,7 @@ public:
                 depth--;
 
                 if(s[i - 1] == '(')
-                    score += 1 << depth; // 2^(depth)
+                    score += 1 << depth; // 2^depth
             }
         }
 
