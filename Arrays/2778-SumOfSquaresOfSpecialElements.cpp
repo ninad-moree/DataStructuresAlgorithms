@@ -14,14 +14,12 @@ using namespace std;
 class Solution {
 public:
     int sumOfSquares(vector<int>& nums) {
-        int n = nums.size();
         int ans = 0;
+        int n = nums.size();
 
-        for(int i=0; i<=nums.size()-1; i++) {
-            if(n%(i+1) == 0) {
-                int sq = nums[i]*nums[i];
-                ans += sq;
-            }    
+        for(int i=0; i<nums.size(); i++) {
+            if(n % (i + 1) == 0)
+                ans += (nums[i] * nums[i]);
         }
 
         return ans;
