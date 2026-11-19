@@ -26,6 +26,10 @@ public:
 
         sort(nums.begin(), nums.end());
 
-        return min(nums[n-1]-nums[2], min(nums[n-2]-nums[1], nums[n-3]-nums[0]));
+        int d1 = nums[n-1] - nums[2];
+        int d2 = nums[n-2] - nums[1];
+        int d3 = nums[n-3] - nums[0];
+
+        return min({d1, d2, d3});
     }
 };
