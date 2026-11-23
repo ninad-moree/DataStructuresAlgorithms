@@ -33,24 +33,27 @@ using namespace std;
 
 class ProductOfNumbers {
 public:
-    vector<int> arr;
-    ProductOfNumbers() {}
+    vector<int> prefix;
+
+    ProductOfNumbers() {
+        prefix.push_back(1); 
+    }
     
     void add(int num) {
-        arr.push_back(num);
+        if(num == 0) {
+            prefix.clear();
+            prefix.push_back(1);
+        } else {
+            int prod = num * prefix.back();
+            prefix.push_back(prod);
+        }
     }
     
     int getProduct(int k) {
-        int ans = 1;
-        int i = arr.size() - 1;
-        int cnt = 0; 
-
-        while(cnt != k) {
-            ans *= arr[i];
-            i--;
-            cnt++;
-        }
-
-        return ans;
+        int n = prefix.size();
+        
+        if(k >= n)
+            return 0;
+        return prefix.back() / prefix[n - k - 1];
     }
 };
