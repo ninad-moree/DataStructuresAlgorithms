@@ -18,8 +18,9 @@ class Solution {
 public:
     long long makeSubKSumEqual(vector<int>& arr, int k) {
         long long ans = 0;
+        int n = arr.size();
 
-        k = __gcd(arr.size(), k);
+        k = __gcd(n, k);
 
         for(int i=0; i<k; i++) {
             vector<int> res;
