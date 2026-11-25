@@ -26,8 +26,6 @@ public:
             char ch2 = s2[i];
 
             if(ch1 == ch2) {
-                i++;
-
                 if(r1.size() > 0 && r2.size() > 0) 
                     ans.push_back({r1, r2});
 
@@ -36,9 +34,9 @@ public:
             } else {
                 r1 += ch1;
                 r2 += ch2;
-
-                i++;
             }
+
+            i++;
         }
 
         if(r1.size() > 0 && r2.size() > 0) 
